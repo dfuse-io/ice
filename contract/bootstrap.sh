@@ -12,6 +12,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
+export EOSC_GLOBAL_API_URL=http://localhost:8080
 
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-## I'm so sorry...
+pushd $ROOT/bootstrapping &> /dev/null
+  eosc boot bootseq.yaml
+  eosc system newaccount eosio dfuseioice --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  eosc transfer eosio dfuseioice 10000
+popd &> /dev/null
+
