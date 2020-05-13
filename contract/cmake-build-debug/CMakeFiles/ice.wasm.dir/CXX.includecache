@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/cbillett/devel/dfuse/smart-contract/ice/contract/main.cpp
+/Users/julien/codebase/dfuse-io/ice/contract/main.cpp
 eosio/eosio.hpp
 -
 

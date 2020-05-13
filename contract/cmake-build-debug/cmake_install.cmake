@@ -1,4 +1,4 @@
-# Install script for directory: /Users/cbillett/devel/dfuse/smart-contract/ice/contract
+# Install script for directory: /Users/julien/codebase/dfuse-io/ice/contract
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/julien/codebase/dfuse-io/ice/contract/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

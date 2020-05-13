@@ -1,38 +1,24 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/cbillett/devel/dfuse/smart-contract/ice/contract
--- The C compiler identification is AppleClang 11.0.0.11000028
--- The CXX compiler identification is AppleClang 11.0.0.11000028
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc
--- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++
--- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/julien/codebase/dfuse-io/ice/contract
 -- Setting up Eosio Wasm Toolchain 1.7.0 at //usr/local
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug
+-- Build files have been written to: /Users/julien/codebase/dfuse-io/ice/contract/cmake-build-debug
 
 Cannot get compiler information:
-	Compiler exited with error code 255: /usr/local/bin/eosio-cpp -xc++ -O3 -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk -abigen -abigen_output=/Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug/ice.abi -contract ice -fpch-preprocess -v -dD -E
+	Compiler exited with error code 255: /usr/local/bin/eosio-cpp -xc++ -O3 -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -abigen -abigen_output=/Users/julien/codebase/dfuse-io/ice/contract/cmake-build-debug/ice.abi -contract ice -fpch-preprocess -v -dD -E
 	clang version 7.0.0 (https://github.com/eosio/clang.git 6b886302a11a8419b76e469794ff9d0c531a4b4b) (https://github.com/eosio/llvm 3c026f8b7813ad693749d3551353a554c5ca33e7)
 	Target: wasm32
 	Thread model: single
 	InstalledDir: 
 	Error while trying to load a compilation database:
-	Could not auto-detect compilation database for file "/private/var/folders/8s/lb6smnp16kq_7klm089zftz80000gn/T/compiler-file3935854439508271960"
-	No compilation database found in /private/var/folders/8s/lb6smnp16kq_7klm089zftz80000gn/T or any parent directory
+	Could not auto-detect compilation database for file "/private/var/folders/jb/0fzxycvs2bjchy2lqq6257900000gn/T/compiler-file7804182935954063733"
+	No compilation database found in /private/var/folders/jb/0fzxycvs2bjchy2lqq6257900000gn/T or any parent directory
 	fixed-compilation-database: Error while opening fixed database: No such file or directory
 	json-compilation-database: Error while opening JSON database: No such file or directory
 	Running without flags.
-	warning: /private/var/folders/8s/lb6smnp16kq_7klm089zftz80000gn/T/compiler-file3935854439508271960: 'linker' input unused [-Wunused-command-line-argument]
+	warning: /private/var/folders/jb/0fzxycvs2bjchy2lqq6257900000gn/T/compiler-file7804182935954063733: 'linker' input unused [-Wunused-command-line-argument]
 	error: unable to handle compilation, expected exactly one compiler job in ''
-	Error while processing /private/var/folders/8s/lb6smnp16kq_7klm089zftz80000gn/T/compiler-file3935854439508271960.
+	Error while processing /private/var/folders/jb/0fzxycvs2bjchy2lqq6257900000gn/T/compiler-file7804182935954063733.
 	abigen error
 	
 	
