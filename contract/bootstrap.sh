@@ -1,5 +1,5 @@
 #!/bin/bash -xe
-# Copyright 2019 dfuse Platform Inc.
+# Copyright 2020 dfuse Platform Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
-export EOSC_GLOBAL_API_URL=http://localhost:8080
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+BROWN='\033[0;33m'
+NC='\033[0m'
+
+export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
+export EOSC_GLOBAL_API_URL=http://localhost:8080
+
+
 pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Boostraping testnet${NC}\n"
   eosc boot bootseq.yaml
+  printf "${BROWN}Creating \'dfuseioice\' account${NC}\n"
   eosc system newaccount eosio dfuseioice --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transferring \'10000\' to \'dfuseioice\' ${NC}\n"
   eosc transfer eosio dfuseioice 10000
 popd &> /dev/null
-

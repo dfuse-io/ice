@@ -1,0 +1,9 @@
+*.wast
+.idea
+.vscode
+/.env
+
+*.log
+
+build
+cmake_build_debug

@@ -1,1 +1,0 @@
-//usr/local/bin/eosio-ld  CMakeFiles/ice.wasm.dir/main.cpp.o -o ice.wasm 
