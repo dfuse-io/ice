@@ -1,0 +1,3 @@
+/Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/cbillett/devel/dfuse/smart-contract/ice/contract/cmake-build-debug/CMakeFiles/ice.wasm.dir
