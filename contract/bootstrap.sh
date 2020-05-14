@@ -31,8 +31,6 @@ pushd $ROOT/bootstrapping &> /dev/null
   eosc transfer eosio dfuseioice 10000
 popd &> /dev/null
 
-
-
 pushd $ROOT/bootstrapping &> /dev/null
   printf "${BROWN}Creating \'dada\' account${NC}\n"
   eosc system newaccount eosio dada --auth-key EOS6LyK9rfMPoAZeniyRSiH8bmykyrUS5juTK7KgdWaPtw7U3Q7cz --stake-cpu 10 --stake-net 10
@@ -139,8 +137,9 @@ pushd $ROOT/bootstrapping &> /dev/null
   popd &> /dev/null
 
 pushd $ROOT/vault &> /dev/null
+
   printf "${BROWN}Buy RAM for all the accounts${NC}\n"
-  eosc system buyrambytes dfuseioice dfuseioice 300000
+  eosc system buyrambytes dfuseioice dfuseioice 600000
   eosc system buyrambytes dada dada 10000
   eosc system buyrambytes mama mama 10000
   eosc system buyrambytes thegreat thegreat 10000
@@ -156,4 +155,5 @@ pushd $ROOT/vault &> /dev/null
   eosc system buyrambytes mohawkbeard mohawkbeard 10000
   eosc system buyrambytes bigontiktok bigontiktok 10000
   eosc system buyrambytes cno cno 10000
+
 popd &> /dev/null
