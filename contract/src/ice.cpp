@@ -1,7 +1,7 @@
 #include "ice.hpp"
 
-void ice::addpool(const name author,const name name, const string& description) {
-    printf("%s is adding a new pool: %s", author, name);
+void ice::addpool(const name author,const name name, const string description) {
+    printf("%s is adding a pool: %s - %s", author.to_string().c_str(), name.to_string().c_str(), description.c_str());
     require_active_auth(author);
 
     auto pool_itr = pools.find(name.value);
@@ -14,8 +14,8 @@ void ice::addpool(const name author,const name name, const string& description) 
     });
 }
 
-void ice::addidea(const name author,const name pool_name , const string& description) {
-    printf("%s is adding an idea to pool: %s", author, pool_name);
+void ice::addidea(const name author,const name pool_name , const string description) {
+    printf("%s is adding idea %s to pool: %s", author.to_string().c_str(),  description.c_str(), pool_name.to_string().c_str());
     require_active_auth(author);
     
     auto pool_itr = pools.find(pool_name.value);
@@ -27,4 +27,17 @@ void ice::addidea(const name author,const name pool_name , const string& descrip
       idea.author = author;
       idea.description = description;
     });
+}
+
+/**
+ * Reset all
+ */
+void ice::reset(const uint64_t any) {
+  print("reseting ice tables\n");
+  require_active_auth(_self);
+  auto pool_itr = pools.begin();
+  while (pool_itr != pools.end()) {
+      pool_itr = pools.erase(pool_itr);
+    }
+    table_clear(ideas)
 }
