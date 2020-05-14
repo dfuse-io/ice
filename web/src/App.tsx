@@ -38,15 +38,6 @@ interface VoteRow {
     ease: number;
 }
 
-const Message = () => {
-    const [message, setMessage] = useState( 'sss' );
-
-    return (
-        <p>
-            <strong>{message}</strong>
-        </p>
-    );
-};
 type IdeaProps = { poolName: string };
 const Idea = ({poolName}: IdeaProps) => {
     const [ideas, setIdeas] = useState<IdeaRow[]>([]);
@@ -70,7 +61,7 @@ const Idea = ({poolName}: IdeaProps) => {
                 console.log(reason)
 
             });
-    });
+    }, [poolName]);
     return (
         <ul>
             {ideas.map(i => (
