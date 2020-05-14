@@ -31,8 +31,6 @@ pushd $ROOT/bootstrapping &> /dev/null
   eosc transfer eosio dfuseioice 10000
 popd &> /dev/null
 
-
-
 pushd $ROOT/bootstrapping &> /dev/null
   printf "${BROWN}Creating \'marc\' account${NC}\n"
   eosc system newaccount eosio marc --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
