@@ -1,7 +1,16 @@
 import React, {useState, useEffect} from 'react';
 
+import TransactionApp from './TransactionApp';
+import { Scatter } from 'ual-scatter'
+import { Anchor } from 'ual-anchor'
+
+
 import './App.css';
 import {createDfuseClient} from "@dfuse/client"
+//@TODO had to convert this... unsure why
+import { UALProvider, withUAL } from 'ual-reactjs-renderer'
+// const UALProvider = require('ual-reactjs-renderer');
+// const withUAL = require('ual-reactjs-renderer');
 
 
 const client = createDfuseClient({
@@ -71,6 +80,23 @@ const Idea = ({poolName}: IdeaProps) => {
     )
 }
 
+const TestApp = withUAL(TransactionApp)
+
+TestApp.displayName = 'TestAppConsumer'
+const exampleNet = {
+    chainId: 'df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4',
+    rpcEndpoints: [{
+      protocol: 'http',
+      host: 'localhost',
+      port: Number('8080'),
+    }]
+  }
+
+const appName = 'My App'
+const scatter = new Scatter([exampleNet], { appName })
+const anchor = new Anchor([exampleNet], { appName })
+
+
 
 function App() {
 
@@ -122,8 +148,12 @@ function App() {
                     ))}
                 </ul>
             </header>
+            <UALProvider chains={[exampleNet]} authenticators={[scatter, anchor]} appName={'My App'}>
+                <TestApp />
+            </UALProvider>
         </div>
     );
 }
+
 
 export default App;
