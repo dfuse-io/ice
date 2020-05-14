@@ -31,16 +31,20 @@ void ice::addidea(const name author,const name pool_name , const string descript
   });
 }
 
-void ice::castvote(const name voter, const name pool_name, const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease) {
-  printf("%s is voting for %d idea (in pool %s) : (I: %d x C: %d x E: %d)", 
-  voter.to_string().c_str(), idea_id, pool_name.to_string().c_str(), impact, confidence, ease); require_active_auth(voter);
+void ice::castvote(const name voter, const name pool_name, const uint64_t idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease) {
+  printf("%s is voting for an idea : (I: %d x C: %d x E: %d)\n", voter.to_string().c_str(), impact, confidence, ease); 
+  require_active_auth(voter);
 
-  ideas_index poolideas(get_self(), pool_name.value);
+  printf("looking for pool %s\n", pool_name.to_string().c_str());
+  auto pool_itr = pools.find(pool_name.value);
+  check(pool_itr != pools.end(), "pool " + pool_name.to_string() + " does not exists.");
+
+  printf("looking for idea  %d in pool\n", idea_id);
+  ideas_index poolideas(get_self(), pool_itr->pool_name.value);
 
   auto idea_itr = poolideas.find(idea_id);
 
-  // expectation if idea_itr is === end it means we ddidn't find him
-  check(idea_itr != poolideas.end(), "idea does not exists.");
+  check(idea_itr != poolideas.end(), "idea does not exists. cannot vote for this idea");
 
   ice_vote new_vote;
   new_vote.impact = impact;
@@ -57,10 +61,10 @@ void ice::castvote(const name voter, const name pool_name, const idea_id idea_id
     vote_itr.ease = new_vote.ease;
   });
 
-  update_idea(idea_id, new_vote, old_vote, updated);
+  update_idea(pool_itr->pool_name, idea_id, new_vote, old_vote, updated);
 }
 
-bool ice::update_vote_for_voter(const name voter, const idea_id idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater) {
+bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater) {
 
   votes_index votervotes(get_self(), voter.value);
   
@@ -84,11 +88,14 @@ bool ice::update_vote_for_voter(const name voter, const idea_id idea_id, ice_vot
   
 }
 
-void ice::update_idea(const idea_id idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated) {
-  auto idea_itr = ideas.find(idea_id);
-  check(idea_itr != ideas.end(), "idea does not exists.");
+void ice::update_idea(const name pool_name, const uint64_t idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated) {
+
+  ideas_index poolideas(get_self(), pool_name.value);
+
+  auto idea_itr = poolideas.find(idea_id);
+  check(idea_itr != poolideas.end(), "idea does not exists. cannot update it");
     
-  ideas.modify(idea_itr, _self, [&](auto& idea) { 
+  poolideas.modify(idea_itr, _self, [&](auto& idea) { 
     auto current_vote_count = idea.total_votes;
     auto impact = idea.avg_impact * current_vote_count;
     auto confidence = idea.avg_confidence * current_vote_count;
@@ -107,16 +114,4 @@ void ice::update_idea(const idea_id idea_id, const ice_vote& new_vote, const ice
     }
     idea.score = (idea.avg_impact * idea.avg_confidence * idea.avg_ease);
   });
-}
-
-/**
- * Reset all
- */
-void ice::reset(const uint64_t any) {
-  print("reseting ice tables\n");
-  require_active_auth(_self);
-    
-  table_clear(pools);
-  table_clear(ideas);
-  table_clear(votes);
 }
