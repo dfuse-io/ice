@@ -1,10 +1,12 @@
 
 #include <string>
-
+#include <vector>
 #include <eosio/eosio.hpp>
 
 using namespace eosio;
 using std::string;
+
+
 
 // Typedefs
 
@@ -19,10 +21,14 @@ class [[eosio::contract]] ice : public contract {
 
       // Actions      
       [[eosio::action]]
-      void addpool(const name author,const name name, const string& description);
+      void addpool(const name author,const name name, const string description);
       
       [[eosio::action]]
-      void addidea(const name author,const name pool_name , const string& description);
+      void addidea(const name author,const name pool_name , const string description);
+
+      [[eosio::action]]
+      void reset(const uint64_t any);
+
 
   private:
     struct [[eosio::table]] pool {
@@ -48,6 +54,19 @@ class [[eosio::contract]] ice : public contract {
 
 
     void require_active_auth(const name account) const { require_auth(permission_level{account, "active"_n}); }
+
+    /**
+     * Clear completely a EOS table (`multi_index`) from all its data.
+     */
+    template <name::raw TableName, typename T, typename... Indices>
+    void table_clear(eosio::multi_index<TableName, T, Indices...>& table) {
+      print("clearing table\n");
+      auto itr = table.begin();
+      while (itr != table.end()) {
+        itr = table.erase(itr);
+      }
+    }
+
 
     pools_index pools;
     ideas_index ideas;
