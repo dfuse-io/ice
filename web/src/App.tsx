@@ -16,7 +16,7 @@ import { UALProvider, withUAL } from 'ual-reactjs-renderer'
 const client = createDfuseClient({
     apiKey: "web_0123456789abcdef",
     authUrl: "null://",
-    network: "localhost:13026",
+    network: "localhost:8080",
     secure: false
 });
 
