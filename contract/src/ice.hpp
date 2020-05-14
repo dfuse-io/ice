@@ -16,7 +16,8 @@ class [[eosio::contract]] ice : public contract {
         :contract(receiver, code, ds),
         pools(_self, _self.value),
         ideas(_self, _self.value),
-        votes(_self, _self.value)
+        votes(_self, _self.value),
+        stats(_self, _self.value)
         {}
               
 
@@ -64,10 +65,20 @@ class [[eosio::contract]] ice : public contract {
       uint32_t confidence;
       uint32_t ease;
 
-      uint64_t primary_key() const { return idea_id; }
+      uint64_t primary_key() const { return voter.value; }
     };
 
     typedef eosio::multi_index<"votes"_n, vote_row> votes_index;
+
+
+    struct [[eosio::table]] stat_row {
+      uint64_t id;
+      uint32_t idea_count;
+
+      uint64_t primary_key() const { return id; }
+    };
+
+    typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
 
     struct ice_vote {
       uint32_t impact;
@@ -85,7 +96,8 @@ class [[eosio::contract]] ice : public contract {
     void require_active_auth(const name account) const { require_auth(permission_level{account, "active"_n}); }
     bool update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater);
     void update_idea(const name pool_name, const uint64_t idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated);
-
+    uint64_t gettranscationid();
+    
     template <name::raw TableName, typename T, typename... Indices>
     void table_clear(eosio::multi_index<TableName, T, Indices...>& table) {
       print("clearing table\n");
@@ -99,5 +111,6 @@ class [[eosio::contract]] ice : public contract {
     pools_index pools;
     ideas_index ideas;
     votes_index votes;
+    stats_index stats;
 };
 

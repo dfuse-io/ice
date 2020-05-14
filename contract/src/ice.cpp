@@ -20,11 +20,13 @@ void ice::addidea(const name author,const name pool_name , const string descript
   
   auto pool_itr = pools.find(pool_name.value);
   check(pool_itr != pools.end(), "pool " + pool_name.to_string() + " does not exists.");
+  
+  auto trxid = gettranscationid();
 
   ideas_index poolideas(get_self(), pool_name.value);
 
   auto idea_itr = poolideas.emplace(_self, [&](auto& idea) {
-    idea.id = poolideas.available_primary_key();
+    idea.id = trxid;
     idea.pool_name = pool_itr->pool_name;
     idea.author = author;
     idea.description = description;
@@ -55,21 +57,25 @@ void ice::castvote(const name voter, const name pool_name, const uint64_t idea_i
 
   ice_vote old_vote;
 
+  printf("creating or updating existing votes\n");
   auto updated = update_vote_for_voter(voter, idea_itr->id, old_vote, [&](auto& vote_itr){
     vote_itr.impact = new_vote.impact;
     vote_itr.confidence = new_vote.confidence;
     vote_itr.ease = new_vote.ease;
   });
 
-  update_idea(pool_itr->pool_name, idea_id, new_vote, old_vote, updated);
+  printf("updating idea\n");
+  update_idea(pool_itr->pool_name,idea_itr->id, new_vote, old_vote, updated);
 }
 
 bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater) {
 
+  printf("find vote with scope:  %d  and voter %s\n",idea_id, voter.to_string().c_str());
   votes_index votervotes(get_self(), idea_id);
   
-  auto vote_itr = votervotes.find(idea_id);
+  auto vote_itr = votervotes.find(voter.value);
   if (vote_itr == votervotes.end()) {
+    printf("creating vote\n");
     votervotes.emplace(_self, [&](auto& vote) {
       vote.voter = voter;
       vote.idea_id = idea_id;
@@ -77,6 +83,7 @@ bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vo
     });
     return false;
   } else {
+    printf("updating vote\n");
     votervotes.modify(vote_itr, _self, [&](auto& vote) { 
       old_vote.confidence = vote.confidence;
       old_vote.impact = vote.impact;
@@ -88,13 +95,15 @@ bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vo
   
 }
 
+
 void ice::update_idea(const name pool_name, const uint64_t idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated) {
 
   ideas_index poolideas(get_self(), pool_name.value);
 
   auto idea_itr = poolideas.find(idea_id);
+
   check(idea_itr != poolideas.end(), "idea does not exists. cannot update it");
-    
+
   poolideas.modify(idea_itr, _self, [&](auto& idea) { 
     auto current_vote_count = idea.total_votes;
     auto impact = idea.avg_impact * current_vote_count;
@@ -114,4 +123,26 @@ void ice::update_idea(const name pool_name, const uint64_t idea_id, const ice_vo
     }
     idea.score = (idea.avg_impact * idea.avg_confidence * idea.avg_ease);
   });
+}
+
+
+uint64_t ice::gettranscationid() {
+  print("retrieveing transaction id\n");
+
+  auto id = 1;
+  auto stats_itr = stats.find(0);
+  if (stats_itr == stats.end()) {
+    print("creating a stats entry\n");
+    stats.emplace(_self, [&](auto& stat) {
+      stat.id = 0;
+      stat.idea_count = 1;
+    });
+  } else {
+    print("updating a stats entry\n");
+    stats.modify(stats_itr, _self, [&](auto& stat) { 
+      stat.idea_count += 1;
+      id = stat.idea_count;
+    });
+  }
+  return id;
 }

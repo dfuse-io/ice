@@ -11,19 +11,26 @@ NC='\033[0m'
 
 pushd $ROOT/vault &> /dev/null
     printf "${BROWN} create a \'hackthon\' pool ${NC}\n"
-    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"hackathon", "description":"Our first pool!"}' -p dfuseioice
-    printf "${BROWN} create an idea in the \'hackathon\' pool ${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"hackathon", "description":"Ship It!"}' -p dfuseioice
-    printf "${BROWN} dfuseioice votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"dfuseioice","pool_name":"hackathon", "idea_id":"0", "impact":2, "confidence":7, "ease":8}' -p dfuseioice
-    printf "${BROWN} marc votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"marc","pool_name":"hackathon", "idea_id":"0", "impact":5, "confidence":4, "ease":9}' -p marc
-    printf "${BROWN} alex votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"alex","pool_name":"hackathon", "idea_id":"0", "impact":9, "confidence":6, "ease":7}' -p alex
-    printf "${BROWN} marc updated his vote  ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"marc","pool_name":"hackathon", "idea_id":"0", "impact":9, "confidence":9, "ease":9}' -p marc
-    printf "${BROWN} adding a second idea to the pool ${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"hackathon", "description":"Ship Ship Ship"}' -p dfuseioice
+    eosc tx create dfuseioice addpool '{"author":"babyontheway", "name":"hackathon", "description":"Our first pool!"}' -p babyontheway
+    printf "${BROWN} create ideas in the \'hackathon\' pool ${NC}\n"
+    eosc tx create dfuseioice addidea '{"author":"thegreat", "pool_name":"hackathon", "description":"Ship It!"}' -p thegreat    # transaction_id => 1
+    eosc tx create dfuseioice addidea '{"author":"bigontiktok", "pool_name":"hackathon", "description":"Ship It Now!"}' -p bigontiktok    # transaction_id => 2
+    eosc tx create dfuseioice addidea '{"author":"mohawkbeard", "pool_name":"hackathon", "description":"release dfuse-eosio v1.0.0"}' -p mohawkbeard    # transaction_id => 3
+    printf "${BROWN} create a \'hackthon\' pool ${NC}\n"
+    eosc tx create dfuseioice addpool '{"author":"sepedtyepr", "name":"hackathon2", "description":"Our second pool!"}' -p sepedtyepr
+    printf "${BROWN} create ideas in the \'hackathon2\' pool ${NC}\n"
+    eosc tx create dfuseioice addidea '{"author":"weenie", "pool_name":"hackathon2", "description":"This is the best idea!"}' -p weenie    # transaction_id => 4
+    eosc tx create dfuseioice addidea '{"author":"mrplancher", "pool_name":"hackathon2", "description":"convert flux to grpc..... deng"}' -p mrplancher    # transaction_id => 5
+    for i in  "1","hackathon" "2","hackathon" "3","hackathon" "4","hackathon2" "5","hackathon2"
+    do
+        IFS=","
+        set -- $i
+        for USER in  "thegreat" "babyontheway" "55inchtv" "mrplancher" "reactdev" "weenie" "patch" "sepedtyepr" "mohawkbeard" "bigontiktok" "cno"
+        do
+            IMP="$(( ( RANDOM % 10 )  + 1 ))"
+            EAS="$(( ( RANDOM % 10 )  + 1 ))"
+            CON="$(( ( RANDOM % 10 )  + 1 ))"
+            eosc tx create dfuseioice castvote "{\"voter\":\"${USER}\",\"pool_name\":\"$2\", \"idea_id\": $1, \"impact\": ${IMP}, \"confidence\": ${CON}, \"ease\": ${EAS}}" -p $USER
+        done
+    done
 popd &> /dev/null
-
-
