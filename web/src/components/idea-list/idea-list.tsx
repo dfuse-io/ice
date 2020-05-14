@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import { useAppState } from "../../state"
-import { IdeaRow } from "../../types"
+import {useAppState} from "../../state"
+import {IdeaRow} from "../../types"
+import {Col, Row} from 'antd';
+import {VoteList} from "../vote-list/idea-list";
+
 
 interface IdeaListProps {
     poolName: string
-};
+}
 
-export const IdeaList: React.FC<IdeaListProps> = ({ poolName}) => {
+export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
     const [ideas, setIdeas] = useState<IdeaRow[]>([]);
-    const { dfuseClient } = useAppState()
+    const {dfuseClient} = useAppState()
 
     useEffect(() => {
         dfuseClient.stateTable<IdeaRow>("dfuseioice", poolName, "ideas")
@@ -30,10 +33,22 @@ export const IdeaList: React.FC<IdeaListProps> = ({ poolName}) => {
             });
     }, [dfuseClient, poolName]);
     return (
-        <ul>
-            {ideas.map(i => (
-                <li key={i.Id}>{i.description}</li>
-            ))}
-        </ul>
+        <>
+            {
+                ideas.map(i => (
+                    <>
+                        <Row justify="start">
+                            <Col span={2}>{i.description}</Col>
+                            <Col span={2}></Col>
+                            <Col span={1}>{i.avg_impact}</Col>
+                            <Col span={1}>{i.avg_confidence}</Col>
+                            <Col span={1}>{i.avg_ease}</Col>
+                            <Col span={1}>{i.score}</Col>
+                        </Row>
+                        <VoteList ideaID={0}/>
+                    </>
+                ))
+            }
+        </>
     )
-}
+};

@@ -4,8 +4,8 @@ export interface IdeaRow {
     poolName: string;
     author: string;
     description: string;
-    avgImpact: number;
-    avgConfidence: number;
+    avg_impact: number;
+    avg_confidence: number;
     avg_ease: number;
     score: number;
     total_votes: number;

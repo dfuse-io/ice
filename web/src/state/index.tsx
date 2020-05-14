@@ -13,7 +13,7 @@ export interface StateContextType {
 export const StateContext = createContext<StateContextType>(null!)
 
 export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
-    const [loggedIn,setLoggedIn] = useState(false)
+    const [loggedIn,setLoggedIn] = useState(true)
     const [client,setClient] = useState<DfuseClient>(undefined!)
 
     const isAuthenticated: StateContextType["isAuthenticated"] = (): boolean => {

@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
 import {PoolRow} from "../../types"
+import {Col, Row} from 'antd';
 import {IdeaList} from "../idea-list/idea-list";
+import Divider from "antd/lib/divider";
+import {background} from "styled-system";
+import {lightblue} from "color-name";
 
 export const PoolList: React.FC = () => {
 
@@ -32,21 +36,54 @@ export const PoolList: React.FC = () => {
             console.log("An error occurred", e)
         }
     }, [dfuseClient]);
+
+
+    const columns = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Age',
+            dataIndex: 'age',
+            key: 'age',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            key: 'address',
+        },
+    ];
+
     return (
-        <div>
-            <h1>Pools</h1>
-            <ul>
-                {pools.map((p) => (
-                    <div key={p.pool_name}>
-                        <li>
-                            <div>
-                                <h2>{p.description}({p.pool_name})</h2>
-                                <IdeaList poolName={p.pool_name}/>
-                            </div>
-                        </li>
-                    </div>
-                ))}
-            </ul>
-        </div>
-    )
-}
+        <>
+            <Row justify="center">
+                <Col span={24} >
+                    <Row justify="start">
+                        <Col span={2}/>
+                        <Col span={2}/>
+                        <Col span={1}>Impact</Col>
+                        <Col span={1}>Confidence</Col>
+                        <Col span={1}>Ease</Col>
+                        <Col span={1}>Score</Col>
+                    </Row>
+
+                    {pools.map((p) => (
+                        <div>
+                            <Row justify="start">
+                                <Col span={2}><h2>{p.description}</h2></Col>
+                                <Col span={2}/>
+                                <Col span={1}>[0-10]</Col>
+                                <Col span={1}>[0-10]</Col>
+                                <Col span={1}>[0-10]</Col>
+                                <Col span={1}>I x C x E</Col>
+                            </Row>
+                            <IdeaList poolName={p.pool_name}/>
+                        </div>
+                    ))}
+                </Col>
+            </Row>
+        </>
+    );
+};

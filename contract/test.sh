@@ -25,7 +25,7 @@ pushd $ROOT/vault &> /dev/null
     do
         IFS=","
         set -- $i
-        for USER in  "thegreat" "babyontheway" "55inchtv" "mrplancher" "reactdev" "weenie" "patch" "sepedtyepr" "mohawkbeard" "bigontiktok" "cno"
+        for USER in  "thegreat" "+" "55inchtv" "mrplancher" "reactdev" "weenie" "patch" "sepedtyepr" "mohawkbeard" "bigontiktok" "cno"
         do
             IMP="$(( ( RANDOM % 10 )  + 1 ))"
             EAS="$(( ( RANDOM % 10 )  + 1 ))"
