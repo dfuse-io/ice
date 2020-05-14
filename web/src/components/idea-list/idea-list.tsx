@@ -38,7 +38,7 @@ export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
                 ideas.map(i => (
                     <>
                         <Row justify="start">
-                            <Col span={2}>{i.description}</Col>
+                            <Col span={3}>{i.description}</Col>
                             <Col span={2}></Col>
                             <Col span={1}>{i.avg_impact}</Col>
                             <Col span={1}>{i.avg_confidence}</Col>

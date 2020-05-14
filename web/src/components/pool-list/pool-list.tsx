@@ -42,19 +42,21 @@ export const PoolList: React.FC = () => {
         <>
             <Row justify="center">
                 <Col span={24} >
-                    <Row justify="start">
-                        <Col span={2}/>
-                        <Col span={2}/>
-                        <Col span={1}>Impact</Col>
-                        <Col span={1}>Confidence</Col>
-                        <Col span={1}>Ease</Col>
-                        <Col span={1}>Score</Col>
-                    </Row>
 
                     {pools.map((p) => (
-                        <div>
+                        <>
+                            <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>
+                            </Divider>
                             <Row justify="start">
-                                <Col span={2}><h2>{p.description}</h2></Col>
+                                <Col span={3}/>
+                                <Col span={2}/>
+                                <Col span={1}>Impact</Col>
+                                <Col span={1}>Confidence</Col>
+                                <Col span={1}>Ease</Col>
+                                <Col span={1}>Score</Col>
+                            </Row>
+                            <Row justify="start">
+                                <Col span={3}><h2>{p.description}</h2></Col>
                                 <Col span={2}/>
                                 <Col span={1}>[0-10]</Col>
                                 <Col span={1}>[0-10]</Col>
@@ -62,7 +64,7 @@ export const PoolList: React.FC = () => {
                                 <Col span={1}>I x C x E</Col>
                             </Row>
                             <IdeaList poolName={p.pool_name}/>
-                        </div>
+                        </>
                     ))}
                 </Col>
             </Row>

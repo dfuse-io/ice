@@ -33,7 +33,7 @@ export const VoteList: React.FC<VoteListProps> = ({ideaID}) => {
     return (
         <>
                     <Row justify="start">
-                        <Col span={2}/>
+                        <Col span={3}/>
                         <Col span={2}>thegreat</Col>
                         <Col span={1}>2</Col>
                         <Col span={1}>2</Col>
