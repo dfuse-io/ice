@@ -17,11 +17,11 @@ pushd $ROOT/vault &> /dev/null
     printf "${BROWN} create an idea in the \'hackathon\' pool ${NC}\n"
     eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"hackathon", "description":"Ship It!"}' -p dfuseioice
     printf "${BROWN} dfuseioice votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"dfuseioice", "idea_id":"0", "impact":2, "confidence":7, "ease":8}' -p dfuseioice
+    eosc tx create dfuseioice castvote '{"voter":"dfuseioice","pool_name":"hackathon", "idea_id":"0", "impact":2, "confidence":7, "ease":8}' -p dfuseioice
     printf "${BROWN} marc votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"marc", "idea_id":"0", "impact":5, "confidence":4, "ease":9}' -p marc
+    eosc tx create dfuseioice castvote '{"voter":"marc","pool_name":"hackathon", "idea_id":"0", "impact":5, "confidence":4, "ease":9}' -p marc
     printf "${BROWN} alex votes for the idea ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"alex", "idea_id":"0", "impact":9, "confidence":6, "ease":7}' -p alex
+    eosc tx create dfuseioice castvote '{"voter":"alex","pool_name":"hackathon", "idea_id":"0", "impact":9, "confidence":6, "ease":7}' -p alex
     printf "${BROWN} marc updated his vote  ${NC}\n"
-    eosc tx create dfuseioice castvote '{"voter":"marc", "idea_id":"0", "impact":9, "confidence":9, "ease":9}' -p marc
+    eosc tx create dfuseioice castvote '{"voter":"marc","pool_name":"hackathon", "idea_id":"0", "impact":9, "confidence":9, "ease":9}' -p marc
 popd &> /dev/null

@@ -28,7 +28,7 @@ class [[eosio::contract]] ice : public contract {
       void addidea(const name author,const name pool_name , const string description);
       
       [[eosio::action]]
-      void castvote(const name voter,const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
+      void castvote(const name voter, const name pool_name, const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
 
       [[eosio::action]]
       void reset(const uint64_t any);
@@ -87,8 +87,8 @@ class [[eosio::contract]] ice : public contract {
     };
 
     void require_active_auth(const name account) const { require_auth(permission_level{account, "active"_n}); }
-    void update_vote_for_voter(const name voter, const idea_id idea_id, const function<void(vote_row&)> updater);
-    void update_idea(const idea_id idea_id, const ice_vote& vote);
+    bool update_vote_for_voter(const name voter, const idea_id idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater);
+    void update_idea(const idea_id idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated);
 
     template <name::raw TableName, typename T, typename... Indices>
     void table_clear(eosio::multi_index<TableName, T, Indices...>& table) {
@@ -97,7 +97,7 @@ class [[eosio::contract]] ice : public contract {
       while (itr != table.end()) {
         itr = table.erase(itr);
       }
-    }
+    } 
 
 
     pools_index pools;

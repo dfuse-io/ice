@@ -21,41 +21,46 @@ void ice::addidea(const name author,const name pool_name , const string descript
   auto pool_itr = pools.find(pool_name.value);
   check(pool_itr != pools.end(), "pool " + pool_name.to_string() + " does not exists.");
 
-  auto idea_itr = ideas.emplace(_self, [&](auto& idea) {
-    idea.id = ideas.available_primary_key();
+  ideas_index poolideas(get_self(), pool_name.value);
+
+  auto idea_itr = poolideas.emplace(_self, [&](auto& idea) {
+    idea.id = poolideas.available_primary_key();
     idea.pool_name = pool_itr->pool_name;
     idea.author = author;
     idea.description = description;
   });
 }
 
-void ice::castvote(const name voter,const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease) {
-  printf("%s is voting for %d idea : (%d x %d x %d)", voter.to_string().c_str(), idea_id,impact, confidence, ease); 
-  require_active_auth(voter);
+void ice::castvote(const name voter, const name pool_name, const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease) {
+  printf("%s is voting for %d idea (in pool %s) : (I: %d x C: %d x E: %d)", 
+  voter.to_string().c_str(), idea_id, pool_name.to_string().c_str(), impact, confidence, ease); require_active_auth(voter);
 
-  auto idea_itr = ideas.find(idea_id);
+  ideas_index poolideas(get_self(), pool_name.value);
+
+  auto idea_itr = poolideas.find(idea_id);
 
   // expectation if idea_itr is === end it means we ddidn't find him
-  check(idea_itr != ideas.end(), "idea does not exists.");
+  check(idea_itr != poolideas.end(), "idea does not exists.");
 
-  ice_vote vote;
-  vote.impact = impact;
-  vote.confidence = confidence;
-  vote.ease = ease;
+  ice_vote new_vote;
+  new_vote.impact = impact;
+  new_vote.confidence = confidence;
+  new_vote.ease = ease;
 
-  check(vote.isValid(), "impact, confidence and ease must be at most 10");
+  check(new_vote.isValid(), "impact, confidence and ease must be at most 10");
 
+  ice_vote old_vote;
 
-  update_vote_for_voter(voter, idea_itr->id, [&](auto& vote_itr){
-    vote_itr.impact = vote.impact;
-    vote_itr.confidence = vote.confidence;
-    vote_itr.ease = vote.ease;
+  auto updated = update_vote_for_voter(voter, idea_itr->id, old_vote, [&](auto& vote_itr){
+    vote_itr.impact = new_vote.impact;
+    vote_itr.confidence = new_vote.confidence;
+    vote_itr.ease = new_vote.ease;
   });
 
-  update_idea(idea_id, vote);
+  update_idea(idea_id, new_vote, old_vote, updated);
 }
 
-void ice::update_vote_for_voter(const name voter, const idea_id idea_id, const function<void(vote_row&)> updater) {
+bool ice::update_vote_for_voter(const name voter, const idea_id idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater) {
 
   votes_index votervotes(get_self(), voter.value);
   
@@ -66,13 +71,20 @@ void ice::update_vote_for_voter(const name voter, const idea_id idea_id, const f
       vote.idea_id = idea_id;
       updater(vote);
     });
+    return false;
   } else {
-    votervotes.modify(vote_itr, _self, [&](auto& vote) { updater(vote); });
+    votervotes.modify(vote_itr, _self, [&](auto& vote) { 
+      old_vote.confidence = vote.confidence;
+      old_vote.impact = vote.impact;
+      old_vote.ease = vote.ease;
+      updater(vote); 
+    });
+    return true;
   }
+  
 }
 
-
-void ice::update_idea(const idea_id idea_id, const ice_vote& vote) {
+void ice::update_idea(const idea_id idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated) {
   auto idea_itr = ideas.find(idea_id);
   check(idea_itr != ideas.end(), "idea does not exists.");
     
@@ -82,10 +94,17 @@ void ice::update_idea(const idea_id idea_id, const ice_vote& vote) {
     auto confidence = idea.avg_confidence * current_vote_count;
     auto ease = idea.avg_ease * current_vote_count;
 
-    idea.total_votes = (current_vote_count + 1);
-    idea.avg_impact = (impact + vote.impact) / (double) (current_vote_count + 1);
-    idea.avg_confidence = (confidence + vote.confidence) / (double) (current_vote_count + 1);
-    idea.avg_ease = (ease + vote.ease) / (double) (current_vote_count + 1);
+    if (!updated) {
+      idea.total_votes = (current_vote_count + 1);
+      idea.avg_impact = (impact + new_vote.impact) / idea.total_votes;
+      idea.avg_confidence = (confidence + new_vote.confidence) / idea.total_votes;
+      idea.avg_ease = (ease + new_vote.ease) / idea.total_votes;
+    } else {
+      idea.total_votes = current_vote_count;
+      idea.avg_impact = (impact + new_vote.impact - old_vote.impact)  / idea.total_votes;
+      idea.avg_confidence = (confidence + new_vote.confidence - old_vote.confidence) / idea.total_votes;
+      idea.avg_ease = (ease + new_vote.ease - old_vote.ease) / idea.total_votes;
+    }
     idea.score = (idea.avg_impact * idea.avg_confidence * idea.avg_ease);
   });
 }
