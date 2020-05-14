@@ -28,11 +28,7 @@ class [[eosio::contract]] ice : public contract {
       void addidea(const name author,const name pool_name , const string description);
       
       [[eosio::action]]
-      void castvote(const name voter, const name pool_name, const idea_id idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
-
-      [[eosio::action]]
-      void reset(const uint64_t any);
-
+      void castvote(const name voter, const name pool_name, const uint64_t idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
 
   private:
     struct [[eosio::table]] pool_row {
@@ -46,7 +42,7 @@ class [[eosio::contract]] ice : public contract {
     typedef eosio::multi_index<"pools"_n, pool_row> pools_index;
 
     struct [[eosio::table]] idea_row {
-      idea_id id;
+      uint64_t id;
       name pool_name;
       name author;
       string description;
@@ -62,7 +58,7 @@ class [[eosio::contract]] ice : public contract {
     typedef eosio::multi_index<"ideas"_n, idea_row> ideas_index;
 
     struct [[eosio::table]] vote_row {
-      idea_id idea_id;
+      uint64_t idea_id;
       name voter;
       uint32_t impact;
       uint32_t confidence;
@@ -87,8 +83,8 @@ class [[eosio::contract]] ice : public contract {
     };
 
     void require_active_auth(const name account) const { require_auth(permission_level{account, "active"_n}); }
-    bool update_vote_for_voter(const name voter, const idea_id idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater);
-    void update_idea(const idea_id idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated);
+    bool update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater);
+    void update_idea(const name pool_name, const uint64_t idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated);
 
     template <name::raw TableName, typename T, typename... Indices>
     void table_clear(eosio::multi_index<TableName, T, Indices...>& table) {

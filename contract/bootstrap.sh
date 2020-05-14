@@ -47,7 +47,7 @@ pushd $ROOT/bootstrapping &> /dev/null
 
 pushd $ROOT/vault &> /dev/null
   printf "${BROWN}Buy \'300000'\ ram bytes to deploy your contract  ${NC}\n"
-  eosc system buyrambytes dfuseioice dfuseioice 300000
+  eosc system buyrambytes dfuseioice dfuseioice 600000
   eosc system buyrambytes marc marc 10000
   eosc system buyrambytes alex alex 10000
 popd &> /dev/null
