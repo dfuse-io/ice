@@ -34,22 +34,126 @@ popd &> /dev/null
 
 
 pushd $ROOT/bootstrapping &> /dev/null
-  printf "${BROWN}Creating \'marc\' account${NC}\n"
-  eosc system newaccount eosio marc --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
-  printf "${BROWN}Transfering \'10000\' to \'marc\' ${NC}\n"
-  eosc transfer eosio marc 10000
+  printf "${BROWN}Creating \'dada\' account${NC}\n"
+  eosc system newaccount eosio dada --auth-key EOS6LyK9rfMPoAZeniyRSiH8bmykyrUS5juTK7KgdWaPtw7U3Q7cz --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'dada\' ${NC}\n"
+  eosc transfer eosio dada 10000
   popd &> /dev/null
 
 pushd $ROOT/bootstrapping &> /dev/null
-  printf "${BROWN}Creating \'alex\' account${NC}\n"
-  eosc system newaccount eosio alex --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
-  printf "${BROWN}Transfering \'10000\' to \'alex\' ${NC}\n"
-  eosc transfer eosio alex 10000
+  printf "${BROWN}Creating \'mama\' account${NC}\n"
+  eosc system newaccount eosio mama --auth-key EOS75sLjJawNXqXYaL5HCEC6UG5qvjMyzcvmAtT6XPBauN4azfhuv --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'mama\' ${NC}\n"
+  eosc transfer eosio mama 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'thegreat\' account${NC}\n"
+  eosc system newaccount eosio thegreat --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'thegreat\' ${NC}\n"
+  eosc transfer eosio thegreat 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'babyontheway\' account${NC}\n"
+  eosc system newaccount eosio babyontheway --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'babyontheway\' ${NC}\n"
+  eosc transfer eosio babyontheway 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'55inchtv\' account${NC}\n"
+  eosc system newaccount eosio 55inchtv --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'55inchtv\' ${NC}\n"
+  eosc transfer eosio 55inchtv 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'mrplancher\' account${NC}\n"
+  eosc system newaccount eosio mrplancher --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'mrplancher\' ${NC}\n"
+  eosc transfer eosio mrplancher 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'jayzh\' account${NC}\n"
+  eosc system newaccount eosio jayzh --auth-key EOS61WUHLoNgUgZHC1cdkUfzNaDbxa7B3Kv5zRyVP1nX3ubfBSh3A --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'jayzh\' ${NC}\n"
+  eosc transfer eosio jayzh 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'getstuffdone\' account${NC}\n"
+  eosc system newaccount eosio getstuffdone --auth-key EOS78fDjDsjACB9Jm2ZtqZFKUqdcQTTfXVWBgN8R2k6hinEFiEaUf --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'getstuffdone\' ${NC}\n"
+  eosc transfer eosio getstuffdone 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'reactdev\' account${NC}\n"
+  eosc system newaccount eosio reactdev --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'reactdev\' ${NC}\n"
+  eosc transfer eosio reactdev 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'weenie\' account${NC}\n"
+  eosc system newaccount eosio weenie --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'weenie\' ${NC}\n"
+  eosc transfer eosio weenie 10000
+  popd &> /dev/null
+
+pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'patch\' account${NC}\n"
+  eosc system newaccount eosio patch --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'patch\' ${NC}\n"
+  eosc transfer eosio patch 10000
+  popd &> /dev/null
+
+  pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'sepedtyepr\' account${NC}\n"
+  eosc system newaccount eosio sepedtyepr --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'sepedtyepr\' ${NC}\n"
+  eosc transfer eosio sepedtyepr 10000
+  popd &> /dev/null
+
+  pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'mohawkbeard\' account${NC}\n"
+  eosc system newaccount eosio mohawkbeard --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'mohawkbeard\' ${NC}\n"
+  eosc transfer eosio mohawkbeard 10000
+  popd &> /dev/null
+
+  pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'bigontiktok\' account${NC}\n"
+  eosc system newaccount eosio bigontiktok --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'bigontiktok\' ${NC}\n"
+  eosc transfer eosio bigontiktok 10000
+  popd &> /dev/null
+
+  pushd $ROOT/bootstrapping &> /dev/null
+  printf "${BROWN}Creating \'cno\' account${NC}\n"
+  eosc system newaccount eosio cno --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
+  printf "${BROWN}Transfering \'10000\' to \'cno\' ${NC}\n"
+  eosc transfer eosio cno 10000
   popd &> /dev/null
 
 pushd $ROOT/vault &> /dev/null
-  printf "${BROWN}Buy \'300000'\ ram bytes to deploy your contract  ${NC}\n"
+  printf "${BROWN}Buy RAM for all the accounts${NC}\n"
   eosc system buyrambytes dfuseioice dfuseioice 300000
-  eosc system buyrambytes marc marc 10000
-  eosc system buyrambytes alex alex 10000
+  eosc system buyrambytes dada dada 10000
+  eosc system buyrambytes mama mama 10000
+  eosc system buyrambytes thegreat thegreat 10000
+  eosc system buyrambytes babyontheway babyontheway 10000
+  eosc system buyrambytes 55inchtv 55inchtv 10000
+  eosc system buyrambytes mrplancher mrplancher 10000
+  eosc system buyrambytes jayzh jayzh 10000
+  eosc system buyrambytes getstuffdone getstuffdone 10000
+  eosc system buyrambytes reactdev reactdev 10000
+  eosc system buyrambytes weenie weenie 10000
+  eosc system buyrambytes patch patch 10000
+  eosc system buyrambytes sepedtyepr sepedtyepr 10000
+  eosc system buyrambytes mohawkbeard mohawkbeard 10000
+  eosc system buyrambytes bigontiktok bigontiktok 10000
+  eosc system buyrambytes cno cno 10000
 popd &> /dev/null
