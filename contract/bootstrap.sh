@@ -28,7 +28,7 @@ pushd $ROOT/bootstrapping &> /dev/null
   printf "${BROWN}Creating \'dfuseioice\' account${NC}\n"
   eosc system newaccount eosio dfuseioice --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
   printf "${BROWN}Transfering \'10000\' to \'dfuseioice\' ${NC}\n"
-  eosc transfer eosio dfuseioice 10000
+  eosc transfer eosio dfuseioice 10000000
 popd &> /dev/null
 
 pushd $ROOT/bootstrapping &> /dev/null
@@ -140,20 +140,20 @@ pushd $ROOT/vault &> /dev/null
 
   printf "${BROWN}Buy RAM for all the accounts${NC}\n"
   eosc system buyrambytes dfuseioice dfuseioice 600000
-  eosc system buyrambytes dada dada 10000
-  eosc system buyrambytes mama mama 10000
-  eosc system buyrambytes thegreat thegreat 10000
-  eosc system buyrambytes babyontheway babyontheway 10000
-  eosc system buyrambytes 55inchtv 55inchtv 10000
-  eosc system buyrambytes mrplancher mrplancher 10000
-  eosc system buyrambytes jayzh jayzh 10000
-  eosc system buyrambytes getstuffdone getstuffdone 10000
-  eosc system buyrambytes reactdev reactdev 10000
-  eosc system buyrambytes weenie weenie 10000
-  eosc system buyrambytes patch patch 10000
-  eosc system buyrambytes sepedtyepr sepedtyepr 10000
-  eosc system buyrambytes mohawkbeard mohawkbeard 10000
-  eosc system buyrambytes bigontiktok bigontiktok 10000
-  eosc system buyrambytes cno cno 10000
+  eosc system buyrambytes dfuseioice dada 10000
+  eosc system buyrambytes dfuseioice mama 10000
+  eosc system buyrambytes dfuseioice thegreat 10000
+  eosc system buyrambytes dfuseioice babyontheway 10000
+  eosc system buyrambytes dfuseioice 55inchtv 10000
+  eosc system buyrambytes dfuseioice mrplancher 10000
+  eosc system buyrambytes dfuseioice jayzh 10000
+  eosc system buyrambytes dfuseioice getstuffdone 10000
+  eosc system buyrambytes dfuseioice reactdev 10000
+  eosc system buyrambytes dfuseioice weenie 10000
+  eosc system buyrambytes dfuseioice patch 10000
+  eosc system buyrambytes dfuseioice sepedtyepr 10000
+  eosc system buyrambytes dfuseioice mohawkbeard 10000
+  eosc system buyrambytes dfuseioice bigontiktok 10000
+  eosc system buyrambytes dfuseioice cno 10000
 
 popd &> /dev/null
