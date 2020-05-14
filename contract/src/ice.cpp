@@ -66,7 +66,7 @@ void ice::castvote(const name voter, const name pool_name, const uint64_t idea_i
 
 bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vote& old_vote, const function<void(vote_row&)> updater) {
 
-  votes_index votervotes(get_self(), voter.value);
+  votes_index votervotes(get_self(), idea_id);
   
   auto vote_itr = votervotes.find(idea_id);
   if (vote_itr == votervotes.end()) {

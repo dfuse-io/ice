@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
-
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {createDfuseClient} from "@dfuse/client"
-
+import { createInitialTypes, SerialBuffer, TextEncoder, TextDecoder } from 'eosjs/dist/eosjs-serialize';
 
 const client = createDfuseClient({
     apiKey: "web_0123456789abcdef",
@@ -19,7 +18,7 @@ interface PoolRow {
 }
 
 interface IdeaRow {
-    ideaId: number;
+    Id: number;
     poolName: string;
     author: string;
     description: string;
@@ -51,10 +50,11 @@ const Idea = ({poolName}: IdeaProps) => {
                     const idea = r.json!;
                     console.log("ideas: " + idea.description);
                     ideas.push(idea);
+                    console.log("id to name" + uint64ToName(idea.Id));
                     return true
                 });
 
-                console.log("ideas:" + ideas.length)
+                console.log("ideas:" + ideas.length);
                 setIdeas(ideas)
             })
             .catch(reason => {
@@ -69,7 +69,7 @@ const Idea = ({poolName}: IdeaProps) => {
             ))}
         </ul>
     )
-}
+};
 
 
 function App() {
@@ -125,5 +125,21 @@ function App() {
         </div>
     );
 }
+
+// All those variables can be cached and re-used, no need to get them back on each computation
+const builtinTypes = createInitialTypes();
+const typeUint64 = builtinTypes.get("uint64")!;
+const typeName = builtinTypes.get("name")!;
+function uint64ToName(value: string|number): string {
+    // This one is trickier because it contains a "state". It can be shared among all calls
+    // due to JavaScript nature. Simply ensure that it being used solely for name encoding/decoding
+    // and ensure that number of bytes serialized is always the also deserialized.
+    //
+    // To play safe, this example does not share it among all callers.
+    const buffer = new SerialBuffer({ textDecoder: new TextDecoder() as any, textEncoder: new TextEncoder(), array: [] as any});
+    typeUint64.serialize(buffer, value);
+    return typeName.deserialize(buffer)
+}
+
 
 export default App;
