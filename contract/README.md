@@ -20,7 +20,15 @@ Building the SmartContract ABI and code to WAST is performed through
 the `eosiocpp` command line utility. Navigate to the root folder
 of this project and then issue:
 
+```
+eosio-cpp ./src/ice.cpp -o ./build/ice.wasm
+```
+
+To deploy the contract on chain run 
+```
+deploy.sh
+```
+
 #### TODO 
 dfuse-eosio init --with-bootstrap
 Add a faucet in the dashboard
-

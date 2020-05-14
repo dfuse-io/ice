@@ -27,6 +27,12 @@ pushd $ROOT/bootstrapping &> /dev/null
   eosc boot bootseq.yaml
   printf "${BROWN}Creating \'dfuseioice\' account${NC}\n"
   eosc system newaccount eosio dfuseioice --auth-key EOS6BtgCcdChWGARLHHfBquwMx2pwUhrnBeaaB7QPuoBGFHKs32dd --stake-cpu 10 --stake-net 10
-  printf "${BROWN}Transferring \'10000\' to \'dfuseioice\' ${NC}\n"
+  printf "${BROWN}Transfering \'10000\' to \'dfuseioice\' ${NC}\n"
   eosc transfer eosio dfuseioice 10000
 popd &> /dev/null
+
+pushd $ROOT/vault &> /dev/null
+  printf "${BROWN}Buy \'300000'\ ram bytes to deploy your contract  ${NC}\n"
+  eosc system buyrambytes dfuseioice dfuseioice 300000
+popd &> /dev/null
+
