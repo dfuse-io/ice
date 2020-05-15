@@ -1,12 +1,13 @@
 
 export interface IdeaRow {
-    name: string;
-    key: string;
+    key: string; // added later on the flight
     id: number;
-    title: string;
-    poolName: string;
+
+    pool_name: string;
     author: string;
+    title: string;
     description: string;
+
     avg_impact: number;
     avg_confidence: number;
     avg_ease: number;
@@ -28,7 +29,6 @@ export interface PoolRowForm {
     name: string;
 }
 
-
 export interface VoteRow {
     ideaId: number;
     voter: string;
@@ -38,7 +38,7 @@ export interface VoteRow {
 }
 
 
-export interface Vote {
+export interface VoteForm {
     impact: number;
     confidence: number;
     ease: number;

@@ -31,6 +31,8 @@ export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
 
     const logoutFunc: StateContextType["logout"] = (): Promise<void> => {
         logout()
+        setLoggedIn(false)
+        setAccountName("")
         return Promise.resolve();
     }
 

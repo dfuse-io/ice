@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react'
 import { JsonRpc } from 'eosjs'
-import { UALContext } from 'ual-reactjs-renderer'
 import { LogoutOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
 import {Button, Avatar as AntdAvatar, Menu } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import { styled } from "../../theme";
 import { HeaderDropdown } from "./header-dropdown";
+import { useAppState } from "../../state";
 
 const AvatarWrapper = styled.span`
   font-size:14px;
@@ -15,27 +15,7 @@ const AvatarWrapper = styled.span`
 `
 const BaseAvatar: React.FC = () => {
     const [loggedIn, setLoggedIn] = useState(false)
-    const { activeUser, logout, showModal } = useContext(UALContext)
-
-    const [accountName, setAccountName] = useState("")
-    const [rpc, setRpc] = useState<JsonRpc>(new JsonRpc(`${process.env.REACT_APP_DFUSE_RPC_PROTOCOL}://${process.env.REACT_APP_DFUSE_RPC_HOST}:${process.env.REACT_APP_DFUSE_RPC_PORT}`))
-
-    const  updateAccountName = async (): Promise<void>    => {
-        try {
-            const accountName = await activeUser.getAccountName()
-            setAccountName(accountName)
-        } catch (e) {
-            console.warn(e)
-        }
-    }
-
-    useEffect(() => {
-        if (activeUser) {
-            setLoggedIn(true)
-            updateAccountName()
-        }
-    }, [activeUser])
-
+    const { activeUser, logout, login, accountName } = useAppState()
 
     const onMenuClick = (event: ClickParam) => {
         const { key } = event;
@@ -57,7 +37,7 @@ const BaseAvatar: React.FC = () => {
     const renderLoginView = () => {
         return(
             <AvatarWrapper>
-                <Button type="primary" shape="round"  onClick={showModal} icon={<LoginOutlined />} >Login</Button>
+                <Button type="primary" shape="round"  onClick={login} icon={<LoginOutlined />} >Login</Button>
             </AvatarWrapper>
         )
     }

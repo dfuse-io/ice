@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
-import {IdeaRow, PoolRow, Vote, VoteRow} from "../../types"
-import {Button, Col, Row, Table, Select, message} from 'antd';
+import {IdeaRow, PoolRow, VoteForm, VoteRow} from "../../types"
+import {Button, Col, Row, Table, Select, message, Tooltip} from 'antd';
+import {castVoteTrx} from "../../utils/trx";
+import {styled} from "../../theme";
 const { Option } = Select
 
 interface VoteListProps {
@@ -16,29 +18,9 @@ interface VoteData {
     ease: number
 }
 
-const columns = [
-    {
-        title: '',
-        dataIndex: 'user',
-        key: 'user',
-    },
-    {
-        title: 'I',
-        dataIndex: 'impact',
-        key: 'impact',
-    },
-    {
-        title: 'C',
-        dataIndex: 'confidence',
-        key: 'confidence',
-    },
-    {
-        title: 'E',
-        dataIndex: 'ease',
-        key: 'ease',
-    },
-];
-
+const IceLetter = styled.span`
+    cursor:pointer;
+`
 
 const selectValue = (defaultValue: number, handler: (value: any) => void) => {
     return (
@@ -49,7 +31,7 @@ const selectValue = (defaultValue: number, handler: (value: any) => void) => {
             defaultValue={defaultValue}
         >
             {[1,2,3,4,5,6,7,8,9,10].map((v) => (
-                <Option value={v}>{v}</Option>
+                <Option key={v} value={v}>{v}</Option>
             ))}
         </Select>
     )
@@ -57,13 +39,20 @@ const selectValue = (defaultValue: number, handler: (value: any) => void) => {
 
 export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     const [votes, setVotes] = useState<VoteData[]>([]);
-    const [myVote, setMyVote] = useState<Vote>({ease: 0, impact: 0, confidence: 0});
+    const [myVote, setMyVote] = useState<VoteForm>({impact: 0, ease: 0, confidence: 0});
+    const [hasVoted, setHasVoted] = useState(false);
     const [castingVote, setCastingVote] = useState(false);
-    const { dfuseClient, accountName, activeUser } = useAppState()
+    const { dfuseClient, accountName, activeUser, contractAccount, loggedIn } = useAppState()
 
     useEffect(() => {
+        setHasVoted(false)
+        setMyVote({impact: 0, ease: 0, confidence: 0})
+        fetchVotes()
+    }, [dfuseClient, idea, loggedIn]);
+
+    const fetchVotes = () => {
         try {
-            dfuseClient.stateTable<VoteRow>("dfuseioice", idea.name, "votes")
+            dfuseClient.stateTable<VoteRow>("dfuseioice", idea.key, "votes")
                 .then((votesResult) => {
                     let tempVote: VoteData[] = [];
                     votesResult.rows.map(r => {
@@ -78,62 +67,25 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
 
                         if (vote.voter == accountName) {
                             setMyVote({ease: vote.ease, impact: vote.impact, confidence: vote.confidence})
+                            setHasVoted(true)
                         }
                     });
 
                     setVotes(tempVote)
                 })
                 .catch(reason => {
-                    console.log(reason)
-
+                    throw reason
                 });
         } catch (e) {
-            console.warn("error")
+            message.error("Oops! Unable to get voted: " + e)
         }
-
-    }, [dfuseClient, idea]);
+    }
 
     const  vote = async (): Promise<void>    => {
-        // const demoTransaction = {
-        //     actions: [{
-        //         account: 'dfuseioice',
-        //         name: 'castvote',
-        //         authorization: [{
-        //             actor: accountName,
-        //             permission: 'active',
-        //         }],
-        //         data: {
-        //             "voter":accountName,
-        //             "pool_name": idea.poolName,
-        //             "idea_id": idea.id,
-        //             "impact": myVote.impact,
-        //             "confidence": myVote.confidence,
-        //             "ease": myVote.ease
-        //         },
-        //     }],
-        // }
-        const demoTransaction = {
-            actions: [{
-                account: 'dfuseioice',
-                name: 'castvote',
-                authorization: [{
-                    actor: accountName,
-                    permission: 'active',
-                }],
-                data: {
-                    "voter":accountName,
-                    "pool_name":"hackathon",
-                    "idea_id": idea.id,
-                    "confidence": myVote.confidence,
-                    "impact": myVote.impact,
-                    "ease": myVote.ease,
-                },
-            }],
-        }
-
+        const trx = castVoteTrx(contractAccount, accountName, idea, myVote);
+        console.log("trx: ", trx)
         try {
-            console.log(demoTransaction)
-            await activeUser.signTransaction(demoTransaction, { broadcast: true })
+            await activeUser.signTransaction(trx, { broadcast: true })
         } catch (error) {
             throw error
         }
@@ -185,19 +137,33 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     }
     return (
         <Row justify={'end'}>
+            {hasVoted}
             <Col>
                 <table id={'votes-table'}>
                     <thead>
                         <tr>
                             <th></th>
-                            <th>I</th>
-                            <th>C</th>
-                            <th>E</th>
+                            <th>
+                                <Tooltip placement="topLeft" title="Prompt Text">
+                                    <IceLetter>I</IceLetter>
+                                </Tooltip>
+                            </th>
+                            <th>
+                                <Tooltip placement="topLeft" title="Prompt Text">
+                                    <IceLetter>C</IceLetter>
+                                </Tooltip>
+                            </th>
+                            <th>
+                                <Tooltip placement="topLeft" title="Prompt Text">
+                                    <IceLetter>E</IceLetter>
+                                </Tooltip>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    {votes.map(v => ( (accountName == v.user) ? renderYourVote() : renderAnonymousVote(v) ))}
+                    {votes.map(v => ( (accountName == v.user) ? null : renderAnonymousVote(v) ))}
+                    { loggedIn && renderYourVote()}
                     </tbody>
                 </table>
             </Col>

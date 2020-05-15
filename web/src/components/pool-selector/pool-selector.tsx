@@ -23,9 +23,13 @@ export const PoolSelector: React.FC = () => {
     const [showNewIdea,setShowNewIdea] = useState(false)
     const [creatingPool, setCreatingPool] = useState(false);
     const [selectedPool, setSelectedPool] = useState<PoolRow>(null!);
-    const { dfuseClient, contractAccount, activeUser, accountName} = useAppState()
+    const { dfuseClient, contractAccount, activeUser, accountName, loggedIn} = useAppState()
 
     useEffect(() => {
+        fetchPools();
+    }, [dfuseClient, loggedIn]);
+
+    const fetchPools = () =>  {
         try {
             dfuseClient.stateTable<PoolRow>(contractAccount, contractAccount, "pools")
                 .then((poolsResult) => {
@@ -37,8 +41,9 @@ export const PoolSelector: React.FC = () => {
                     setPools(poolRows)
                 })
         } catch (e) {
+            // message.error("Oops! we ran into an issue getting your pools: ", e)
         }
-    }, [dfuseClient]);
+    }
 
     const onChange = (value) => {
         if (value == "new_pool") {
@@ -78,7 +83,7 @@ export const PoolSelector: React.FC = () => {
     const renderPoolSelector = () => {
         let selectSpan = 24
         let showAddKey = false
-        if (selectedPool) {
+        if (selectedPool && loggedIn) {
             selectSpan = 19
             showAddKey = true
         }
@@ -94,9 +99,10 @@ export const PoolSelector: React.FC = () => {
                         onChange={onChange}
                     >
                         {pools.map((p) => (
-                            <Option value={p.pool_name}>{p.pool_name}</Option>
+                            <Option key={`pool-${p.pool_name}`} value={p.pool_name}>{p.pool_name}</Option>
                         ))}
-                        <Option value={"new_pool"}>create a new pool</Option>
+                        { loggedIn && <Option key={`pool-new_pool`} value={"new_pool"}>create a new pool</Option>}
+
                     </Select>
                 </Col>
                 {
@@ -141,15 +147,19 @@ export const PoolSelector: React.FC = () => {
     }
 
     const onNewIdeaCreated = (idea: IdeaRow) => {
+        fetchPools();
         setShowNewIdea(false)
         message.info(`Hurray! '${idea.title}' was created!`);
-
     }
 
     const onNewIdeaError = (error: string) => {
+
         setShowNewIdea(false)
         message.error(`Oops unable to create an idea: ${error}`);
+    }
 
+    const onNewIdeaCancel = () => {
+        setShowNewIdea(false)
     }
 
 
@@ -162,7 +172,7 @@ export const PoolSelector: React.FC = () => {
             { selectedPool && (
                 <>
                     <PoolView pool={selectedPool}/>
-                    <NewIdea pool={selectedPool} show={showNewIdea} onCreated={onNewIdeaCreated} onError={onNewIdeaError}/>
+                    <NewIdea pool={selectedPool} show={showNewIdea} onCreated={onNewIdeaCreated} onError={onNewIdeaError} onCancel={onNewIdeaCancel}/>
                 </>
             )}
 

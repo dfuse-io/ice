@@ -1,66 +1,54 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {IdeaRow, IdeaRowForm, PoolRow} from "../../types";
 import {Form, Input, message, Modal} from "antd";
+import { useAppState } from "../../state";
+import { addIdeaTrx } from "../../utils/trx";
 
 interface NewIdeaProps {
     pool: PoolRow
     show: boolean
     onCreated: (i: IdeaRow) => void
     onError: (e: string) => void
+    onCancel: () => void
 }
 
-export const NewIdea: React.FC<NewIdeaProps> = ({pool, show, onCreated, onError}) => {
+export const NewIdea: React.FC<NewIdeaProps> = ({pool, show, onCreated, onError, onCancel}) => {
     const [creatingNewIdea, setCreatingNewIdea] = useState(false);
-    const [close, setClose] = useState(false);
+    const { contractAccount, activeUser, accountName } = useAppState()
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        form.resetFields()
+    }, [show])
 
     const createIdea = async (ideaForm: IdeaRowForm): Promise<void>  => {
-        const demoTransaction = {
-            actions: [{
-                account: contractAccount,
-                name: 'addpool',
-                authorization: [{
-                    actor: accountName,
-                    permission: 'active',
-                }],
-                data: {
-                    "author":accountName,
-                    "name": pool.pool_name,
-                    "description": pool.description
-                },
-            }],
-        }
         try {
-            await activeUser.signTransaction(demoTransaction, { broadcast: true })
+            await activeUser.signTransaction(addIdeaTrx(contractAccount, accountName, pool.pool_name, ideaForm), { broadcast: true })
         } catch (error) {
             throw error
         }
     }
-
-
-
     const handleNewIdea = values => {
         setCreatingNewIdea(true)
         const idea = {title: values.title, description: values.description} as IdeaRowForm
         createIdea(idea).then(() => {
             setCreatingNewIdea(false)
+            onCreated({title: idea.title, description: idea.description} as IdeaRow)
         }).catch( e => {
             setCreatingNewIdea(false)
         })
     };
 
-
-    const [form] = Form.useForm();
-
     return (
         <Modal
             title="New Idea"
             visible={show}
-            onCancel={onError}
+            onCancel={onCancel}
+            confirmLoading={creatingNewIdea}
             onOk={() => {
                 form
                     .validateFields()
                     .then(values => {
-                        form.resetFields();
                         handleNewIdea(values);
                     })
                     .catch(info => {
