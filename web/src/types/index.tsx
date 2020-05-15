@@ -3,6 +3,7 @@ export interface IdeaRow {
     name: string;
     key: string;
     id: number;
+    title: string;
     poolName: string;
     author: string;
     description: string;
@@ -13,11 +14,20 @@ export interface IdeaRow {
     total_votes: number;
 }
 
+export interface IdeaRowForm {
+    title: string;
+    description: string;
+}
+
 export interface PoolRow {
     pool_name: string;
     author: string;
-    description: string
 }
+
+export interface PoolRowForm {
+    name: string;
+}
+
 
 export interface VoteRow {
     ideaId: number;

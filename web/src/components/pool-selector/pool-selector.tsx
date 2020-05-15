@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {PoolRow} from "../../types";
+import {IdeaRow, PoolRow, PoolRowForm} from "../../types";
 import { useAppState } from "../../state";
-import {Col,Form, Input, Select, Modal, message, Empty, Button} from "antd";
-import { FileAddOutlined } from '@ant-design/icons';
+import {Row, Col,Form, Input, Select, Modal, message, Empty, Button} from "antd";
+import { FileAddOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { PoolView } from "../pool-view/pool-view"
 import {styled} from "../../theme";
+import {NewIdea} from "../new-idea/new-idea";
+import {addPoolTrx} from "../../utils/trx";
 const { Option } = Select;
 const { Search } = Input
 
@@ -18,7 +20,7 @@ const PoolSelectorWrapper = styled.div`
 export const PoolSelector: React.FC = () => {
     const [pools, setPools] = useState<PoolRow[]>([]);
     const [newPool, setNewPool] = useState(false);
-    const [addIdea,setAddIdea] = useState(false)
+    const [showNewIdea,setShowNewIdea] = useState(false)
     const [creatingPool, setCreatingPool] = useState(false);
     const [selectedPool, setSelectedPool] = useState<PoolRow>(null!);
     const { dfuseClient, contractAccount, activeUser, accountName} = useAppState()
@@ -35,7 +37,6 @@ export const PoolSelector: React.FC = () => {
                     setPools(poolRows)
                 })
         } catch (e) {
-            console.log("An error occurred", e)
         }
     }, [dfuseClient]);
 
@@ -51,81 +52,79 @@ export const PoolSelector: React.FC = () => {
         }
     }
 
-    const  create = async (pool: PoolRow): Promise<void>    => {
-        const demoTransaction = {
-            actions: [{
-                account: contractAccount,
-                name: 'addpool',
-                authorization: [{
-                    actor: accountName,
-                    permission: 'active',
-                }],
-                data: {
-                    "author":accountName,
-                    "name": pool.pool_name,
-                    "description": pool.description
-                },
-            }],
-        }
+    const  createPool = async (pool: PoolRowForm): Promise<PoolRow>    => {
         try {
-            await activeUser.signTransaction(demoTransaction, { broadcast: true })
+            await activeUser.signTransaction(addPoolTrx(contractAccount, accountName,pool), { broadcast: true })
+            return {pool_name: pool.name} as PoolRow
         } catch (error) {
             throw error
         }
     }
 
-    const createPool = (poolName: string) => {
+    const handleCreatePool = (poolName: string) => {
         setCreatingPool(true)
-        const pool = {pool_name: poolName, description: ""} as PoolRow
-        create(pool).then(() => {
+        const poolForm = {name: poolName} as PoolRowForm
+        createPool(poolForm).then((poolRow) => {
             setCreatingPool(false)
             setNewPool(false)
-            setPools([...pools, pool])
-            setSelectedPool(pool)
+            setPools([...pools, poolRow])
+            setSelectedPool(poolRow)
             message.info(`Hurray! '${poolName}' was created!`);
         }).catch( e => {
             setCreatingPool(false)
             message.error(`Oops unable to create pool: ${e}`);
         })
     }
-    const handleOk = e => {
-        console.log(e);
-        setAddIdea(false)
-    };
-
-    const handleCancel = e => {
-        console.log(e);
-        setAddIdea(false)
-    };
     const renderPoolSelector = () => {
+        let selectSpan = 24
+        let showAddKey = false
+        if (selectedPool) {
+            selectSpan = 19
+            showAddKey = true
+        }
+
         return (
-            <PoolSelectorWrapper>
-                <Select
-                    defaultValue={selectedPool?.pool_name}
-                    showSearch
-                    style={{width: "100%"}}
-                    placeholder="Select a pool"
-                    onChange={onChange}
-                >
-                    {pools.map((p) => (
-                        <Option value={p.pool_name}>{p.pool_name}</Option>
-                    ))}
-                    <Option value={"new_pool"}>create a new pool</Option>
-                </Select>
+            <Row>
+                <Col span={selectSpan}>
+                    <Select
+                        defaultValue={selectedPool?.pool_name}
+                        showSearch
+                        style={{width: "100%"}}
+                        placeholder="Select a pool"
+                        onChange={onChange}
+                    >
+                        {pools.map((p) => (
+                            <Option value={p.pool_name}>{p.pool_name}</Option>
+                        ))}
+                        <Option value={"new_pool"}>create a new pool</Option>
+                    </Select>
+                </Col>
                 {
-                    selectedPool &&
-                    <Button type="primary" onClick={() => setAddIdea(true)}>
-                        <FileAddOutlined /> New Idea
-                    </Button>
+                    showAddKey && (
+                        <Col span={5}>
+                            <Button type="primary" onClick={() => setShowNewIdea(true)} block>
+                                <FileAddOutlined /> New Idea
+                            </Button>
+                        </Col>
+                    )
                 }
 
-
-            </PoolSelectorWrapper>
+            </Row>
         )
     }
     const renderPoolCreator = () => {
         return (
-            <Search placeholder="Enter a pool name" onSearch={value => createPool(value)} loading={creatingPool} enterButton="Create Pool" />
+            <Row>
+                <Col span={22}>
+            <Search placeholder="Enter a pool name" onSearch={value => handleCreatePool(value)} loading={creatingPool} enterButton="Create Pool" />
+                </Col>
+                <Col span={2}>
+                    <Button type="primary" danger onClick={() => setNewPool(false)}>
+                        <CloseCircleOutlined />
+                    </Button>
+
+                </Col>
+            </Row>
         )
     }
     const poolViewPlaceholder = () => {
@@ -141,35 +140,32 @@ export const PoolSelector: React.FC = () => {
         )
     }
 
+    const onNewIdeaCreated = (idea: IdeaRow) => {
+        setShowNewIdea(false)
+        message.info(`Hurray! '${idea.title}' was created!`);
+
+    }
+
+    const onNewIdeaError = (error: string) => {
+        setShowNewIdea(false)
+        message.error(`Oops unable to create an idea: ${error}`);
+
+    }
+
+
+
     return(
         <>
-            { !newPool && renderPoolSelector()}
-            { newPool && renderPoolCreator()}
-            { !selectedPool && poolViewPlaceholder()}
+            { !newPool && renderPoolSelector() }
+            { newPool && renderPoolCreator() }
+            { !selectedPool && poolViewPlaceholder() }
             { selectedPool && (
                 <>
                     <PoolView pool={selectedPool}/>
+                    <NewIdea pool={selectedPool} show={showNewIdea} onCreated={onNewIdeaCreated} onError={onNewIdeaError}/>
                 </>
             )}
-            <Modal
-                title="Basic Modal"
-                visible={addIdea}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <Form
-                >
-                    <Form.Item label="Idea Title">
-                        <Input placeholder="Enter you title" />
-                    </Form.Item>
-                    <Form.Item label="Idea Description">
-                        <Input placeholder="Enter you description" />
-                    </Form.Item>
-                    <Form.Item >
-                        <Button type="primary">Submit</Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+
         </>
     )
 };

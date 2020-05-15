@@ -62,30 +62,35 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     const { dfuseClient, accountName, activeUser } = useAppState()
 
     useEffect(() => {
-        dfuseClient.stateTable<VoteRow>("dfuseioice", idea.name, "votes")
-            .then((votesResult) => {
-                let tempVote: VoteData[] = [];
-                votesResult.rows.map(r => {
-                    const vote = r.json!;
-                    tempVote.push({
-                        key: vote.voter,
-                        user: vote.voter,
-                        impact: vote.impact,
-                        confidence: vote.confidence,
-                        ease: vote.ease,
-                    } as VoteData);
+        try {
+            dfuseClient.stateTable<VoteRow>("dfuseioice", idea.name, "votes")
+                .then((votesResult) => {
+                    let tempVote: VoteData[] = [];
+                    votesResult.rows.map(r => {
+                        const vote = r.json!;
+                        tempVote.push({
+                            key: vote.voter,
+                            user: vote.voter,
+                            impact: vote.impact,
+                            confidence: vote.confidence,
+                            ease: vote.ease,
+                        } as VoteData);
 
-                    if (vote.voter == accountName) {
-                        setMyVote({ease: vote.ease, impact: vote.impact, confidence: vote.confidence})
-                    }
+                        if (vote.voter == accountName) {
+                            setMyVote({ease: vote.ease, impact: vote.impact, confidence: vote.confidence})
+                        }
+                    });
+
+                    setVotes(tempVote)
+                })
+                .catch(reason => {
+                    console.log(reason)
+
                 });
+        } catch (e) {
+            console.warn("error")
+        }
 
-                setVotes(tempVote)
-            })
-            .catch(reason => {
-                console.log(reason)
-
-            });
     }, [dfuseClient, idea]);
 
     const  vote = async (): Promise<void>    => {

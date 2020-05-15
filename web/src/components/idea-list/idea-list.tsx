@@ -21,25 +21,30 @@ export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
     const {dfuseClient} = useAppState()
 
     useEffect(() => {
-        dfuseClient.stateTable<IdeaRow>("dfuseioice", poolName, "ideas")
-            .then((ideaResult) => {
-                console.log("received ideas result");
-                let ideas: IdeaRow[] = [];
-                ideaResult.rows.map(r => {
-                    const idea = r.json!;
+        try {
+            dfuseClient.stateTable<IdeaRow>("dfuseioice", poolName, "ideas")
+                .then((ideaResult) => {
+                    console.log("received ideas result");
+                    let ideas: IdeaRow[] = [];
+                    ideaResult.rows.map(r => {
+                        const idea = r.json!;
 
-                    idea.name = eosjsAccountName.uint64ToName(idea.id);
-                    ideas.push(idea);
-                    return true
+                        idea.name = eosjsAccountName.uint64ToName(idea.id);
+                        ideas.push(idea);
+                        return true
+                    });
+
+                    console.log("ideas:" + ideas.length);
+                    setIdeas(ideas)
+                })
+                .catch(reason => {
+                    console.log(reason)
+
                 });
+        } catch (e) {
+            console.warn("error");
+        }
 
-                console.log("ideas:" + ideas.length);
-                setIdeas(ideas)
-            })
-            .catch(reason => {
-                console.log(reason)
-
-            });
     }, [dfuseClient, poolName]);
     return (
         <IdeasWrapper>
