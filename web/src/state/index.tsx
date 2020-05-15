@@ -6,6 +6,8 @@ import {Paths} from "../components/routes/paths";
 
 
 export interface StateContextType {
+    setLastSeenBlock(blockNum: number): void
+    lastSeenBlock: number
     loggedIn: boolean
     login(): Promise<void>
     logout(): Promise<void>
@@ -18,8 +20,8 @@ export interface StateContextType {
 export const StateContext = createContext<StateContextType>(null!)
 
 export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
-
     const { activeUser, logout, showModal } = useContext(UALContext)
+    const [lastSeenBlock, setLastSeenBlock] = useState(0)
     const [loggedIn,setLoggedIn] = useState(false)
     const [client,setClient] = useState<DfuseClient>(undefined!)
     const [accountName, setAccountName] = useState("")
@@ -68,7 +70,7 @@ export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
 
 
     return (
-        <StateContext.Provider value={{ loggedIn, activeUser, accountName, login: loginFunc, logout: logoutFunc,  dfuseClient: client, contractAccount: (process.env.REACT_APP_DFUSE_CONTRACT_OWNER || "dfuseioice")}}>
+        <StateContext.Provider value={{ loggedIn, activeUser, accountName, lastSeenBlock, setLastSeenBlock, login: loginFunc, logout: logoutFunc,  dfuseClient: client, contractAccount: (process.env.REACT_APP_DFUSE_CONTRACT_OWNER || "dfuseioice")}}>
             {props.children}
         </StateContext.Provider>
     )

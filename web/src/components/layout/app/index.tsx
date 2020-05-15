@@ -1,8 +1,10 @@
 import React from "react"
 import { styled } from "../../../theme"
-import { Link } from 'react-router-dom'
-import { Layout, Button } from "antd";
-import logo from '../../../assets/dfuse-logo.svg';
+import {Layout, Tag} from "antd";
+import {
+    ClockCircleOutlined,
+} from '@ant-design/icons';
+
 import { useAppState } from "../../../state";
 import { PageHeader } from "./page-header";
 
@@ -14,7 +16,7 @@ const ContentWrapper = styled.div`
 `
 
 const AppLayout: React.FC = ({ children }) => {
-    const { logout } = useAppState()
+    const { lastSeenBlock } = useAppState()
     return (
         <Layout>
             <PageHeader />
@@ -23,7 +25,13 @@ const AppLayout: React.FC = ({ children }) => {
                     {children}
                 </ContentWrapper>
             </Content>
-            <Footer style={{textAlign: "center"}}>dfuse ©2020</Footer>
+            <Footer style={{textAlign: "center"}}>
+                dfuse ©2020<br/>
+                <Tag icon={<ClockCircleOutlined/>} color="default">
+                    {lastSeenBlock}
+                </Tag>
+
+            </Footer>
         </Layout>
     )
 }

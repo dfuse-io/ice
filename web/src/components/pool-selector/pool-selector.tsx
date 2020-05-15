@@ -23,7 +23,7 @@ export const PoolSelector: React.FC = () => {
     const [showNewIdea,setShowNewIdea] = useState(false)
     const [creatingPool, setCreatingPool] = useState(false);
     const [selectedPool, setSelectedPool] = useState<PoolRow>(null!);
-    const { dfuseClient, contractAccount, activeUser, accountName, loggedIn} = useAppState()
+    const { dfuseClient, contractAccount, activeUser, accountName, loggedIn, setLastSeenBlock} = useAppState()
 
     useEffect(() => {
         fetchPools();
@@ -39,6 +39,7 @@ export const PoolSelector: React.FC = () => {
                         poolRows.push(pool);
                     });
                     setPools(poolRows)
+                    setLastSeenBlock(poolsResult.up_to_block_num || -1)
                 })
         } catch (e) {
             // message.error("Oops! we ran into an issue getting your pools: ", e)
