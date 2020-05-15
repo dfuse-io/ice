@@ -38,7 +38,7 @@ const EXAMPLE_ENV = {
   CHAIN_ID: 'df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4',
   RPC_PROTOCOL: 'http',
   RPC_HOST: 'localhost',
-  RPC_PORT: '8888'
+  RPC_PORT: '13026'
 
 }
 

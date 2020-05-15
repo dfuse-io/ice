@@ -16,7 +16,7 @@ import { UALProvider, withUAL } from 'ual-reactjs-renderer'
 const client = createDfuseClient({
     apiKey: "web_0123456789abcdef",
     authUrl: "null://",
-    network: "localhost:8080",
+    network: "localhost:13026",
     secure: false
 });
 
@@ -88,7 +88,7 @@ const exampleNet = {
     rpcEndpoints: [{
       protocol: 'http',
       host: 'localhost',
-      port: Number('8080'),
+      port: Number('13026'),
     }]
   }
 
