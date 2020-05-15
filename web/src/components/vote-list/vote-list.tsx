@@ -4,6 +4,7 @@ import {IdeaRow, PoolRow, VoteForm, VoteRow} from "../../types"
 import {Button, Col, Row, Table, Select, message, Tooltip} from 'antd';
 import {castVoteTrx} from "../../utils/trx";
 import {styled} from "../../theme";
+import {runInNewContext} from "vm";
 const { Option } = Select
 
 interface VoteListProps {
@@ -53,6 +54,7 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     useEffect(() => {
         console.log("refreshing cast vote: ", lastSeenAction, idea.id)
         if (lastSeenAction &&  (lastSeenAction.type == "castvote") && (lastSeenAction.contextId == idea.id)) {
+            console.log("should refresh votes")
             fetchVotes();
         }
     }, [lastSeenAction]);
@@ -111,19 +113,32 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
             message.error(`Oops! unable record your vote: ${e}`);
         })
     }
-
+    const renderVote = (v: VoteData) => {
+        if (accountName == v.user) {
+            return renderYourVote()
+        } else {
+            return renderAnonymousVote(v)
+        }
+    }
 
     const renderYourVote = () => {
+        console.log("rendering your vote",  myVote)
         return (
             <tr key={'my-vote'}>
                 <td>{accountName}</td>
                 <td>{selectValue(myVote.impact, (value: any) => {
-                    setMyVote(Object.assign(myVote, {impact: value}))
+                    const newVote = Object.assign(myVote, {impact: value})
+                    console.log("changed impact", myVote, newVote)
+                    setMyVote(newVote)
                 })}</td>
                 <td>{selectValue(myVote.confidence, (value: any) => {
-                    setMyVote(Object.assign(myVote, {confidence: value}))
+                    const newVote = Object.assign(myVote, {confidence: value})
+                    console.log("changed impact", myVote, newVote)
+                    setMyVote(newVote)
                 })}</td>
                 <td>{selectValue(myVote.ease, (value: any) => {
+                    const newVote = Object.assign(myVote, {ease: value})
+                    console.log("changed impact", myVote, newVote)
                     setMyVote(Object.assign(myVote, {ease: value}))
                 })}</td>
                 <td>
@@ -147,8 +162,7 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     }
     return (
         <Row justify={'end'}>
-            {hasVoted}
-            <Col>
+-            <Col>
                 <table id={'votes-table'}>
                     <thead>
                         <tr>
@@ -172,8 +186,8 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {votes.map(v => ( (accountName == v.user) ? null : renderAnonymousVote(v) ))}
-                    { loggedIn && renderYourVote()}
+                    {votes.map(v =>  renderVote(v))}
+                    { !hasVoted && renderYourVote()}
                     </tbody>
                 </table>
             </Col>
