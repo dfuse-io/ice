@@ -39,7 +39,7 @@ export const IdeaProgressBar: React.FC<IdeaProgressBarProps> =({ idea }) => {
         })
         setData(newData)
 
-    }, [])
+    }, [idea])
 
     return (
         <>
