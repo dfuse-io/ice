@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {PoolRow} from "../../types";
 import { useAppState } from "../../state";
-import {Col, Select, Input, message, Empty} from "antd";
+import {Col,Form, Input, Select, Modal, message, Empty, Button} from "antd";
+import { FileAddOutlined } from '@ant-design/icons';
 import { PoolView } from "../pool-view/pool-view"
 import {styled} from "../../theme";
 const { Option } = Select;
@@ -17,6 +18,7 @@ const PoolSelectorWrapper = styled.div`
 export const PoolSelector: React.FC = () => {
     const [pools, setPools] = useState<PoolRow[]>([]);
     const [newPool, setNewPool] = useState(false);
+    const [addIdea,setAddIdea] = useState(false)
     const [creatingPool, setCreatingPool] = useState(false);
     const [selectedPool, setSelectedPool] = useState<PoolRow>(null!);
     const { dfuseClient, contractAccount, activeUser, accountName} = useAppState()
@@ -86,7 +88,15 @@ export const PoolSelector: React.FC = () => {
             message.error(`Oops unable to create pool: ${e}`);
         })
     }
+    const handleOk = e => {
+        console.log(e);
+        setAddIdea(false)
+    };
 
+    const handleCancel = e => {
+        console.log(e);
+        setAddIdea(false)
+    };
     const renderPoolSelector = () => {
         return (
             <PoolSelectorWrapper>
@@ -102,6 +112,14 @@ export const PoolSelector: React.FC = () => {
                     ))}
                     <Option value={"new_pool"}>create a new pool</Option>
                 </Select>
+                {
+                    selectedPool &&
+                    <Button type="primary" onClick={() => setAddIdea(true)}>
+                        <FileAddOutlined /> New Idea
+                    </Button>
+                }
+
+
             </PoolSelectorWrapper>
         )
     }
@@ -133,6 +151,25 @@ export const PoolSelector: React.FC = () => {
                     <PoolView pool={selectedPool}/>
                 </>
             )}
+            <Modal
+                title="Basic Modal"
+                visible={addIdea}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Form
+                >
+                    <Form.Item label="Idea Title">
+                        <Input placeholder="Enter you title" />
+                    </Form.Item>
+                    <Form.Item label="Idea Description">
+                        <Input placeholder="Enter you description" />
+                    </Form.Item>
+                    <Form.Item >
+                        <Button type="primary">Submit</Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </>
     )
 };

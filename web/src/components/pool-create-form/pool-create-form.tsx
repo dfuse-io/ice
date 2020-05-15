@@ -1,5 +1,6 @@
 import React from "react";
 import {useAppState} from "../../state"
+import { JsonRpc } from 'eosjs'
 import { Form, Input, Button, Checkbox } from 'antd';
 
 const layout = {
@@ -10,54 +11,57 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-interface IdeaCreateFormProps {
-    poolName: string
-}
-
-export const IdeaCreateForm: React.FC<IdeaCreateFormProps> = ({poolName}) => {
-
+export const PoolCreateForm: React.FC = () => {
     const { activeUser, accountName, contractAccount } = useAppState();
 
     const onFinish =  (values: any) => {
-        console.log('creating idea: ', values);
-        createIdea(poolName, values.ideaDesctription)
+        console.log('creating pool: ', values);
+        createPool(values.poolName, values.poolDescription)
     };
 
-    const  createIdea = async ( poolName: string, description: string): Promise<void>    => {
-        const trx = {
+    const  createPool = async (poolName: string, poolDescription: string): Promise<void>    => {
+        const demoTransaction = {
             actions: [{
                 account: contractAccount,
-                name: 'addidea',
+                name: 'addpool',
                 authorization: [{
                     actor: accountName,
                     permission: 'active',
                 }],
                 data: {
                     "author":accountName,
-                    "pool_name": poolName,
-                    "description": description
+                    "name": poolName,
+                    "description": poolDescription
                 },
             }],
         };
         try {
-            await activeUser.signTransaction(trx, { broadcast: true })
+            await activeUser.signTransaction(demoTransaction, { broadcast: true })
         } catch (error) {
             console.warn(error) //todo: better handdling here
         }
     };
 
+
     return (
         <Form
             {...layout}
             name="basic"
-            initialValues={{ remember: true }}
             onFinish={onFinish}
         //     onFinishFailed={onFinishFailed}
         >
             <Form.Item
-                label="Description"
-                name="ideaDesctription"
-                rules={[{ required: true, message: 'Please input a description' }]}
+                label="Pool name"
+                name="poolName"
+                rules={[{ required: true, message: 'Please input a pool name' }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                label="Pool Description"
+                name="poolDescription"
+                rules={[{ required: true, message: 'Please input your pool description!' }]}
             >
                 <Input />
             </Form.Item>
