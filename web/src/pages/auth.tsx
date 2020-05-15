@@ -50,6 +50,7 @@ const defaultState = {
     accountBalance: null,
 }
 
+
 class AuthenticationApp extends React.Component<TransactionProps, TransactionState> {
     static displayName = 'TransactionApp'
 
@@ -96,6 +97,8 @@ class AuthenticationApp extends React.Component<TransactionProps, TransactionSta
 
     public async transfer() {
         const { accountName, activeUser } = this.state
+        console.log("2 account name: ", accountName);
+        console.log("2 activeUser: ", activeUser)
         demoTransaction.actions[0].authorization[0].actor = accountName
         try {
             await activeUser.signTransaction(demoTransaction, { broadcast: true })
@@ -159,5 +162,4 @@ class AuthenticationApp extends React.Component<TransactionProps, TransactionSta
 }
 
 
-
-export default AuthenticationApp
+export default withUAL(AuthenticationApp)

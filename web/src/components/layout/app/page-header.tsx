@@ -1,11 +1,7 @@
 import React, { useState } from "react"
 import { Layout } from 'antd';
 import { styled } from "../../../theme";
-import { MenuUnfoldOutlined,
-  MenuFoldOutlined
-} from "@ant-design/icons/lib";
 import { theme } from "../../../theme";
-import { useAppState } from "../../../state";
 import logo from "../../../assets/dfuse-logo.svg";
 import {Avatar} from "../../ual/avatar";
 const { Header  } = Layout;
@@ -53,7 +49,6 @@ const Logo = styled.img`
 
 export const PageHeader: React.FC = () => {
   const [collapsed,setCollapsed] = useState(false)
-  const { isAuthenticated } = useAppState()
   return (
       <Header {...HeaderProps}>
           <ContentWrapper>

@@ -5,7 +5,6 @@ import { RouteComponentProps } from "react-router"
 import { HomePage } from "../../pages/homepage"
 import { Paths } from "./paths"
 import { RouteProps } from "react-router"
-import { useAppState } from "../../state"
 
 const RoutesBase: React.FC<RouteComponentProps> = () => {
   const authenticatedRoutes: {
@@ -23,7 +22,6 @@ const RoutesBase: React.FC<RouteComponentProps> = () => {
 
 
 function AppRoute(props: RouteProps) {
-  const { isAuthenticated } = useAppState()
   const Component = props.component as React.ComponentType<any>
   const rest = Object.assign({}, props)
   delete rest.component

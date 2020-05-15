@@ -26,13 +26,13 @@ const anchor = new Anchor([iceNet], { appName })
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <AppStateProvider>
-                <UALProvider chains={[iceNet]} authenticators={[scatter, anchor]} appName={appName}>
+            <UALProvider chains={[iceNet]} authenticators={[scatter, anchor]} appName={appName}>
+                <AppStateProvider>
                     <Router history={history}>
                         <Routes />
                     </Router>
-                </UALProvider>
-            </AppStateProvider>
+                </AppStateProvider>
+            </UALProvider>
         </ThemeProvider>
     )
 }

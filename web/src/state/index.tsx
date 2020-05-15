@@ -1,34 +1,46 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {createDfuseClient, DfuseClient} from "@dfuse/client"
+import { UALContext } from 'ual-reactjs-renderer'
 import { history } from "../services/history"
 import {Paths} from "../components/routes/paths";
 
 export interface StateContextType {
-    isAuthenticated(): boolean
+    loggedIn: boolean
     login(): Promise<void>
     logout(): Promise<void>
+    accountName: string
+    activeUser: any
     dfuseClient: DfuseClient
 }
 
 export const StateContext = createContext<StateContextType>(null!)
 
 export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
-    const [loggedIn,setLoggedIn] = useState(true)
+
+    const { activeUser, logout, showModal } = useContext(UALContext)
+    const [loggedIn,setLoggedIn] = useState(false)
     const [client,setClient] = useState<DfuseClient>(undefined!)
+    const [accountName, setAccountName] = useState("")
 
-    const isAuthenticated: StateContextType["isAuthenticated"] = (): boolean => {
-        return loggedIn
-    }
-
-    const login: StateContextType["login"] = (): Promise<void> => {
-        setLoggedIn(true)
+    const loginFunc: StateContextType["login"] = (): Promise<void> => {
+        showModal()
         return Promise.resolve();
     }
 
-    const logout: StateContextType["logout"] = (): Promise<void> => {
-        setLoggedIn(false)
+    const logoutFunc: StateContextType["logout"] = (): Promise<void> => {
+        logout()
         return Promise.resolve();
     }
+
+    const  updateAccountName = async (): Promise<void>    => {
+        try {
+            const accountName = await activeUser.getAccountName()
+            setAccountName(accountName)
+        } catch (e) {
+            console.warn(e)
+        }
+    }
+
 
     useEffect(() => {
         const c = createDfuseClient({
@@ -43,8 +55,15 @@ export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
         }
     },[])
 
+    useEffect(() => {
+        if (activeUser) {
+            setLoggedIn(true)
+            updateAccountName()
+        }
+    }, [activeUser])
+
     return (
-        <StateContext.Provider value={{ isAuthenticated, login, logout,  dfuseClient: client}}>
+        <StateContext.Provider value={{ loggedIn, activeUser, accountName, login: loginFunc, logout: logoutFunc,  dfuseClient: client}}>
             {props.children}
         </StateContext.Provider>
     )
