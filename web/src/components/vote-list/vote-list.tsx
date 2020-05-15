@@ -105,7 +105,7 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
 
     const renderYourVote = () => {
         return (
-            <tr>
+            <tr key={'my-vote'}>
                 <td>{accountName}</td>
                 <td>{selectValue(myVote.impact, (value: any) => {
                     setMyVote(Object.assign(myVote, {impact: value}))
@@ -126,7 +126,7 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
 
     const renderAnonymousVote = (v: VoteData) => {
         return (
-            <tr>
+            <tr key={v.key}>
                 <td>{v.user}</td>
                 <td>{v.impact}</td>
                 <td>{v.confidence}</td>

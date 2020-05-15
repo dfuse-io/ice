@@ -3,6 +3,7 @@ import {IdeaRow} from "../../types"
 import {Col, Row} from 'antd';
 import {VoteList} from "../vote-list/vote-list";
 import {styled} from "../../theme";
+import {IdeaProgressBar} from "../idea-progress/idea-progress";
 import {Bar, HorizontalBar} from 'react-chartjs-2';
 
 const Score = styled.span`
@@ -66,43 +67,7 @@ export const IdeaView: React.FC<IdeaListProps> = ({idea}) => {
         <IdeaWrapper key={idea.id}>
             <Row>
                 <Col span={18}>
-                    <HorizontalBar
-                        data={data}
-                        width={100}
-                        height={50}
-
-                        options={{
-                            legend: {
-                                display: false
-
-                            },
-                            maintainAspectRatio: false,
-                            scales: {
-                                xAxes: [{
-                                    suggestedMax: 30,
-                                    stacked: true,
-                                    gridLines : {
-                                        display : false,
-                                        drawTicks: false
-                                    },
-                                    ticks:{
-                                        display : false,
-                                    }
-                                }],
-                                yAxes: [{
-                                    suggestedMax: 30,
-                                    stacked: true,
-                                    gridLines : {
-                                        display : false,
-                                        drawTicks: false
-                                    },
-                                    ticks:{
-                                        display : false,
-                                    }
-                                }]
-                            }
-                        }}
-                    />
+                   <IdeaProgressBar idea={idea} />
                 </Col>
                 <Col span={6} style={{textAlign: "right"}}>
                     <Score>{Math.round(idea.score)}</Score>
