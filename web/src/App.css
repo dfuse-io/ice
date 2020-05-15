@@ -1,1 +1,4 @@
-@import '~antd/dist/antd.css';
+#root {
+    background: linear-gradient(45deg,#f0f3f5,#fafbfc);
+    min-height: 100vh;
+}

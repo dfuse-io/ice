@@ -5,8 +5,8 @@ import {Paths} from "../components/routes/paths";
 
 export interface StateContextType {
     isAuthenticated(): boolean
-    login(): void
-    logout(): void
+    login(): Promise<void>
+    logout(): Promise<void>
     dfuseClient: DfuseClient
 }
 
@@ -20,14 +20,14 @@ export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
         return loggedIn
     }
 
-    const login: StateContextType["login"] = () => {
+    const login: StateContextType["login"] = (): Promise<void> => {
         setLoggedIn(true)
-        history.replace(Paths.home)
+        return Promise.resolve();
     }
 
-    const logout: StateContextType["logout"] = () => {
+    const logout: StateContextType["logout"] = (): Promise<void> => {
         setLoggedIn(false)
-        history.replace(Paths.login)
+        return Promise.resolve();
     }
 
     useEffect(() => {
