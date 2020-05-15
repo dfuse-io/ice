@@ -1,11 +1,15 @@
 import React from 'react';
-import { PoolList } from "../components/pool-list/pool-list";
 import {withAppLayout} from "../components/layout/layout";
-import { Button } from "antd";
-import AuthenticationApp from "./auth";
 import { useAppState } from "../state";
+import {PoolSelector} from "../components/pool-selector/pool-selector";
+import {styled} from "../theme";
 
-
+const Wrapper = styled.div`
+    max-width:600px;
+    margin-top:100px;
+    margin-left: auto;
+    margin-right: auto;
+`
 const demoTransaction = {
     actions: [{
         account: 'dfuseioice',
@@ -27,8 +31,6 @@ export const BaseHomePage: React.FC = () => {
     }
 
     const transfer = async () => {
-        console.log("3 account name: ", accountName);
-        console.log("3 activeUser: ", activeUser)
         demoTransaction.actions[0].authorization[0].actor = accountName
         try {
             await activeUser.signTransaction(demoTransaction, { broadcast: true })
@@ -38,10 +40,9 @@ export const BaseHomePage: React.FC = () => {
     }
     return (
         <div className="App">
-            <PoolList/>
-            <Button onClick={() => handleClick()} >Pay me</Button>
-            <AuthenticationApp/>
-
+            <Wrapper>
+                <PoolSelector />
+            </Wrapper>
         </div>
 
     );

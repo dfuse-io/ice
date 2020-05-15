@@ -27,3 +27,9 @@ export interface VoteRow {
     ease: number;
 }
 
+
+export interface Vote {
+    impact: number;
+    confidence: number;
+    ease: number;
+}

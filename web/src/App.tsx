@@ -8,7 +8,7 @@ import { Scatter } from 'ual-scatter'
 import { Anchor } from 'ual-anchor'
 import { ThemeProvider } from "emotion-theming"
 import AppStateProvider from "./state"
-import "./App.css"
+import "./App.scss"
 
 const iceNet = {
     chainId: (process.env.REACT_APP_DFUSE_CHAIN_ID || ""),

@@ -1,0 +1,22 @@
+#root {
+    background: linear-gradient(45deg,#f0f3f5,#fafbfc);
+    min-height: 100vh;
+}
+
+table#votes-table{
+    thead {
+        tr {
+            th {
+                text-align: center;
+            }
+        }
+    }
+    tbody {
+        td:first-child {
+            text-align: right;
+            padding-left: 10px;
+            padding-right: 4px;
+        }
+    }
+
+}
