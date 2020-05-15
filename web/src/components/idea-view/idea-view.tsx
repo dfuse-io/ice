@@ -52,7 +52,7 @@ export const IdeaView: React.FC<IdeaListProps> = ({idea}) => {
             </Row>
             <Row>
                 <Col span={24}>
-                    <IdeaTitle onClick={handleClick}>Create an ICE dapp</IdeaTitle>
+                    <IdeaTitle onClick={handleClick}>{idea.title}</IdeaTitle>
                 </Col>
                 <Col span={24}>
                     <IdeaDescription onClick={handleClick}>{idea.description}</IdeaDescription>

@@ -5,6 +5,7 @@ export interface IdeaRow {
     id: number;
     poolName: string;
     author: string;
+    title: string;
     description: string;
     avg_impact: number;
     avg_confidence: number;
