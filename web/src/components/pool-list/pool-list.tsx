@@ -4,8 +4,6 @@ import {PoolRow} from "../../types"
 import {Col, Row} from 'antd';
 import {IdeaList} from "../idea-list/idea-list";
 import Divider from "antd/lib/divider";
-import {background} from "styled-system";
-import {lightblue} from "color-name";
 
 export const PoolList: React.FC = () => {
 
@@ -25,7 +23,6 @@ export const PoolList: React.FC = () => {
                         let pool: PoolRow = r.json!;
                         console.log("pushing pool: " + pool.pool_name);
                         poolRows.push(pool);
-
 
                         return true
                     });

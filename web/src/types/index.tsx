@@ -1,6 +1,8 @@
 
 export interface IdeaRow {
-    Id: number;
+    name: string;
+    key: string;
+    id: number;
     poolName: string;
     author: string;
     description: string;
