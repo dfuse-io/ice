@@ -21,7 +21,7 @@ pushd $ROOT/vault &> /dev/null
     printf "${BROWN} create a \'hackthon2\' pool ${NC}\n"
     eosc tx create dfuseioice addpool '{"author":"sepedtyepr", "name":"hackathon2"}' -p sepedtyepr
     printf "${BROWN} create ideas in the \'hackathon2\' pool ${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"weenie", "pool_name":"hackathon2", "title":"This is the best idea!", ""}' -p weenie    # transaction_id => 4
+    eosc tx create dfuseioice addidea '{"author":"weenie", "pool_name":"hackathon2", "title":"This is the best idea!", "description":"In philosophy, ideas are usually taken as mental representational images of some object. Ideas can also be abstract concepts that do not present as mental images. Many philosophers have considered ideas to be a fundamental ontological category of being"}' -p weenie    # transaction_id => 4
     eosc tx create dfuseioice addidea '{"author":"mrplancher", "pool_name":"hackathon2", "title":"convert flux to grpc..... deng","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "}' -p mrplancher    # transaction_id => 5
     for i in  "1","hackathon" "2","hackathon" "3","hackathon" "4","hackathon2" "5","hackathon2"
     do
