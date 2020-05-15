@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
 import {IdeaRow} from "../../types"
-import {Col, Row} from 'antd';
+import {Button, Col, Row} from 'antd';
 import {VoteList} from "../vote-list/vote-list";
+import {IdeaCreateForm} from "../idea-create-form/idea-create-form"
+import {PoolCreateForm} from "../pool-create-form/pool-create-form";
+
 
 const eosjsAccountName = require("eosjs-account-name")
 
@@ -12,6 +15,7 @@ interface IdeaListProps {
 
 export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
     const [ideas, setIdeas] = useState<IdeaRow[]>([]);
+    const [showForm, setShowForm] = useState<boolean>(false);
     const {dfuseClient} = useAppState()
 
     useEffect(() => {
@@ -47,6 +51,10 @@ export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
                             <Col span={1}>{i.avg_confidence}</Col>
                             <Col span={1}>{i.avg_ease}</Col>
                             <Col span={1}>{i.score}</Col>
+                            <Col span={1}>
+                                <Button type={"primary"} onClick={() => {setShowForm(true)}}>Add</Button>
+                                {showForm && (<PoolCreateForm/>)}
+                            </Col>
                         </Row>
                         <VoteList ideaName={i.name}/>
                     </>

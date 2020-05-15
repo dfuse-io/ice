@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
 import {PoolRow} from "../../types"
-import {Col, Row} from 'antd';
+import {Button, Col, Row} from 'antd';
 import {IdeaList} from "../idea-list/idea-list";
+import {PoolCreateForm} from "../pool-create-form/pool-create-form";
 import Divider from "antd/lib/divider";
 
 export const PoolList: React.FC = () => {
 
     const [pools, setPools] = useState<PoolRow[]>([]);
+    const [showForm, setShowForm] = useState<boolean>(false);
     const {dfuseClient} = useAppState();
 
     useEffect(() => {
@@ -35,8 +37,12 @@ export const PoolList: React.FC = () => {
     }, [dfuseClient]);
 
 
+
+
     return (
         <>
+            <Button type={"primary"} onClick={() => {setShowForm(true)}}>Add</Button>
+            {showForm && (<PoolCreateForm/>)}
             <Row justify="center">
                 <Col span={24} >
 
