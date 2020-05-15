@@ -10,22 +10,48 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-export const IdeaCreateForm: React.FC = () => {
+interface IdeaCreateFormProps {
+    poolName: string
+}
 
-    // const onFinish = values => {
-    //     console.log('Success:', values);
-    // };
-    //
-    // const onFinishFailed = errorInfo => {
-    //     console.log('Failed:', errorInfo);
-    // };
+export const IdeaCreateForm: React.FC<IdeaCreateFormProps> = ({poolName}) => {
+
+    const { activeUser, accountName, contractAccount } = useAppState();
+
+    const onFinish =  (values: any) => {
+        console.log('creating idea: ', values);
+        createIdea(poolName, values.ideaDesctription)
+    };
+
+    const  createIdea = async ( poolName: string, description: string): Promise<void>    => {
+        const trx = {
+            actions: [{
+                account: contractAccount,
+                name: 'addidea',
+                authorization: [{
+                    actor: accountName,
+                    permission: 'active',
+                }],
+                data: {
+                    "author":accountName,
+                    "pool_name": poolName,
+                    "description": description
+                },
+            }],
+        };
+        try {
+            await activeUser.signTransaction(trx, { broadcast: true })
+        } catch (error) {
+            console.warn(error) //todo: better handdling here
+        }
+    };
 
     return (
         <Form
             {...layout}
             name="basic"
             initialValues={{ remember: true }}
-        //     onFinish={onFinish}
+            onFinish={onFinish}
         //     onFinishFailed={onFinishFailed}
         >
             <Form.Item

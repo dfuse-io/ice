@@ -12,7 +12,7 @@ const tailLayout = {
 };
 
 export const PoolCreateForm: React.FC = () => {
-    const { activeUser, accountName } = useAppState()
+    const { activeUser, accountName, contractAccount } = useAppState();
 
     const onFinish =  (values: any) => {
         console.log('creating pool: ', values);
@@ -22,7 +22,7 @@ export const PoolCreateForm: React.FC = () => {
     const  createPool = async (poolName: string, poolDescription: string): Promise<void>    => {
         const demoTransaction = {
             actions: [{
-                account: 'dfuseioice',
+                account: contractAccount,
                 name: 'addpool',
                 authorization: [{
                     actor: accountName,
@@ -30,19 +30,17 @@ export const PoolCreateForm: React.FC = () => {
                 }],
                 data: {
                     "author":accountName,
-                    "name": "test",
-                    "description": "pool description"
+                    "name": poolName,
+                    "description": poolDescription
                 },
             }],
-        }
+        };
         try {
-            console.log("creating signed tansction", demoTransaction);
-            console.log("with user: ", activeUser);
             await activeUser.signTransaction(demoTransaction, { broadcast: true })
         } catch (error) {
-            console.warn(error)
+            console.warn(error) //todo: better handdling here
         }
-    }
+    };
 
 
     return (

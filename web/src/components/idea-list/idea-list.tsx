@@ -4,8 +4,6 @@ import {IdeaRow} from "../../types"
 import {Button, Col, Row} from 'antd';
 import {VoteList} from "../vote-list/vote-list";
 import {IdeaCreateForm} from "../idea-create-form/idea-create-form"
-import {PoolCreateForm} from "../pool-create-form/pool-create-form";
-
 
 const eosjsAccountName = require("eosjs-account-name")
 
@@ -53,7 +51,7 @@ export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
                             <Col span={1}>{i.score}</Col>
                             <Col span={1}>
                                 <Button type={"primary"} onClick={() => {setShowForm(true)}}>Add</Button>
-                                {showForm && (<PoolCreateForm/>)}
+                                {showForm && (<IdeaCreateForm poolName={poolName}/>)}
                             </Col>
                         </Row>
                         <VoteList ideaName={i.name}/>
