@@ -4,6 +4,7 @@ import { UALContext } from 'ual-reactjs-renderer'
 import { history } from "../services/history"
 import {Paths} from "../components/routes/paths";
 
+
 export interface StateContextType {
     loggedIn: boolean
     login(): Promise<void>
@@ -11,6 +12,7 @@ export interface StateContextType {
     accountName: string
     activeUser: any
     dfuseClient: DfuseClient
+    contractAccount: string
 }
 
 export const StateContext = createContext<StateContextType>(null!)
@@ -62,8 +64,9 @@ export default  function AppStatePrvider(props: React.PropsWithChildren<{}>) {
         }
     }, [activeUser])
 
+
     return (
-        <StateContext.Provider value={{ loggedIn, activeUser, accountName, login: loginFunc, logout: logoutFunc,  dfuseClient: client}}>
+        <StateContext.Provider value={{ loggedIn, activeUser, accountName, login: loginFunc, logout: logoutFunc,  dfuseClient: client, contractAccount: (process.env.REACT_APP_DFUSE_CONTRACT_OWNER || "dfuseioice")}}>
             {props.children}
         </StateContext.Provider>
     )

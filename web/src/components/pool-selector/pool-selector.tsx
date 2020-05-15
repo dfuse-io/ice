@@ -4,16 +4,13 @@ import { useAppState } from "../../state";
 
 export const PoolSelector: React.FC = () => {
     const [pools, setPools] = useState<PoolRow[]>([]);
-    const { dfuseClient } = useAppState()
+    const { dfuseClient, contractAccount } = useAppState()
 
     useEffect(() => {
         try {
-            dfuseClient.stateTable<PoolRow>("dfuseioice", "dfuseioice", "pools")
+            dfuseClient.stateTable<PoolRow>(contractAccount, contractAccount, "pools")
                 .then((poolsResult) => {
-
-                    console.log("Creating poolRows");
                     let poolRows: PoolRow[] = [];
-
                     poolsResult.rows.map(r => {
 
                         let pool: PoolRow = r.json!;

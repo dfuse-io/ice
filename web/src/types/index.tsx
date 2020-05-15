@@ -26,3 +26,4 @@ export interface VoteRow {
     confidence: number;
     ease: number;
 }
+
