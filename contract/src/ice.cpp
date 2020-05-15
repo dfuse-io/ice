@@ -1,7 +1,7 @@
 #include "ice.hpp"
 
-void ice::addpool(const name author,const name name, const string description) {
-    printf("%s is adding a pool: %s - %s", author.to_string().c_str(), name.to_string().c_str(), description.c_str());
+void ice::addpool(const name author,const name name) {
+    printf("%s is adding a pool: %s - %s", author.to_string().c_str(), name.to_string().c_str());
     require_active_auth(author);
 
     auto pool_itr = pools.find(name.value);
@@ -9,12 +9,11 @@ void ice::addpool(const name author,const name name, const string description) {
     
     auto new_pool_ir = pools.emplace(_self, [&](auto& pool) {
         pool.pool_name = name;
-        pool.description = description;
         pool.author = author;
     });
 }
 
-void ice::addidea(const name author,const name pool_name , const string description) {
+void ice::addidea(const name author,const name pool_name , const string title, const string description) {
   printf("%s is adding idea %s to pool: %s", author.to_string().c_str(),  description.c_str(), pool_name.to_string().c_str());
   require_active_auth(author);
   
@@ -29,6 +28,7 @@ void ice::addidea(const name author,const name pool_name , const string descript
     idea.id = trxid;
     idea.pool_name = pool_itr->pool_name;
     idea.author = author;
+    idea.title = title;
     idea.description = description;
   });
 }
@@ -94,7 +94,6 @@ bool ice::update_vote_for_voter(const name voter, const uint64_t idea_id, ice_vo
   }
   
 }
-
 
 void ice::update_idea(const name pool_name, const uint64_t idea_id, const ice_vote& new_vote, const ice_vote old_vote, const bool updated) {
 

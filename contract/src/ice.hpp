@@ -23,10 +23,10 @@ class [[eosio::contract]] ice : public contract {
 
       // Actions      
       [[eosio::action]]
-      void addpool(const name author,const name name, const string description);
+      void addpool(const name author,const name name);
       
       [[eosio::action]]
-      void addidea(const name author,const name pool_name , const string description);
+      void addidea(const name author,const name pool_name , const string title, const string description);
       
       [[eosio::action]]
       void castvote(const name voter, const name pool_name, const uint64_t idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
@@ -34,7 +34,6 @@ class [[eosio::contract]] ice : public contract {
   private:
     struct [[eosio::table]] pool_row {
       name pool_name;
-      string description;
       name author;
       
       uint64_t primary_key() const { return pool_name.value; }
@@ -46,6 +45,7 @@ class [[eosio::contract]] ice : public contract {
       uint64_t id;
       name pool_name;
       name author;
+      string title;
       string description;
       double avg_impact;
       double avg_confidence;
