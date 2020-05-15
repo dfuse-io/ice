@@ -2,7 +2,7 @@
 
 #### Download Anchor
 
-If you don't have Anchor installed, grab the version for your platfrom from the [release page](https://github.com/greymass/anchor/releases/tag/v1.0.0-rc6).
+If you don't have Anchor installed, grab the version for your platfrom from the [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2).
 
 1. Click on Get Started
 2. Click `+ Custom Blockchain`
