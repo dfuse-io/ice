@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
-import {IdeaRow} from "../../types"
+import {Action, IdeaRow} from "../../types"
 import {Button, Col, Row, Tooltip, Progress, message} from 'antd';
 import {styled} from "../../theme";
 import {IdeaView} from "../idea-view/idea-view";
@@ -19,17 +19,24 @@ interface IdeaListProps {
 
 export const IdeaList: React.FC<IdeaListProps> = ({poolName}) => {
     const [ideas, setIdeas] = useState<IdeaRow[]>([]);
-    const {dfuseClient} = useAppState()
+    const {dfuseClient, lastSeenAction} = useAppState()
 
     useEffect(() => {
         fetchIdeas();
     }, [dfuseClient, poolName]);
 
+    useEffect(() => {
+        console.log("refreshing: ", lastSeenAction, poolName)
+        if (lastSeenAction &&  (lastSeenAction.type == "addidea") && (lastSeenAction.contextId == poolName)) {
+            fetchIdeas();
+        }
+    }, [lastSeenAction]);
+
+
     const fetchIdeas = () => {
         try {
             dfuseClient.stateTable<IdeaRow>("dfuseioice", poolName, "ideas")
                 .then((ideaResult) => {
-                    console.log("received ideas result");
                     let ideas: IdeaRow[] = [];
                     ideaResult.rows.map(r => {
                         const idea = r.json!;

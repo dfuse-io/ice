@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IdeaRow, PoolRow, PoolRowForm} from "../../types";
+import {Action, IdeaRow, PoolRow, PoolRowForm} from "../../types";
 import { useAppState } from "../../state";
 import {Row, Col,Form, Input, Select, Modal, message, Empty, Button} from "antd";
 import { FileAddOutlined, CloseCircleOutlined } from '@ant-design/icons';
@@ -23,11 +23,16 @@ export const PoolSelector: React.FC = () => {
     const [showNewIdea,setShowNewIdea] = useState(false)
     const [creatingPool, setCreatingPool] = useState(false);
     const [selectedPool, setSelectedPool] = useState<PoolRow>(null!);
-    const { dfuseClient, contractAccount, activeUser, accountName, loggedIn, setLastSeenBlock} = useAppState()
+    const { dfuseClient, contractAccount, activeUser, accountName, loggedIn, setLastSeenBlock, lastSeenAction} = useAppState()
+
+    const refresh = (action: Action): boolean => {
+        return (action ? action.type == "addpool" : false)
+    }
+
 
     useEffect(() => {
         fetchPools();
-    }, [dfuseClient, loggedIn]);
+    }, [dfuseClient, loggedIn, refresh(lastSeenAction)]);
 
     const fetchPools = () =>  {
         try {
@@ -39,6 +44,7 @@ export const PoolSelector: React.FC = () => {
                         poolRows.push(pool);
                     });
                     setPools(poolRows)
+                    console.log("setting low blockl numb: ", poolsResult.up_to_block_num);
                     setLastSeenBlock(poolsResult.up_to_block_num || -1)
                 })
         } catch (e) {

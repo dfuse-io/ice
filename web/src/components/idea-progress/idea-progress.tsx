@@ -43,7 +43,6 @@ export const IdeaProgressBar: React.FC<IdeaProgressBarProps> =({ idea }) => {
 
     return (
         <>
-            { console.log(data)}
             <HorizontalBar
                 data={{datasets: data}}
                 width={100}

@@ -42,13 +42,22 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
     const [myVote, setMyVote] = useState<VoteForm>({impact: 0, ease: 0, confidence: 0});
     const [hasVoted, setHasVoted] = useState(false);
     const [castingVote, setCastingVote] = useState(false);
-    const { dfuseClient, accountName, activeUser, contractAccount, loggedIn } = useAppState()
+    const { dfuseClient, accountName, activeUser, contractAccount, loggedIn, lastSeenAction } = useAppState()
 
     useEffect(() => {
         setHasVoted(false)
         setMyVote({impact: 0, ease: 0, confidence: 0})
         fetchVotes()
     }, [dfuseClient, idea, loggedIn]);
+
+    useEffect(() => {
+        console.log("refreshing cast vote: ", lastSeenAction, idea.id)
+        if (lastSeenAction &&  (lastSeenAction.type == "castvote") && (lastSeenAction.contextId == idea.id)) {
+            fetchVotes();
+        }
+    }, [lastSeenAction]);
+
+
 
     const fetchVotes = () => {
         try {
@@ -66,6 +75,7 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
                         } as VoteData);
 
                         if (vote.voter == accountName) {
+                            console.log("found your vote", vote)
                             setMyVote({ease: vote.ease, impact: vote.impact, confidence: vote.confidence})
                             setHasVoted(true)
                         }

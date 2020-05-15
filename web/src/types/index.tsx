@@ -1,4 +1,8 @@
 
+export interface Action {
+    type: string; //addpool, addidea, costvote
+    contextId: any;
+}
 export interface IdeaRow {
     key: string; // added later on the flight
     id: number;
