@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useAppState} from "../../state"
 import {IdeaRow, PoolRow, VoteForm, VoteRow} from "../../types"
 import {Button, Col, Row, Table, Select, message, Tooltip} from 'antd';
+import { QuestionOutlined } from '@ant-design/icons';
+
 import {castVoteTrx} from "../../utils/trx";
 import {styled} from "../../theme";
 import {runInNewContext} from "vm";
@@ -168,18 +170,18 @@ export const VoteList: React.FC<VoteListProps> = ({idea}) => {
                         <tr>
                             <th></th>
                             <th>
-                                <Tooltip placement="topLeft" title="Prompt Text">
-                                    <IceLetter>I</IceLetter>
+                                <Tooltip placement="topLeft" title="Impact is an estimate of how much the idea will positively affect the key metric">
+                                    <IceLetter>I <QuestionOutlined style={{ fontSize: '12px' }} /></IceLetter>
                                 </Tooltip>
                             </th>
                             <th>
-                                <Tooltip placement="topLeft" title="Prompt Text">
-                                    <IceLetter>C</IceLetter>
+                                <Tooltip placement="topLeft" title="Ease (of implementation) is an estimation of how much effort and resources will be required to implement this idea.  This is the inverse of effort (person/week) - lower effort means higher ease.  10 is less than 1 day, 5 is about 4 weeks and 1 is more than 2 months">
+                                    <IceLetter>C <QuestionOutlined style={{ fontSize: '12px' }} /></IceLetter>
                                 </Tooltip>
                             </th>
                             <th>
-                                <Tooltip placement="topLeft" title="Prompt Text">
-                                    <IceLetter>E</IceLetter>
+                                <Tooltip placement="topLeft" title="Confidence indicates how sure we are about Impact, and to some degree also about ease of implementation. 10 is validated by users in prod, 5 is validated with user surveys or working proof of concept, 1 is intuition">
+                                    <IceLetter>E <QuestionOutlined style={{ fontSize: '12px' }} /></IceLetter>
                                 </Tooltip>
                             </th>
                             <th></th>
