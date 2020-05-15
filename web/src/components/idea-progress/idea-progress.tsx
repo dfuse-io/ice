@@ -20,17 +20,17 @@ export const IdeaProgressBar: React.FC<IdeaProgressBarProps> =({ idea }) => {
         newData.push({
             label: 'I',
             data: [idea.avg_impact],
-            backgroundColor: '#D6E9C6' // green
+            backgroundColor: '#6fa8dcff' // green
         })
         newData.push({
             label: 'C',
             data: [idea.avg_confidence],
-            backgroundColor: '#FAEBCC' // yellow
+            backgroundColor: '#9fc5e8ff' // yellow
         })
         newData.push({
             label: 'E',
             data: [idea.avg_ease],
-            backgroundColor: '#EBCCD1' // red
+            backgroundColor: '#cfe2f3ff' // red
         })
         newData.push({
             label: 'B',
@@ -46,13 +46,16 @@ export const IdeaProgressBar: React.FC<IdeaProgressBarProps> =({ idea }) => {
             <HorizontalBar
                 data={{datasets: data}}
                 width={100}
-                height={50}
+                height={12}
 
                 options={{
                     legend: {
                         display: false
 
                     },
+                    tooltips: {
+                        enabled: false
+                   },
                     maintainAspectRatio: false,
                     scales: {
                         xAxes: [{
