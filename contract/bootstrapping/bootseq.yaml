@@ -43,7 +43,6 @@ boot_sequence:
   data:
     account: eosio
     contract_name_ref: eosio.bios
-
 - op: system.newaccount
   label: Create account eosio2
   data:
@@ -143,6 +142,7 @@ boot_sequence:
     account: eosio
     contract_name_ref: eosio.system
 
+
 - op: system.resign_accounts
   label: Disabling authorization for system accounts, pointing `eosio` to the `eosio.prods` account.
   data:
@@ -157,3 +157,112 @@ boot_sequence:
     - eosio.saving
     - eosio.bpay
     - eosio.vpay
+
+# ----------------------------------------------------    
+# create dfuseioice   
+# ----------------------------------------------------
+- op: system.newaccount
+  label: Create account dfuseioice
+  data:
+    creator: eosio
+    new_account: dfuseioice
+    pubkey: ephemeral
+    ram_bytes: 600000
+
+- op: system.delegate_bw
+  label: delegatebw from eosio to dfuseioice
+  data:
+    from: eosio
+    to: dfuseioice
+    stake_cpu: 10
+    stake_net: 10
+    Transfer: true
+
+- op: token.transfer
+  label: eosio transfering token to dfuseioice
+  data:
+    from: eosio
+    to: dfuseioice
+    quantity: 1000.0000 EOS
+
+# ----------------------------------------------------    
+# create dfuseioice   
+# ----------------------------------------------------
+
+- op: system.newaccount
+  label: Create account user1
+  data:
+    creator: eosio
+    new_account: user1
+    pubkey: ephemeral
+    ram_bytes: 10000
+
+- op: system.delegate_bw
+  label: delegatebw from eosio to user1
+  data:
+    from: eosio
+    to: user1
+    stake_cpu: 1
+    stake_net: 1
+    Transfer: true
+
+- op: token.transfer
+  label: eosio transfering token to user1
+  data:
+    from: eosio
+    to: user1
+    quantity: 100.0000 EOS
+
+# ----------------------------------------------------    
+# create user 2
+# ----------------------------------------------------
+- op: system.newaccount
+  label: Create account user2
+  data:
+    creator: eosio
+    new_account: user2
+    pubkey: ephemeral
+    ram_bytes: 10000
+
+- op: system.delegate_bw
+  label: delegatebw from eosio to user2
+  data:
+    from: eosio
+    to: user2
+    stake_cpu: 1
+    stake_net: 1
+    Transfer: true
+
+- op: token.transfer
+  label: eosio transfering token to user2
+  data:
+    from: eosio
+    to: user2
+    quantity: 100.0000 EOS
+
+# ----------------------------------------------------    
+# create user 3
+# ----------------------------------------------------
+- op: system.newaccount
+  label: Create account user3
+  data:
+    creator: eosio
+    new_account: user3
+    pubkey: ephemeral
+    ram_bytes: 10000
+
+- op: system.delegate_bw
+  label: delegatebw from eosio to user3
+  data:
+    from: eosio
+    to: user3
+    stake_cpu: 1
+    stake_net: 1
+    Transfer: true
+
+- op: token.transfer
+  label: eosio transfering token to user3
+  data:
+    from: eosio
+    to: user3
+    quantity: 100.0000 EOS
