@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import AppLayout from "./app";
 
 export function withAppLayout<T>(
@@ -9,6 +9,6 @@ export function withAppLayout<T>(
       <AppLayout>
         <Component {...props} />
       </AppLayout>
-    )
-  }
+    );
+  };
 }
