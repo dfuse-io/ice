@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useAppState } from '../../state';
-import { IdeaRow } from '../../types';
+import { useAppState } from '../../state/state';
+import { IdeaRow } from '../../types/types';
 import { message } from 'antd';
 import { styled } from '../../theme';
 import { IdeaView } from '../idea-view/idea-view';

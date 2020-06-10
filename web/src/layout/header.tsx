@@ -1,10 +1,7 @@
 import React from 'react';
 import { Layout } from 'antd';
-import { styled } from '../../../theme';
-import { theme } from '../../../theme';
-import logo from '../../../assets/dfuse-logo.svg';
-import { Avatar } from '../../ual/avatar';
-const { Header } = Layout;
+import { styled, theme } from '../theme';
+import { Avatar } from '../components/ual/avatar';
 
 const ContentWrapper = styled.div`
   max-width: 1200px;
@@ -34,15 +31,15 @@ const Logo = styled.img`
   vertical-align: top;
 `;
 
-export const PageHeader: React.FC = () => {
+export const Header: React.FC = () => {
   return (
-    <Header {...HeaderProps}>
+    <Layout.Header {...HeaderProps}>
       <ContentWrapper>
-        <Logo alt='logo' src={logo} />
+        <Logo alt='logo' src={'images/dfuse-logo.svg'} />
         <RightContent>
           <Avatar />
         </RightContent>
       </ContentWrapper>
-    </Header>
+    </Layout.Header>
   );
 };

@@ -1,26 +1,25 @@
-import React from "react";
-import { Router } from "react-router-dom";
-import { Routes } from "./components/routes/routes";
-import { history } from "./services/history";
-import { theme } from "./theme";
-import { UALProvider } from "ual-reactjs-renderer";
-import { Scatter } from "ual-scatter";
-import { Anchor } from "ual-anchor";
-import { ThemeProvider } from "emotion-theming";
-import AppStateProvider from "./state";
-import "./App.scss";
+import React from 'react';
+import { theme } from './theme';
+import { UALProvider } from 'ual-reactjs-renderer';
+import { Scatter } from 'ual-scatter';
+import { Anchor } from 'ual-anchor';
+import { ThemeProvider } from 'emotion-theming';
+import { AppStateProvider } from './state/state';
+import { AppLayout } from './layout/layout';
+import { PoolSelector } from './components/pool-selector/pool-selector';
+import './App.scss';
 
 const iceNet = {
-  chainId: process.env.REACT_APP_DFUSE_CHAIN_ID || "",
+  chainId: process.env.REACT_APP_DFUSE_CHAIN_ID || '',
   rpcEndpoints: [
     {
-      protocol: "http",
-      host: "localhost",
-      port: Number("13026"),
+      protocol: 'http',
+      host: 'localhost',
+      port: Number('13026'),
     },
   ],
 };
-const appName = "ICE";
+const appName = 'ICE';
 const scatter = new Scatter([iceNet], { appName });
 const anchor = new Anchor([iceNet], { appName });
 
@@ -33,9 +32,9 @@ function App() {
         appName={appName}
       >
         <AppStateProvider>
-          <Router history={history}>
-            <Routes />
-          </Router>
+          <AppLayout>
+            <PoolSelector />
+          </AppLayout>
         </AppStateProvider>
       </UALProvider>
     </ThemeProvider>

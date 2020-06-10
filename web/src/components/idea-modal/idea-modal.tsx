@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { IdeaRow, IdeaRowForm, PoolRow } from '../../types';
+import { IdeaRow, IdeaRowForm, PoolRow } from '../../types/types';
 import { Form, Input, Modal } from 'antd';
-import { useAppState } from '../../state';
+import { useAppState } from '../../state/state';
 import { addIdeaTrx } from '../../utils/trx';
 
-interface NewIdeaProps {
+interface IdeaModalProps {
   pool: PoolRow;
   show: boolean;
   onCreated: (i: IdeaRow) => void;
@@ -12,12 +12,12 @@ interface NewIdeaProps {
   onCancel: () => void;
 }
 
-export const NewIdea: React.FC<NewIdeaProps> = ({
+export const IdeaModal: React.FC<IdeaModalProps> = ({
   pool,
   show,
   onCreated,
   onCancel,
-}: NewIdeaProps) => {
+}: IdeaModalProps) => {
   const [creatingNewIdea, setCreatingNewIdea] = useState(false);
   const { contractAccount, activeUser, accountName } = useAppState();
   const [form] = Form.useForm();

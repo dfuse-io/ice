@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { createDfuseClient, DfuseClient, Stream } from '@dfuse/client';
 import { UALContext } from 'ual-reactjs-renderer';
-import { Action, ActionTrace } from '../types';
+import { Action, ActionTrace } from '../types/types';
 
 export interface StateContextType {
   setLastSeenBlock(blockNum: number): void;
@@ -25,7 +25,7 @@ export interface StateContextType {
 
 export const StateContext = createContext<StateContextType | null>(null);
 
-export default function AppStatePrvider(props: React.PropsWithChildren<{}>) {
+export function AppStateProvider(props: React.PropsWithChildren<{}>) {
   const { activeUser, logout, showModal } = useContext(UALContext);
   const [lastSeenBlock, setLastSeenBlock] = useState(0);
   const [lastSeenAction, setLastSeenAction] = useState<Action | null>(null);

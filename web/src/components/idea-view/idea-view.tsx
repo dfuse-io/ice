@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IdeaRow } from '../../types';
+import { IdeaRow } from '../../types/types';
 import { Col, Row } from 'antd';
 import { VoteList } from '../vote-list/vote-list';
 import { styled } from '../../theme';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useAppState } from '../../state';
-import { IdeaRow, VoteForm, VoteRow } from '../../types';
+import { useAppState } from '../../state/state';
+import { IdeaRow, VoteForm, VoteRow } from '../../types/types';
 import { Button, Col, Row, Select, message, Tooltip } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
 
@@ -214,10 +214,11 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
                   </IceLetter>
                 </Tooltip>
               </th>
+
               <th>
                 <Tooltip
                   placement='topLeft'
-                  title='Ease (of implementation) is an estimation of how much effort and resources will be required to implement this idea.  This is the inverse of effort (person/week) - lower effort means higher ease.  10 is less than 1 day, 5 is about 4 weeks and 1 is more than 2 months'
+                  title='Confidence indicates how sure we are about Impact, and to some degree also about ease of implementation. 10 is validated by users in prod, 5 is validated with user surveys or working proof of concept, 1 is intuition'
                 >
                   <IceLetter>
                     C <QuestionOutlined style={{ fontSize: '12px' }} />
@@ -227,14 +228,13 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
               <th>
                 <Tooltip
                   placement='topLeft'
-                  title='Confidence indicates how sure we are about Impact, and to some degree also about ease of implementation. 10 is validated by users in prod, 5 is validated with user surveys or working proof of concept, 1 is intuition'
+                  title='Ease (of implementation) is an estimation of how much effort and resources will be required to implement this idea.  This is the inverse of effort (person/week) - lower effort means higher ease.  10 is less than 1 day, 5 is about 4 weeks and 1 is more than 2 months'
                 >
                   <IceLetter>
                     E <QuestionOutlined style={{ fontSize: '12px' }} />
                   </IceLetter>
                 </Tooltip>
               </th>
-              <th></th>
             </tr>
           </thead>
           <tbody>

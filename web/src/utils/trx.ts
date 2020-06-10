@@ -1,4 +1,4 @@
-import { IdeaRow, IdeaRowForm, PoolRowForm, VoteForm } from "../types/";
+import { IdeaRow, IdeaRowForm, PoolRowForm, VoteForm } from '../types/types';
 export const addPoolTrx = (
   contractAccount: string,
   accountName: string,
@@ -8,11 +8,11 @@ export const addPoolTrx = (
     actions: [
       {
         account: contractAccount,
-        name: "addpool",
+        name: 'addpool',
         authorization: [
           {
             actor: accountName,
-            permission: "active",
+            permission: 'active',
           },
         ],
         data: {
@@ -34,11 +34,11 @@ export const addIdeaTrx = (
     actions: [
       {
         account: contractAccount,
-        name: "addidea",
+        name: 'addidea',
         authorization: [
           {
             actor: accountName,
-            permission: "active",
+            permission: 'active',
           },
         ],
         data: {
@@ -61,12 +61,12 @@ export const castVoteTrx = (
   return {
     actions: [
       {
-        account: "dfuseioice",
-        name: "castvote",
+        account: 'dfuseioice',
+        name: 'castvote',
         authorization: [
           {
             actor: accountName,
-            permission: "active",
+            permission: 'active',
           },
         ],
         data: {

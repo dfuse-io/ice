@@ -1,19 +1,19 @@
 import React from 'react';
-import { styled } from '../../../theme';
 import { Layout, Tag } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-
-import { useAppState } from '../../../state';
-import { PageHeader } from './page-header';
+import { styled } from '../theme';
+import { useAppState } from '../state/state';
+import { Header } from './header';
 
 const { Footer, Content } = Layout;
 
 const ContentWrapper = styled.div`
-  max-width: 1200px;
+  max-width: 600px;
+  padding: 100px 50px 0px;
   margin: auto auto;
 `;
 
-const AppLayout: React.FC<{ children: React.ReactNode }> = ({
+export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
   children,
 }: {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({
   const { lastSeenBlock } = useAppState();
   return (
     <Layout>
-      <PageHeader />
+      <Header />
       <Content>
         <ContentWrapper>{children}</ContentWrapper>
       </Content>
@@ -35,4 +35,3 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({
     </Layout>
   );
 };
-export default AppLayout;

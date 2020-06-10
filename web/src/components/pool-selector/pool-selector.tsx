@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Action, IdeaRow, PoolRow, PoolRowForm } from '../../types';
-import { useAppState } from '../../state';
+import { Action, IdeaRow, PoolRow, PoolRowForm } from '../../types/types';
+import { useAppState } from '../../state/state';
 import { Row, Col, Input, Select, message, Empty, Button } from 'antd';
 import { FileAddOutlined, CloseCircleOutlined } from '@ant-design/icons';
-import { PoolView } from '../pool-view/pool-view';
-import { NewIdea } from '../new-idea/new-idea';
+import { IdeaList } from '../idea-list/idea-list';
+import { IdeaModal } from '../idea-modal/idea-modal';
 import { addPoolTrx } from '../../utils/trx';
 const { Option } = Select;
 const { Search } = Input;
@@ -190,8 +190,8 @@ export const PoolSelector: React.FC = () => {
       {!selectedPool && poolViewPlaceholder()}
       {selectedPool && (
         <>
-          <PoolView pool={selectedPool} />
-          <NewIdea
+          <IdeaList poolName={selectedPool.pool_name} />
+          <IdeaModal
             pool={selectedPool}
             show={showNewIdea}
             onCreated={onNewIdeaCreated}

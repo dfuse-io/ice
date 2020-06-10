@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
-import { IdeaRow } from '../../types';
+import { IdeaRow } from '../../types/types';
 
 interface IdeaProgressBarProps {
   idea: IdeaRow;
