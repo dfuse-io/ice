@@ -2,31 +2,32 @@
 
 #### Demo Idea List Dapp Built with dfuse for EOSIO
 
-- [ICE (Impact, Confidence, Ease)](#ice--impact--confidence--ease-) - [Demo Idea List Dapp Built with dfuse for EOSIO](#demo-idea-list-dapp-built-with-dfuse-for-eosio)
-  - [0. Prerequisites](#prerequisites)
-  - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
-  - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
-  - [3. Write Smart Contract](#3-write-smart-contract)
-  - [4. Compile Smart Contract](#4-compile-smart-contract)
-  - [5. Deploy Smart Contract](#5-deploy-smart-contract)
-  - [6. Test Smart Contract](#6-test-smart-contract)
-  - [7. Set up Wallet](#7-set-up-wallet)
-    - [Signing With Scatter](#signing-with-scatter)
-      - [Install Scatter](#install-scatter)
-      - [Connect to custom network](#connect-to-custom-network)
-      - [Import Key](#import-key)
-    - [Signing With Anchor](#signing-with-anchor)
-      - [Install Anchor](#install-anchor)
-      - [Connect to custom network](#connect-to-custom-network-1)
-      - [Import Key and Accounts](#import-key-and-accounts)
-  - [8. User Interface](#8-user-interface)
-  - [9. Authentication](#9-authentication)
-  - [10. Using the Dapp](#10-using-the-dapp)
-    - [Casting Votes](#casting-votes)
-    - [Adding Pools and Ideas](#adding-pools-and-ideas)
-  - [11. Application Code in Depth](#11-application-code-in-depth)
-    - [Authentication](#authentication)
-    - [Reading Chain Data with dfuse](#reading-chain-data-with-dfuse)
+- [0. Prerequisites](#0-prerequisites)
+- [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
+- [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
+- [3. Write Smart Contract](#3-write-smart-contract)
+- [4. Compile Smart Contract](#4-compile-smart-contract)
+- [5. Deploy Smart Contract](#5-deploy-smart-contract)
+- [6. Test Smart Contract](#6-test-smart-contract)
+- [7. Set up Wallet](#7-set-up-wallet)
+  - [Signing With Scatter](#signing-with-scatter)
+    - [Install Scatter](#install-scatter)
+    - [Connect to custom network](#connect-to-custom-network)
+    - [Import Key](#import-key)
+  - [Signing With Anchor](#signing-with-anchor)
+    - [Install Anchor](#install-anchor)
+    - [Connect to custom network](#connect-to-custom-network-1)
+    - [Import Key and Accounts](#import-key-and-accounts)
+- [8. User Interface](#8-user-interface)
+- [9. Authentication](#9-authentication)
+  - [For Scatter](#for-scatter)
+  - [For Anchor](#for-anchor)
+- [10. Using the Dapp](#10-using-the-dapp)
+  - [Casting Votes](#casting-votes)
+  - [Adding Pools and Ideas](#adding-pools-and-ideas)
+- [11. Application Code in Depth](#11-application-code-in-depth)
+  - [Authentication](#authentication)
+  - [Reading Chain Data with dfuse](#reading-chain-data-with-dfuse)
 
 ## 0. Prerequisites
 
@@ -231,12 +232,13 @@ You should have the Scatter wallet version 11.0.1 installed from the prerequisit
 
 #### Connect to custom network
 
-**1. Create a passphrase for your wallet**
-**2. Once set up, click Networks in the left hand menu**
+1. **Create a passphrase for your wallet**
+
+2. **Once set up, click Networks in the left hand menu**
 
 ![add network screenshot](image.png 'add network screenshot')
 
-**3. Add custom network and enter this info:**
+3. **Add custom network and enter this info:**
 
 ```
 Name: ice
@@ -256,7 +258,7 @@ This will display the current chain info with chainID
 
 #### Import Key
 
-**1. Now go to the Wallet tab in the menu**
+1. **Now go to the Wallet tab in the menu**
 
 If you already had your key within Scatter, you should see it listed there and now showing with your new account name under it, with the ice network in grey just below that.
 
@@ -264,7 +266,7 @@ If you already had your key within Scatter, you should see it listed there and n
 
 If you didn't have your key in there, you will click on Import Key, and then click on Text.
 
-**2. Paste in the development private key:**
+2. **Paste in the development private key:**
 
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -282,9 +284,11 @@ You should have the Anchor wallet installed from the prerequisites section. If n
 
 #### Connect to custom network
 
-**1. Click on Setup Wallet**
-**2. Click `+ Custom Blockchain`**
-**3. Enter the following Information:**
+1. **Click on Setup Wallet**
+
+2. **Click `+ Custom Blockchain`**
+
+3. **Enter the following Information:**
 
 ```
 Chain ID: df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
@@ -292,7 +296,7 @@ Name of Blockchain: ice
 Default node for this Blockchain: http://localhost:8080
 ```
 
-**4. Check the box `This blockchain is a test network (TESTNET)`**
+4. **Check the box `This blockchain is a test network (TESTNET)`**
 
 The network name can be changed. The API protocol, host, and port are specified in `dfuseeos` and is displayed when it launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
 
@@ -302,24 +306,25 @@ eosc get info
 
 This will display the current chain info with chainID.
 
-**4. Scroll down and save**
+5. **Scroll down and save**
 
 You'll now see a list of networks, scroll down to ICE, and select the checkbox next to it
 
-**5. Click `Enable 1 Blockchains` button to enable it**
+6. **Click `Enable 1 Blockchains` to connect**
 
 #### Import Key and Accounts
 
-12. You should now see either your account, and select @active, or if you pasted in the above key, you will need to find your account and select the @active for it.
-13. Enter your password and Authorize
+1. **Go to the `Tools` tab in the menu**
 
-**1. Go to the `Tools` tab in the menu**
-**2. Click `Manage Keys` under the `Security` tab**
-**3. Click `Import Keys`**
-**4. Set a password for you wallet**
+2. **Click `Manage Keys` under the `Security` tab**
+
+3. **Click `Import Keys`**
+
+4. **Set a password for you wallet**
+
 ![password screenshot](image.png 'password screenshot')
 
-**5. Paste in the development private key:**
+5. **Paste in the development private key:**
 
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -329,14 +334,19 @@ You'll now see a list of networks, scroll down to ICE, and select the checkbox n
 
 This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key under the folder `contract/bootstrapping`
 
-**6. Go to the `Home` tab in the menu**
-**7. Select to use the blockchain named `ice`**
-**8. Click `Scan for Accounts`**
+6. **Go to the `Home` tab in the menu**
+
+7. **Select to use the blockchain named `ice`**
+
+8. **Click `Scan for Accounts`**
+
 This will automatically detect the available accounts for you key on the `ice` network.
 
-**9. Select the three active accounts for users**
-**10. Click `Import Accounts`**
-**11. Enter your password, and click `Enable app integrations`**
+9. **Select the three active accounts for users**
+
+10. **Click `Import Accounts`**
+
+11. **Enter your password, and click `Enable app integrations`**
 
 Now you should see the three user accounts in the wallet, their tokens and resources.
 
@@ -358,9 +368,11 @@ This will install the necessary dependencies for the application, compile it, an
 
 Now we can interact with our smart contract from the user interface.
 
-**1. Click on the `Login` Button in the top right corner**
-**2. Select the wallet you chose to use**
-**3. For Scatter**
+1. **Click on the `Login` Button in the top right corner**
+
+2. **Select the wallet you chose to use**
+
+#### For Scatter
 
 ![login screenshot](image.png 'login screenshot')
 
@@ -368,7 +380,7 @@ Now we can interact with our smart contract from the user interface.
 - Click `Allow`
 - You are now signed in to the app
 
-**4. For Anchor**
+#### For Anchor
 
 ![login screenshot](image.png 'login screenshot')
 
