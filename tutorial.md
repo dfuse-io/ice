@@ -25,9 +25,10 @@
 - [10. Using the Dapp](#10-using-the-dapp)
   - [Casting Votes](#casting-votes)
   - [Adding Pools and Ideas](#adding-pools-and-ideas)
-- [11. Application Code in Depth](#11-application-code-in-depth)
-  - [Authentication](#authentication)
-  - [Reading Chain Data with dfuse](#reading-chain-data-with-dfuse)
+- [11. Frontend Authentication](#11-frontend-authentication)
+- [12. Streaming Transaction Data with dfuse](#12-streaming-transaction-data-with-dfuse)
+- [13. Reading Contract State Tables with dfuse](#13-reading-contract-state-tables-with-dfuse)
+- [14. Calling Smart Contract Actions with UAL and Wallets](#14-calling-smart-contract-actions-with-ual-and-wallets)
 
 ## 0. Prerequisites
 
