@@ -11,7 +11,7 @@ const query = (lastSeenBlock) => `subscription  {
         }
       }
     }
-  }`;
+}`;
 
 export const launchForeverStream = async (
   dfuseClient: DfuseClient,
@@ -27,7 +27,6 @@ export const launchForeverStream = async (
     if (message.type === 'data') {
       const data = message.data.searchTransactionsForward;
       const actions = data.trace.matchingActions;
-      console.log(`trace:`, data.trace);
       actions.forEach(({ name, json }: ActionTrace) => {
         const action: Action = {
           type: name,

@@ -503,3 +503,130 @@ if (activeUser === true) {
 #### Reading Chain Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
+
+We first set up a dfuse client. Since we are accessing a local development network, there is no need for a valid api Key. We pass a placeholder key with a `web_` prefix and `null://` as the auth URL. The default network endpoint is localhost:8080, which is where `dfuseeos` is serving its APIs. If you have changed this value when launching `dfuseeos`, also update it here.
+
+**services/client.ts**
+
+```ts
+import { createDfuseClient, DfuseClient } from '@dfuse/client';
+const client = createDfuseClient({
+  apiKey: 'web_0123456789abcdef',
+  authUrl: 'null://',
+  network: 'localhost:8080',
+  secure: false,
+});
+```
+
+dfuse provides streaming of the latest transactions through a GraphQL endpoint.
+
+The GraphQL API offers two types of requests, Queries and Subscriptions, allowing you to build flexible real-time applications.
+
+You can find more information regarding GraphQL in the
+[GraphQL Reference](https://docs.dfuse.io/guides/core-concepts/graphql/).
+
+You can also refer to the dfuse GraphQL API here:
+[dfuse GraphQL Reference](https://docs.dfuse.io/reference/eosio/graphql/)
+
+To send a talk to the GraphQL endpoint, we first need to define our GraphQL query:
+
+**services/stream.ts**
+
+```graphql
+`subscription  {
+    searchTransactionsForward(query: "receiver:dfuseioice -action:transfer", lowBlockNum:${lastSeenBlock}) {
+      cursor
+      trace {
+        matchingActions {
+          name
+          json
+        }
+      }
+    }
+}`;
+```
+
+With the above query, we are setting up a subscription to listen for transactions. The `query` parameter is a custom query language allowing us to search for the transactions that we are interested in.
+
+```graphql
+query: 'receiver:dfuseioice -action:transfer'
+```
+
+In this specific query, we are looking for transactions that are sent to the `dfuseioice` account, with an action that is NOT named `transfer`. This filters the results to only include transactions which invokes the `addpool, addidea, and castvote` actions on our contract.
+
+You can find more examples of results you can search for here:
+[Search Language Reference](https://docs.dfuse.io/reference/eosio/search-terms/)
+
+```graphql
+lowBlockNum:${lastSeenBlock}
+```
+
+We also pass the highest seen block number into our query, so we do not repeat searches on block ranges that we have visited.
+
+```graphql
+trace {
+    matchingActions {
+        name
+        json
+    }
+}
+```
+
+Lastly, GraphQL allows us to specify the exact fields that we need. In our case, we are only interested in the name and json data in the actions.
+
+Now that we have crafted our query, we can use the dfuse JS Client to send a graphql query and listen to the results.
+
+```ts
+  return dfuseClient.graphql(query(lastSeenBlock), (message, stream) => {
+    ...
+  }
+```
+
+When we receive message type `error`, we define how to handle the error.
+
+```ts
+if (message.type === 'error') {
+  console.log('An error occurred', message.errors, message.terminal);
+}
+```
+
+When we receive message type `data`, we go through the list of results and store the data that we need. They are the action `name`, `pool_name`, and `idea_id`.
+
+```ts
+if (message.type === 'data') {
+  const data = message.data.searchTransactionsForward;
+  const actions = data.trace.matchingActions;
+  actions.forEach(({ name, json }: ActionTrace) => {
+    const action: Action = {
+      type: name,
+      contextId: 1,
+    };
+    switch (name) {
+      case 'addpool': {
+        break;
+      }
+      case 'addidea': {
+        action.contextId = json.pool_name;
+        break;
+      }
+      case 'castvote': {
+        action.contextId = json.idea_id;
+        break;
+      }
+    }
+    console.log('new action: ', name, json, action);
+    setLastSeenAction(action);
+  });
+}
+```
+
+We also call the helper method `mark` on our stream to mark the latest block that we have searched in the chain, so they will not be searched anymore.
+
+```ts
+stream.mark({ cursor: data.cursor });
+```
+
+Instead of marking a block number, dfuse indexed blockchains provide a persistent cursor to represent locations in the chain. This is more reliable in a blockchain as production APIs are typically served by a group of load balanced nodes. Forks can happen in these nodes therefore block numbers are not always consistent in the same API.
+
+You can learn more about our cursors here:
+[All About Cursors](https://docs.dfuse.io/guides/core-concepts/cursors)
