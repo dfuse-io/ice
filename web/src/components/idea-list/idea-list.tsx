@@ -15,7 +15,7 @@ export const IdeaList: React.FC<IdeaListProps> = ({
   poolName,
 }: IdeaListProps) => {
   const [ideas, setIdeas] = useState<IdeaRow[]>([]);
-  const { dfuseClient, lastSeenAction } = useAppState();
+  const { dfuseClient, contractAccount, lastSeenAction } = useAppState();
 
   const handleFetchIdeas = (ideaResult) => {
     if (!ideaResult) return;
@@ -40,8 +40,10 @@ export const IdeaList: React.FC<IdeaListProps> = ({
 
   useEffect(() => {
     if (!dfuseClient) return;
-    fetchIdeas(dfuseClient, poolName).then(handleFetchIdeas).catch(handleError);
-  }, [dfuseClient, poolName]);
+    fetchIdeas(dfuseClient, contractAccount, poolName)
+      .then(handleFetchIdeas)
+      .catch(handleError);
+  }, [dfuseClient, contractAccount, poolName]);
 
   useEffect(() => {
     console.log('refreshing: ', lastSeenAction, poolName);
@@ -51,11 +53,11 @@ export const IdeaList: React.FC<IdeaListProps> = ({
       lastSeenAction.type === 'addidea' &&
       lastSeenAction.contextId === poolName
     ) {
-      fetchIdeas(dfuseClient, poolName)
+      fetchIdeas(dfuseClient, contractAccount, poolName)
         .then(handleFetchIdeas)
         .catch(handleError);
     }
-  }, [dfuseClient, lastSeenAction, poolName]);
+  }, [dfuseClient, contractAccount, lastSeenAction, poolName]);
 
   return (
     <div>

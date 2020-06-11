@@ -538,7 +538,7 @@ if (activeUser === true) {
 }
 ```
 
-#### Reading Chain Data with dfuse
+#### Streaming Transaction Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -615,9 +615,7 @@ Lastly, GraphQL allows us to specify the exact fields that we need. In our case,
 Now that we have crafted our query, we can use the dfuse JS Client to send a graphql query and listen to the results.
 
 ```ts
-  return dfuseClient.graphql(query(lastSeenBlock), (message, stream) => {
-    ...
-  }
+dfuseClient.graphql(query(lastSeenBlock), (message, stream) => {...}
 ```
 
 When we receive message type `error`, we define how to handle the error.
@@ -668,3 +666,93 @@ Instead of marking a block number, dfuse indexed blockchains provide a persisten
 
 You can learn more about our cursors here:
 [All About Cursors](https://docs.dfuse.io/guides/core-concepts/cursors)
+
+#### Reading Smart Contract State Tables with dfuse
+
+State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
+
+The code for reading tables are located in the `services` folder. Each file of `pool, idea, vote` contains the logic to read a table.
+
+**services/pool.ts**
+
+```ts
+export const fetchPools = async (
+  dfuseClient: DfuseClient,
+  contractAccount: string
+) => {
+  return dfuseClient.stateTable<PoolRow>(
+    contractAccount,
+    contractAccount,
+    'pools'
+  );
+};
+```
+
+This function calls the `stateTable` method of the dfuse JS client. It passes the `PoolRow` type which defines the table schema that we are expecting. This type should be the same as the `pool_row` struct in our smart contract.
+
+**types.ts**
+
+```ts
+export interface PoolRow {
+  pool_name: string;
+  author: string;
+}
+```
+
+**ice.hpp**
+
+```cpp
+struct [[eosio::table]] pool_row {
+    name pool_name;
+    name author;
+}
+```
+
+The `stateTable` method takes three parameters: `account, scope, table`. We use the contractAccount as the account name. The scope should also be the contractAccount since we are looking for the global scope that returns all results. Lastly, we use `'pools'` as the table name.
+
+```ts
+const handleFetchPools = (poolsResult) => {
+  const poolRows: PoolRow[] = [];
+  poolsResult.rows.forEach((r) => {
+    if (r.json) {
+      const pool: PoolRow = r.json;
+      poolRows.push(pool);
+    }
+  });
+  setPools(poolRows);
+};
+```
+
+The result can be easily mapped to a format that we require. The result rows each have a `json` field which can be parsed into a `JavaScript Object`
+
+The process to read the `ideas` and `votes` tables is very similar. We define the table schema, pass in the `contract, scope, table` parameters, and parse the results.
+
+To fetch ideas, we only want to get the ideas under a selected pool. In this case, we use `poolName` as the scope.
+
+**services/idea.ts**
+
+```ts
+export const fetchIdeas = async (
+  dfuseClient: DfuseClient,
+  contractAccount: string,
+  poolName: string
+) => {
+  return dfuseClient.stateTable<IdeaRow>(contractAccount, poolName, 'ideas');
+};
+```
+
+To fetch votes, we only want to get the votes for a specific idea. In this case, we use `idea.key` as the scope.
+
+**services/vote.ts**
+
+```ts
+export const fetchVotes = async (
+  dfuseClient: DfuseClient,
+  contractAccount: string,
+  idea: IdeaRow
+) => {
+  return dfuseClient.stateTable<VoteRow>(contractAccount, idea.key, 'votes');
+};
+```
+
+#### Calling Smart Contract Methods

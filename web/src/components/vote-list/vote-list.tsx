@@ -54,6 +54,7 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
   const [castingVote, setCastingVote] = useState(false);
   const {
     dfuseClient,
+    contractAccount,
     accountName,
     activeUser,
     loggedIn,
@@ -97,8 +98,10 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
     if (!dfuseClient) return;
     setHasVoted(false);
     setMyVote({ impact: 0, ease: 0, confidence: 0 });
-    fetchVotes(dfuseClient, idea.key).then(handleFetchVotes).catch(handleError);
-  }, [dfuseClient, idea.key, loggedIn, handleFetchVotes]);
+    fetchVotes(dfuseClient, contractAccount, idea.key)
+      .then(handleFetchVotes)
+      .catch(handleError);
+  }, [dfuseClient, contractAccount, idea.key, loggedIn, handleFetchVotes]);
 
   useEffect(() => {
     console.log('refreshing cast vote: ', lastSeenAction, idea.id);
@@ -108,11 +111,18 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
       lastSeenAction.type === 'castvote' &&
       lastSeenAction.contextId === idea.id
     ) {
-      fetchVotes(dfuseClient, idea.key)
+      fetchVotes(dfuseClient, contractAccount, idea.key)
         .then(handleFetchVotes)
         .catch(handleError);
     }
-  }, [dfuseClient, handleFetchVotes, lastSeenAction, idea.id, idea.key]);
+  }, [
+    dfuseClient,
+    contractAccount,
+    handleFetchVotes,
+    lastSeenAction,
+    idea.id,
+    idea.key,
+  ]);
 
   const handleCastVote = useCallback(() => {
     setCastingVote(true);

@@ -3,10 +3,11 @@ import { DfuseClient } from '@dfuse/client';
 
 export const fetchIdeas = async (
   dfuseClient: DfuseClient,
+  contractAccount: string,
   poolName: string
 ) => {
   if (!dfuseClient) throw new Error('Client undefined');
-  return dfuseClient.stateTable<IdeaRow>('dfuseioice', poolName, 'ideas');
+  return dfuseClient.stateTable<IdeaRow>(contractAccount, poolName, 'ideas');
 };
 
 const addIdeaTrx = (

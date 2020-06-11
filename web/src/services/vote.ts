@@ -1,9 +1,13 @@
 import { IdeaRow, VoteRow, VoteForm } from '../types/types';
 import { DfuseClient } from '@dfuse/client';
 
-export const fetchVotes = async (dfuseClient: DfuseClient, scope: string) => {
+export const fetchVotes = async (
+  dfuseClient: DfuseClient,
+  contractAccount: string,
+  scope: string
+) => {
   if (!dfuseClient) throw new Error('Client undefined');
-  return dfuseClient.stateTable<VoteRow>('dfuseioice', scope, 'votes');
+  return dfuseClient.stateTable<VoteRow>(contractAccount, scope, 'votes');
 };
 
 export const castVoteTrx = (
