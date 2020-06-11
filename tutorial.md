@@ -2,7 +2,33 @@
 
 #### Demo Idea List Dapp Built with dfuse for EOSIO
 
-## Pre-requisites
+- [ICE (Impact, Confidence, Ease)](#ice--impact--confidence--ease-) - [Demo Idea List Dapp Built with dfuse for EOSIO](#demo-idea-list-dapp-built-with-dfuse-for-eosio)
+  - [0. Prerequisites](#prerequisites)
+  - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
+  - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
+  - [3. Write Smart Contract](#3-write-smart-contract)
+  - [4. Compile Smart Contract](#4-compile-smart-contract)
+  - [5. Deploy Smart Contract](#5-deploy-smart-contract)
+  - [6. Test Smart Contract](#6-test-smart-contract)
+  - [7. Set up Wallet](#7-set-up-wallet)
+    - [Signing With Scatter](#signing-with-scatter)
+      - [Install Scatter](#install-scatter)
+      - [Connect to custom network](#connect-to-custom-network)
+      - [Import Key](#import-key)
+    - [Signing With Anchor](#signing-with-anchor)
+      - [Install Anchor](#install-anchor)
+      - [Connect to custom network](#connect-to-custom-network-1)
+      - [Import Key and Accounts](#import-key-and-accounts)
+  - [8. User Interface](#8-user-interface)
+  - [9. Authentication](#9-authentication)
+  - [10. Using the Dapp](#10-using-the-dapp)
+    - [Casting Votes](#casting-votes)
+    - [Adding Pools and Ideas](#adding-pools-and-ideas)
+  - [11. Application Code in Depth](#11-application-code-in-depth)
+    - [Authentication](#authentication)
+    - [Reading Chain Data with dfuse](#reading-chain-data-with-dfuse)
+
+## 0. Prerequisites
 
 - Clone this repo from:
   https://github.com/dfuse-io/ice
@@ -201,7 +227,7 @@ We can test the smart contract by creating some pools, ideas and making users vo
 
 #### Install Scatter
 
-You should have the Scatter wallet version 11.0.1 installed from the pre-requisites section. If not, go here to install: [release page](https://github.com/GetScatter/ScatterDesktop/releases/tag/11.0.1)
+You should have the Scatter wallet version 11.0.1 installed from the prerequisites section. If not, go here to install: [release page](https://github.com/GetScatter/ScatterDesktop/releases/tag/11.0.1)
 
 #### Connect to custom network
 
@@ -252,7 +278,7 @@ Now you should see the key and accounts in the wallet. There should be the contr
 
 #### Install Anchor
 
-You should have the Anchor wallet installed from the pre-requisites section. If not, go here to install: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
+You should have the Anchor wallet installed from the prerequisites section. If not, go here to install: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
 
 #### Connect to custom network
 
