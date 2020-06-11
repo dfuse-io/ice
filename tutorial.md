@@ -417,11 +417,13 @@ Click on `Create a new pool` in the pool dropdown list, enter a pool name, and c
 
 With a pool selected, click on `New Idea`. Enter a title and description, then click `OK`. Go through the transaction signing process in your wallet, and a new idea is added.
 
-## 11. Application Code in Depth
+Whenver a new pool, idea, or vote is made, you can see the transaction on account page of our block explorer.
+
+http://localhost:8080/account/dfuseioice
+
+## 11. Frontend Authentication
 
 Let's walk through how our frontend application is talking to the blockchain.
-
-#### Authentication
 
 Authentication is handled by EOSIO's [Universal Authenticator Library](https://github.com/EOSIO/universal-authenticator-library)
 
@@ -538,7 +540,7 @@ if (activeUser === true) {
 }
 ```
 
-#### Streaming Transaction Data with dfuse
+## 12. Streaming Transaction Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -667,11 +669,13 @@ Instead of marking a block number, dfuse indexed blockchains provide a persisten
 You can learn more about our cursors here:
 [All About Cursors](https://docs.dfuse.io/guides/core-concepts/cursors)
 
-#### Reading Smart Contract State Tables with dfuse
+With the help of dfuse stream, we are constantly listening for new transactions that call the three actions of our smart contract. When any of them is called, the frontend application will automatically update. This provides a seemless user experience that is unique to the dfuse APIs.
+
+## 13. Reading Contract State Tables with dfuse
 
 State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
 
-The code for reading tables are located in the `services` folder. Each file of `pool, idea, vote` contains the logic to read a table.
+The code for reading tables are located in the `services` folder. Each file of `pool, idea, vote` contains the function to read its table.
 
 **services/pool.ts**
 
@@ -755,4 +759,56 @@ export const fetchVotes = async (
 };
 ```
 
-#### Calling Smart Contract Methods
+## 14. Calling Smart Contract Actions with UAL and Wallets
+
+To add pools, ideas, and cast votes, we need to call the actions on the smart contract. After a user signs in with their wallet, they can use the `activeUser` from the `UAL` library to sign and broadcast transactions. Each file of `pool, idea, vote` contains the funciton to add a pool, idea, or vote.
+
+We first take the inputs for the transaction, and construct a transaction object that can be understood by the Blockchain.
+
+**services/pool.ts**
+
+```ts
+export const addPoolTrx = (
+  contractAccount: string,
+  accountName: string,
+  poolRow: PoolRowForm
+) => {
+  return {
+    actions: [
+      {
+        account: contractAccount,
+        name: 'addpool',
+        authorization: [
+          {
+            actor: accountName,
+            permission: 'active',
+          },
+        ],
+        data: {
+          author: accountName,
+          name: poolRow.name,
+        },
+      },
+    ],
+  };
+};
+```
+
+We then sign this transaction with the active user's account, and broadcast it to the local blockchain.
+
+```ts
+export const createPool = async (
+  activeUser: any,
+  contractAccount: string,
+  accountName: string,
+  pool: PoolRowForm
+): Promise<PoolRow> => {
+  await activeUser.signTransaction(
+    addPoolTrx(contractAccount, accountName, pool),
+    { broadcast: true }
+  );
+  return { pool_name: pool.name } as PoolRow;
+};
+```
+
+With the help of the `UAL` library, all other interactions are abstracted away. The component will automatically handle requesting approval from the wallet.
