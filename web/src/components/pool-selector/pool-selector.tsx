@@ -5,7 +5,7 @@ import { Row, Col, Input, Select, message, Empty, Button } from 'antd';
 import { FileAddOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { IdeaList } from '../idea-list/idea-list';
 import { IdeaModal } from '../idea-modal/idea-modal';
-import { addPoolTrx } from '../../utils/trx';
+import { fetchPools, createPool } from '../../services/pool';
 const { Option } = Select;
 const { Search } = Input;
 
@@ -17,8 +17,8 @@ export const PoolSelector: React.FC = () => {
   const [selectedPool, setSelectedPool] = useState<PoolRow | null>(null);
   const {
     dfuseClient,
-    contractAccount,
     activeUser,
+    contractAccount,
     accountName,
     loggedIn,
     setLastSeenBlock,
@@ -30,31 +30,6 @@ export const PoolSelector: React.FC = () => {
   };
 
   const refreshLastSeenAction = refresh(lastSeenAction);
-
-  const fetchPools = useCallback(() => {
-    try {
-      dfuseClient
-        .stateTable<PoolRow>(contractAccount, contractAccount, 'pools')
-        .then((poolsResult) => {
-          const poolRows: PoolRow[] = [];
-          poolsResult.rows.forEach((r) => {
-            if (r.json) {
-              const pool: PoolRow = r.json;
-              poolRows.push(pool);
-            }
-          });
-          setPools(poolRows);
-          console.log('setting low blockl numb: ', poolsResult.up_to_block_num);
-          setLastSeenBlock(poolsResult.up_to_block_num || -1);
-        });
-    } catch (e) {
-      // message.error("Oops! we ran into an issue getting your pools: ", e)
-    }
-  }, [dfuseClient, contractAccount, setLastSeenBlock]);
-
-  useEffect(() => {
-    fetchPools();
-  }, [dfuseClient, loggedIn, refreshLastSeenAction, fetchPools]);
 
   const onChange = (value) => {
     if (value === 'new_pool') {
@@ -68,18 +43,10 @@ export const PoolSelector: React.FC = () => {
     }
   };
 
-  const createPool = async (pool: PoolRowForm): Promise<PoolRow> => {
-    await activeUser.signTransaction(
-      addPoolTrx(contractAccount, accountName, pool),
-      { broadcast: true }
-    );
-    return { pool_name: pool.name } as PoolRow;
-  };
-
   const handleCreatePool = (poolName: string) => {
     setCreatingPool(true);
     const poolForm = { name: poolName } as PoolRowForm;
-    createPool(poolForm)
+    createPool(activeUser, contractAccount, accountName, poolForm)
       .then((poolRow) => {
         setCreatingPool(false);
         setNewPool(false);
@@ -92,6 +59,59 @@ export const PoolSelector: React.FC = () => {
         message.error(`Oops unable to create pool: ${e}`);
       });
   };
+
+  const handleFetchPools = useCallback(
+    (poolsResult) => {
+      if (!poolsResult) return;
+      const poolRows: PoolRow[] = [];
+      poolsResult.rows.forEach((r) => {
+        if (r.json) {
+          const pool: PoolRow = r.json;
+          poolRows.push(pool);
+        }
+      });
+      setPools(poolRows);
+      console.log('setting low blockl numb: ', poolsResult.up_to_block_num);
+      setLastSeenBlock(poolsResult.up_to_block_num || -1);
+    },
+    [setLastSeenBlock]
+  );
+
+  const handleError = (e) => {
+    message.error('Oops! Unable to get pools: ' + e);
+  };
+
+  useEffect(() => {
+    if (!dfuseClient) return;
+    fetchPools(dfuseClient, contractAccount)
+      .then(handleFetchPools)
+      .catch(handleError);
+  }, [
+    dfuseClient,
+    contractAccount,
+    loggedIn,
+    refreshLastSeenAction,
+    handleFetchPools,
+  ]);
+
+  const onNewIdeaCreated = (idea: IdeaRow) => {
+    setShowNewIdea(false);
+    message.info(`Hurray! '${idea.title}' was created!`);
+    if (!dfuseClient) return;
+    fetchPools(dfuseClient, contractAccount)
+      .then(handleFetchPools)
+      .catch(handleError);
+  };
+
+  const onNewIdeaError = (error: string) => {
+    setShowNewIdea(false);
+    message.error(`Oops unable to create an idea: ${error}`);
+  };
+
+  const onNewIdeaCancel = () => {
+    setShowNewIdea(false);
+  };
+
   const renderPoolSelector = () => {
     let selectSpan = 24;
     let showAddKey = false;
@@ -138,7 +158,7 @@ export const PoolSelector: React.FC = () => {
         <Col span={22}>
           <Search
             placeholder='Enter a pool name'
-            onSearch={(value) => handleCreatePool(value)}
+            onSearch={handleCreatePool}
             loading={creatingPool}
             enterButton='Create Pool'
           />
@@ -166,21 +186,6 @@ export const PoolSelector: React.FC = () => {
         }
       />
     );
-  };
-
-  const onNewIdeaCreated = (idea: IdeaRow) => {
-    fetchPools();
-    setShowNewIdea(false);
-    message.info(`Hurray! '${idea.title}' was created!`);
-  };
-
-  const onNewIdeaError = (error: string) => {
-    setShowNewIdea(false);
-    message.error(`Oops unable to create an idea: ${error}`);
-  };
-
-  const onNewIdeaCancel = () => {
-    setShowNewIdea(false);
   };
 
   return (

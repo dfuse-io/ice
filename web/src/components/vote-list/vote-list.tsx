@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useAppState } from '../../state/state';
-import { IdeaRow, VoteForm, VoteRow } from '../../types/types';
+import { IdeaRow, VoteForm } from '../../types/types';
 import { Button, Col, Row, Select, message, Tooltip } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
-
-import { castVoteTrx } from '../../utils/trx';
+import { fetchVotes, castVote } from '../../services/vote';
 import { styled } from '../../theme';
 const { Option } = Select;
 
@@ -57,76 +56,67 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
     dfuseClient,
     accountName,
     activeUser,
-    contractAccount,
     loggedIn,
     lastSeenAction,
   } = useAppState();
 
-  const fetchVotes = useCallback(() => {
-    try {
-      dfuseClient
-        .stateTable<VoteRow>('dfuseioice', idea.key, 'votes')
-        .then((votesResult) => {
-          const tempVote: VoteData[] = [];
-          votesResult.rows.forEach((r) => {
-            const vote = r.json;
-            if (!vote) return;
-            tempVote.push({
-              key: vote.voter,
-              user: vote.voter,
-              impact: vote.impact,
-              confidence: vote.confidence,
-              ease: vote.ease,
-            } as VoteData);
+  const handleFetchVotes = useCallback(
+    (votesResult) => {
+      const tempVote: VoteData[] = [];
+      votesResult.rows.forEach((r) => {
+        const vote = r.json;
+        if (!vote) return;
+        tempVote.push({
+          key: vote.voter,
+          user: vote.voter,
+          impact: vote.impact,
+          confidence: vote.confidence,
+          ease: vote.ease,
+        } as VoteData);
 
-            if (vote.voter === accountName) {
-              console.log('found your vote', vote);
-              setMyVote({
-                ease: vote.ease,
-                impact: vote.impact,
-                confidence: vote.confidence,
-              });
-              setHasVoted(true);
-            }
+        if (vote.voter === accountName) {
+          console.log('found your vote', vote);
+          setMyVote({
+            ease: vote.ease,
+            impact: vote.impact,
+            confidence: vote.confidence,
           });
+          setHasVoted(true);
+        }
+      });
+      setVotes(tempVote);
+    },
+    [accountName]
+  );
 
-          setVotes(tempVote);
-        })
-        .catch((reason) => {
-          throw reason;
-        });
-    } catch (e) {
-      message.error('Oops! Unable to get voted: ' + e);
-    }
-  }, [accountName, dfuseClient, idea.key]);
+  const handleError = (e) => {
+    message.error('Oops! Unable to get votes: ' + e);
+  };
 
   useEffect(() => {
+    if (!dfuseClient) return;
     setHasVoted(false);
     setMyVote({ impact: 0, ease: 0, confidence: 0 });
-    fetchVotes();
-  }, [dfuseClient, idea, loggedIn, fetchVotes]);
+    fetchVotes(dfuseClient, idea.key).then(handleFetchVotes).catch(handleError);
+  }, [dfuseClient, idea.key, loggedIn, handleFetchVotes]);
 
   useEffect(() => {
     console.log('refreshing cast vote: ', lastSeenAction, idea.id);
     if (
+      dfuseClient &&
       lastSeenAction &&
       lastSeenAction.type === 'castvote' &&
       lastSeenAction.contextId === idea.id
     ) {
-      console.log('should refresh votes');
-      fetchVotes();
+      fetchVotes(dfuseClient, idea.key)
+        .then(handleFetchVotes)
+        .catch(handleError);
     }
-  }, [lastSeenAction, fetchVotes, idea.id]);
+  }, [dfuseClient, handleFetchVotes, lastSeenAction, idea.id, idea.key]);
 
-  const vote = async (): Promise<void> => {
-    const trx = castVoteTrx(contractAccount, accountName, idea, myVote);
-    console.log('trx: ', trx);
-    await activeUser.signTransaction(trx, { broadcast: true });
-  };
-
-  const castVote = () => {
+  const handleCastVote = useCallback(() => {
     setCastingVote(true);
-    vote()
+    castVote(activeUser, accountName, idea, myVote)
       .then(() => {
         setCastingVote(false);
         message.info(`Hurray! you casted your vote`);
@@ -135,7 +125,7 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
         setCastingVote(false);
         message.error(`Oops! unable record your vote: ${e}`);
       });
-  };
+  }, [activeUser, accountName, idea, myVote]);
   const renderVote = (v: VoteData) => {
     if (accountName === v.user) {
       return renderYourVote();
@@ -174,7 +164,7 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
           <Button
             type='primary'
             loading={castingVote}
-            onClick={() => castVote()}
+            onClick={handleCastVote}
             shape='round'
             size={'small'}
           >

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { IdeaRow, IdeaRowForm, PoolRow } from '../../types/types';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, message } from 'antd';
 import { useAppState } from '../../state/state';
-import { addIdeaTrx } from '../../utils/trx';
+import { createIdea } from '../../services/idea';
 
 interface IdeaModalProps {
   pool: PoolRow;
@@ -19,26 +19,20 @@ export const IdeaModal: React.FC<IdeaModalProps> = ({
   onCancel,
 }: IdeaModalProps) => {
   const [creatingNewIdea, setCreatingNewIdea] = useState(false);
-  const { contractAccount, activeUser, accountName } = useAppState();
   const [form] = Form.useForm();
 
+  const { activeUser, contractAccount, accountName } = useAppState();
   useEffect(() => {
     form.resetFields();
   }, [show, form]);
 
-  const createIdea = async (ideaForm: IdeaRowForm): Promise<void> => {
-    await activeUser.signTransaction(
-      addIdeaTrx(contractAccount, accountName, pool.pool_name, ideaForm),
-      { broadcast: true }
-    );
-  };
   const handleNewIdea = (values) => {
     setCreatingNewIdea(true);
     const idea = {
       title: values.title,
       description: values.description,
     } as IdeaRowForm;
-    createIdea(idea)
+    createIdea(activeUser, contractAccount, accountName, pool.pool_name, idea)
       .then(() => {
         setCreatingNewIdea(false);
         onCreated({
@@ -47,7 +41,7 @@ export const IdeaModal: React.FC<IdeaModalProps> = ({
         } as IdeaRow);
       })
       .catch((e) => {
-        console.error(e);
+        message.error(`unable to create new idea ${e}`);
         setCreatingNewIdea(false);
       });
   };
@@ -61,9 +55,7 @@ export const IdeaModal: React.FC<IdeaModalProps> = ({
       onOk={() => {
         form
           .validateFields()
-          .then((values) => {
-            handleNewIdea(values);
-          })
+          .then(handleNewIdea)
           .catch((info) => {
             console.log('Validate Failed:', info);
           });

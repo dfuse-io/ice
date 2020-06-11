@@ -5,9 +5,11 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { createDfuseClient, DfuseClient, Stream } from '@dfuse/client';
+import { DfuseClient, Stream } from '@dfuse/client';
 import { UALContext } from 'ual-reactjs-renderer';
-import { Action, ActionTrace } from '../types/types';
+import { Action } from '../types/types';
+import { launchForeverStream } from '../services/stream';
+import { getDfuseClient } from '../services/client';
 
 export interface StateContextType {
   setLastSeenBlock(blockNum: number): void;
@@ -30,12 +32,7 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
   const [lastSeenBlock, setLastSeenBlock] = useState(0);
   const [lastSeenAction, setLastSeenAction] = useState<Action | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const [client, setClient] = useState<DfuseClient>(undefined!);
-  const [dgraphqlClient, setDgraphQlclientClient] = useState<DfuseClient>(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    undefined!
-  );
+  const [dfuseClient, setDfuseClient] = useState<DfuseClient>(undefined!);
   const [, setStream] = useState<Stream | null>(null);
   const [accountName, setAccountName] = useState('');
 
@@ -60,66 +57,12 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
     }
   }, [activeUser]);
 
-  const query = `subscription  {
-              searchTransactionsForward(query: "receiver:dfuseioice -action:transfer", lowBlockNum:${lastSeenBlock}) {
-                cursor
-                trace {
-                  matchingActions {
-                    name
-                    json
-                  }
-                }
-              }
-            }`;
-
-  const launchForeverStream = useCallback(async (): Promise<Stream> => {
-    if (!dgraphqlClient) throw new Error('dgraphqlClient undefined');
-    return dgraphqlClient.graphql(query, (message, stream) => {
-      if (message.type === 'error') {
-        console.log('An error occurred', message.errors, message.terminal);
-      }
-
-      if (message.type === 'data') {
-        const data = message.data.searchTransactionsForward;
-        const actions = data.trace.matchingActions;
-        console.log(`trace:`, data.trace);
-        actions.forEach(({ name, json }: ActionTrace) => {
-          const action: Action = {
-            type: name,
-            contextId: 1,
-          };
-          switch (name) {
-            case 'addpool': {
-              break;
-            }
-            case 'addidea': {
-              action.contextId = json.pool_name;
-              break;
-            }
-            case 'castvote': {
-              action.contextId = json.idea_id;
-              break;
-            }
-          }
-          console.log('new action: ', name, json, action);
-          setLastSeenAction(action);
-        });
-
-        stream.mark({ cursor: data.cursor });
-      }
-
-      if (message.type === 'complete') {
-        console.log('Stream completed');
-      }
-    });
-  }, [dgraphqlClient, query]);
-
   useEffect(() => {
     if (lastSeenBlock === 0) {
       return;
     }
     let s: Stream;
-    launchForeverStream()
+    launchForeverStream(dfuseClient, setLastSeenAction, lastSeenBlock)
       .then((stream) => {
         s = stream;
         setStream(s);
@@ -127,26 +70,14 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
       .catch((e) => {
         console.warn('unable to get stream: ' + e);
       });
-  }, [lastSeenBlock, launchForeverStream]);
+  }, [dfuseClient, lastSeenBlock]);
 
   useEffect(() => {
-    const c = createDfuseClient({
-      apiKey: process.env.REACT_APP_DFUSE_API_KEY || '',
-      authUrl: process.env.REACT_APP_DFUSE_AUTH_URL,
-      network: process.env.REACT_APP_DFUSE_NETWORK || '',
-      secure: false,
-    });
-    const d = createDfuseClient({
-      apiKey: process.env.REACT_APP_DFUSE_API_KEY || '',
-      authUrl: process.env.REACT_APP_DFUSE_AUTH_URL,
-      network: process.env.REACT_APP_DFUSE_DGRAPHQL_NETWORK || '',
-      secure: false,
-    });
+    const client = getDfuseClient();
 
-    setClient(c);
-    setDgraphQlclientClient(d);
+    setDfuseClient(client);
     return () => {
-      c.release();
+      client.release();
     };
   }, []);
 
@@ -168,7 +99,7 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
         lastSeenAction,
         login: loginFunc,
         logout: logoutFunc,
-        dfuseClient: client,
+        dfuseClient: dfuseClient,
         contractAccount:
           process.env.REACT_APP_DFUSE_CONTRACT_OWNER || 'dfuseioice',
       }}
