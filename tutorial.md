@@ -381,4 +381,125 @@ With a pool selected, click on `New Idea`. Enter a title and description, then c
 
 ## 11. Application Code in Depth
 
+Let's walk through how our frontend application is talking to the blockchain.
 
+#### Authentication
+
+Authentication is handled by EOSIO's [Universal Authenticator Library](https://github.com/EOSIO/universal-authenticator-library)
+
+We set up the authenticator in `App.tsx` as a React context. We connec to http://localhost:13026 which is where the RPC endpoint of dfuse is served.
+
+**App.tsx**
+
+```ts
+const iceNet = {
+  chainId: process.env.REACT_APP_DFUSE_CHAIN_ID || '',
+  rpcEndpoints: [
+    {
+      protocol: 'http',
+      host: 'localhost',
+      port: Number('13026'),
+    },
+  ],
+};
+```
+
+We also set up two authenticators to use with our library. Scatter and Anchor both have prebuilt modules in the UAL library. You can also add other authenticators such as a ledger hardware wallet.
+
+```ts
+const appName = 'ICE';
+const scatter = new Scatter([iceNet], { appName });
+const anchor = new Anchor([iceNet], { appName });
+```
+
+Then entire application is then wrapped in the context provider, so we can access the prebuilt components to login and sign transactions anywhere in code.
+
+```ts
+<UALProvider
+  chains={[iceNet]}
+  authenticators={[scatter, anchor]}
+  appName={appName}
+>
+  Our App...
+</UALProvider>
+```
+
+The login and logout functions are used in `state/state.tsx`. We import the pre-built login modal and logout function from the UAL Context, and they can be used directly.
+
+**state/state.tsx**
+
+```ts
+const { activeUser, logout, showModal } = useContext(UALContext);
+...
+const loginFunc: StateContextType['login'] = (): Promise<void> => {
+  showModal();
+  return Promise.resolve();
+};
+
+const logoutFunc: StateContextType['logout'] = (): Promise<void> => {
+  logout();
+  setLoggedIn(false);
+  setAccountName('');
+  return Promise.resolve();
+};
+```
+
+We store and update the `loggedIn` state, `activeUser`, and both the login and logout functions in our application state, so they can be accessed from any component.
+
+```ts
+<StateContext.Provider
+  value={{
+    loggedIn,
+    activeUser,
+    login: loginFunc,
+    logout: logoutFunc,
+    ...
+  }}
+>
+  {components...}
+</StateContext.Provider>
+```
+
+In the header avatar, we use these states and functions to handle login and display the account name when an activeUser exists.
+
+**components/ual/avatar.tsx**
+
+```ts
+const { activeUser, logout, login, accountName } = useAppState();
+
+const onMenuClick = (event: ClickParam) => {
+  const { key } = event;
+  if (key === 'logout') {
+    logout();
+    return;
+  }
+};
+
+if (activeUser === true) {
+  return (
+    <AvatarWrapper>
+      <Button
+        type='primary'
+        shape='round'
+        onClick={login}
+        icon={<LoginOutlined />}
+      >
+        Login
+      </Button>
+    </AvatarWrapper>
+  );
+} else {
+  return (
+    <HeaderDropdown overlay={menuHeaderDropdown}>
+      <AvatarWrapper>
+        <AntdAvatar size='small' icon={<UserOutlined />} alt='avatar' />
+        <span>{accountName}</span>
+      </AvatarWrapper>
+    </HeaderDropdown>
+  );
+}
+```
+
+#### Reading Chain Data with dfuse
+
+dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
