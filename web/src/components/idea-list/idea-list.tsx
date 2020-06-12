@@ -49,8 +49,10 @@ export const IdeaList: React.FC<IdeaListProps> = ({
     if (
       dfuseClient &&
       lastSeenAction &&
-      lastSeenAction.type === 'addidea' &&
-      lastSeenAction.contextId === poolName
+      ((lastSeenAction.type === 'addidea' &&
+        lastSeenAction.contextId === poolName) ||
+        (lastSeenAction.type === 'castvote' &&
+          ideas.findIndex((i) => i.id === lastSeenAction?.contextId) >= 0))
     ) {
       fetchIdeas(dfuseClient, contractAccount, poolName)
         .then(handleFetchIdeas)
