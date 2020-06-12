@@ -10,6 +10,7 @@ import { UALContext } from 'ual-reactjs-renderer';
 import { Action } from '../types/types';
 import { launchForeverStream } from '../services/stream';
 import { getDfuseClient } from '../services/client';
+import { message } from 'antd';
 
 export interface StateContextType {
   setLastSeenBlock(blockNum: number): void;
@@ -68,7 +69,7 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
         setStream(s);
       })
       .catch((e) => {
-        console.warn('unable to get stream: ' + e);
+        message.error('stream failed: ' + e);
       });
   }, [dfuseClient, lastSeenBlock]);
 

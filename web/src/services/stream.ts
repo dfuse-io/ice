@@ -21,7 +21,7 @@ export const launchForeverStream = async (
   if (!dfuseClient) throw new Error('client undefined');
   return dfuseClient.graphql(query(lastSeenBlock), (message, stream) => {
     if (message.type === 'error') {
-      console.log('An error occurred', message.errors, message.terminal);
+      throw message.errors[0];
     }
 
     if (message.type === 'data') {
@@ -45,15 +45,13 @@ export const launchForeverStream = async (
             break;
           }
         }
-        console.log('new action: ', name, json, action);
         setLastSeenAction(action);
       });
-
       stream.mark({ cursor: data.cursor });
     }
 
     if (message.type === 'complete') {
-      console.log('Stream completed');
+      // Do something
     }
   });
 };

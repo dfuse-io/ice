@@ -46,7 +46,6 @@ export const IdeaList: React.FC<IdeaListProps> = ({
   }, [dfuseClient, contractAccount, poolName]);
 
   useEffect(() => {
-    console.log('refreshing: ', lastSeenAction, poolName);
     if (
       dfuseClient &&
       lastSeenAction &&

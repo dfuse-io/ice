@@ -57,7 +57,7 @@ export const IdeaModal: React.FC<IdeaModalProps> = ({
           .validateFields()
           .then(handleNewIdea)
           .catch((info) => {
-            console.log('Validate Failed:', info);
+            message.error('Invalid Input:', info);
           });
       }}
     >

@@ -8,18 +8,16 @@ const ContentWrapper = styled.div`
   margin: auto auto;
 `;
 
-const HeaderProps = {
-  style: {
-    backgroundColor: '#fff',
-    padding: 0,
-    boxShadow: theme.shadows.small,
-  },
-};
+const StyledHeader = styled(Layout.Header)`
+  background-color: #fff;
+  padding: 0px;
+  box-shadow: ${theme.shadows.small};
+`;
 
 const RightContent = styled.div`
   display: flex;
   float: right;
-  height: 64px;
+  height: auto;
   margin-left: auto;
   overflow: hidden;
 `;
@@ -33,13 +31,13 @@ const Logo = styled.img`
 
 export const Header: React.FC = () => {
   return (
-    <Layout.Header {...HeaderProps}>
+    <StyledHeader>
       <ContentWrapper>
         <Logo alt='logo' src={'images/dfuse-logo.svg'} />
         <RightContent>
           <Avatar />
         </RightContent>
       </ContentWrapper>
-    </Layout.Header>
+    </StyledHeader>
   );
 };

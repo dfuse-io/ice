@@ -76,7 +76,6 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
         } as VoteData);
 
         if (vote.voter === accountName) {
-          console.log('found your vote', vote);
           setMyVote({
             ease: vote.ease,
             impact: vote.impact,
@@ -104,7 +103,6 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
   }, [dfuseClient, contractAccount, idea.key, loggedIn, handleFetchVotes]);
 
   useEffect(() => {
-    console.log('refreshing cast vote: ', lastSeenAction, idea.id);
     if (
       dfuseClient &&
       lastSeenAction &&
@@ -145,29 +143,25 @@ export const VoteList: React.FC<VoteListProps> = ({ idea }: VoteListProps) => {
   };
 
   const renderYourVote = () => {
-    console.log('rendering your vote', myVote);
     return (
       <tr key={'my-vote'}>
         <td>{accountName}</td>
         <td>
           {selectValue(myVote.impact, (value: number) => {
             const newVote = Object.assign(myVote, { impact: value });
-            console.log('changed impact', myVote, newVote);
             setMyVote(newVote);
           })}
         </td>
         <td>
           {selectValue(myVote.confidence, (value: number) => {
             const newVote = Object.assign(myVote, { confidence: value });
-            console.log('changed impact', myVote, newVote);
             setMyVote(newVote);
           })}
         </td>
         <td>
           {selectValue(myVote.ease, (value: number) => {
             const newVote = Object.assign(myVote, { ease: value });
-            console.log('changed impact', myVote, newVote);
-            setMyVote(Object.assign(myVote, { ease: value }));
+            setMyVote(newVote);
           })}
         </td>
         <td>

@@ -1,23 +1,24 @@
-import React from "react";
-import { LogoutOutlined, UserOutlined, LoginOutlined } from "@ant-design/icons";
-import { Button, Avatar as AntdAvatar, Menu } from "antd";
-import { ClickParam } from "antd/es/menu";
-import { styled } from "../../theme";
-import { HeaderDropdown } from "./header-dropdown";
-import { useAppState } from "../../state/state";
+import React from 'react';
+import { LogoutOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
+import { Button, Avatar as AntdAvatar, Menu } from 'antd';
+import { ClickParam } from 'antd/es/menu';
+import { styled } from '../../theme';
+import { HeaderDropdown } from './header-dropdown';
+import { useAppState } from '../../state/state';
 
 const AvatarWrapper = styled.span`
-  font-size: 14px;
+  font-size: 18px;
   .ant-avatar {
     margin-right: 8px;
   }
 `;
+
 const BaseAvatar: React.FC = () => {
   const { activeUser, logout, login, accountName } = useAppState();
 
   const onMenuClick = (event: ClickParam) => {
     const { key } = event;
-    if (key === "logout") {
+    if (key === 'logout') {
       logout();
       return;
     }
@@ -25,7 +26,7 @@ const BaseAvatar: React.FC = () => {
 
   const menuHeaderDropdown = (
     <Menu selectedKeys={[]} onClick={onMenuClick}>
-      <Menu.Item key="logout">
+      <Menu.Item key='logout'>
         <LogoutOutlined />
         Logout
       </Menu.Item>
@@ -36,8 +37,8 @@ const BaseAvatar: React.FC = () => {
     return (
       <AvatarWrapper>
         <Button
-          type="primary"
-          shape="round"
+          type='primary'
+          shape='round'
           onClick={login}
           icon={<LoginOutlined />}
         >
@@ -51,7 +52,7 @@ const BaseAvatar: React.FC = () => {
     return (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <AvatarWrapper>
-          <AntdAvatar size="small" icon={<UserOutlined />} alt="avatar" />
+          <AntdAvatar size='default' icon={<UserOutlined />} alt='avatar' />
           <span>{accountName}</span>
         </AvatarWrapper>
       </HeaderDropdown>

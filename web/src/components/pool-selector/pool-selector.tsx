@@ -71,7 +71,6 @@ export const PoolSelector: React.FC = () => {
         }
       });
       setPools(poolRows);
-      console.log('setting low blockl numb: ', poolsResult.up_to_block_num);
       setLastSeenBlock(poolsResult.up_to_block_num || -1);
     },
     [setLastSeenBlock]
