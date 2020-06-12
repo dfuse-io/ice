@@ -41,10 +41,7 @@
   This includes features allowing booting of a dfuse-eosio chain.
 - Install **eosio.cdt** from:
   https://github.com/EOSIO/eosio.cdt
-- Scatter OR Anchor Wallet.
-  If using Scatter, you will need the full wallet to connect to our custom local network. Download version 11.0.1 instead of the simplified wallet after version 12+.
-  Install Scatter: [release page](https://github.com/GetScatter/ScatterDesktop/releases/tag/11.0.1)
-  Install Anchor: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
+- Install Anchor Wallet: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
 
 ## 1. Running dfuse for EOSIO
 
@@ -87,7 +84,7 @@ We will be running all dfuse Services for EOSIO in single statically linked bina
   ```
 
   This starts the local producer node and all dfuse services to process and serve data from the development blockchain.
-  You can access the `Dashboard` on `http://localhost:8081` to see the statuses of each running service. A high-precision block explorer `ethq` is served on `http://localhost:8080` for you to easily track blocks and transactions, as well as to try out dfuse searching functionalities. A GraphiQL interface is also served on `http://localhost:8080/graphiql` for you to craft and test GraphQL queries to access chain data.
+  You can access the `Dashboard` on `http://localhost:8081` to see the statuses of each running service. A high-precision block explorer `eosq` is served on `http://localhost:8080` for you to easily track blocks and transactions, as well as to try out dfuse searching functionalities. A GraphiQL interface is also served on `http://localhost:8080/graphiql` for you to craft and test GraphQL queries to access chain data.
 
   <br>
 
@@ -98,7 +95,7 @@ We will be running all dfuse Services for EOSIO in single statically linked bina
 
 ## 2. Bootstrap Testnet and Accounts
 
-In order to run a EOSIO-like testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs.
+In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
 
 **In a new terminal, run:**
 
@@ -115,9 +112,9 @@ After this script is run, you have a fully bootstrapped EOSIO chain. The script 
 
 The ICE smart contract needs to accomplish the following:
 
-- **_Ability to create a pool with name_**
+- **_Ability to create a pool with name_** (each pool holds a set of ideas)
 - **_Ability to add one idea at a time to a pool. Each idea has a title and description_**
-- **_Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact, confidence, and ease._**
+- **_Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact (of the idea), confidence (on the impact and cost), and ease (of implementation, where 1 is very expensive and 10 is a no brainer)._**
 
 We have provided the ICE smart contract in the cloned repo. The contract contains 4 tables for pools, ideas, votes, and stats. It also has three actions to add pool, add idea, and cast vote. The full code can be viewed in `contract/src`. Here are the tables and actions that we will be accessing externally:
 
@@ -223,60 +220,6 @@ We can test the smart contract by creating some pools, ideas and making users vo
 
 ## 7. Set up Wallet
 
-**_You only need to set up one of Scatter or Anchor wallet_**
-
-### Signing With Scatter
-
-#### Install Scatter
-
-You should have the Scatter wallet version 11.0.1 installed from the prerequisites section. If not, go here to install: [release page](https://github.com/GetScatter/ScatterDesktop/releases/tag/11.0.1)
-
-#### Connect to custom network
-
-1. **Create a passphrase for your wallet**
-
-2. **Once set up, click Networks in the left hand menu**
-
-![add network screenshot](image.png 'add network screenshot')
-
-3. **Add custom network and enter this info:**
-
-```
-Name: ice
-Host: localhost
-Protocol: http
-Port: 8080
-ChainID: df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
-```
-
-The network name can be changed. The API protocol, host, and port are specified in `dfuseeos` and is displayed when it launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
-
-```
-eosc get info
-```
-
-This will display the current chain info with chainID
-
-#### Import Key
-
-1. **Now go to the Wallet tab in the menu**
-
-If you already had your key within Scatter, you should see it listed there and now showing with your new account name under it, with the ice network in grey just below that.
-
-![import key screenshot](image.png 'import key screenshot')
-
-If you didn't have your key in there, you will click on Import Key, and then click on Text.
-
-2. **Paste in the development private key:**
-
-```
-5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
-```
-
-This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key under the folder `contract/bootstrapping`
-
-Now you should see the key and accounts in the wallet. There should be the contract account `dfuseioice` and user accounts which we created during bootstrap.
-
 ### Signing With Anchor
 
 #### Install Anchor
@@ -353,7 +296,7 @@ Now you should see the three user accounts in the wallet, their tokens and resou
 
 ## 8. User Interface
 
-In the cloned repo, go to the `web` folder. This is where the React fronend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
+In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
 
 ```sh
 cd ../web
@@ -372,14 +315,6 @@ Now we can interact with our smart contract from the user interface.
 1. **Click on the `Login` Button in the top right corner**
 
 2. **Select the wallet you chose to use**
-
-#### For Scatter
-
-![login screenshot](image.png 'login screenshot')
-
-- Select one of the user accounts, and use its active permission.
-- Click `Allow`
-- You are now signed in to the app
 
 #### For Anchor
 
@@ -445,11 +380,10 @@ const iceNet = {
 };
 ```
 
-We also set up two authenticators to use with our library. Scatter and Anchor both have prebuilt modules in the UAL library. You can also add other authenticators such as a ledger hardware wallet.
+Anchor has a prebuilt module in the UAL library. You can also add other authenticators such as a ledger hardware wallet or Scatter.
 
 ```ts
 const appName = 'ICE';
-const scatter = new Scatter([iceNet], { appName });
 const anchor = new Anchor([iceNet], { appName });
 ```
 
@@ -574,7 +508,7 @@ To send a talk to the GraphQL endpoint, we first need to define our GraphQL quer
 **services/stream.ts**
 
 ```graphql
-`subscription  {
+subscription  {
     searchTransactionsForward(query: "receiver:dfuseioice -action:transfer", lowBlockNum:${lastSeenBlock}) {
       cursor
       trace {
@@ -584,7 +518,7 @@ To send a talk to the GraphQL endpoint, we first need to define our GraphQL quer
         }
       }
     }
-}`;
+}
 ```
 
 With the above query, we are setting up a subscription to listen for transactions. The `query` parameter is a custom query language allowing us to search for the transactions that we are interested in.
