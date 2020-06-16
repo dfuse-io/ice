@@ -13,15 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 BROWN='\033[0;33m'
 NC='\033[0m'
 
 export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
-export EOSC_GLOBAL_API_URL=http://localhost:8080
 
-pushd $ROOT/bootstrapping &> /dev/null
-  printf "${BROWN}Boostraping testnet${NC}\n"
-  eosc --vault-file=$ROOT/vault/eosc-vault.json boot bootseq.yaml
-popd &> /dev/null
+pushd $ROOT/bootstrapping &>/dev/null
+KEY=$(head -1 genesis.key)
+printf "${BROWN}Boostraping testnet${NC}\n"
+yes | dfuseeos purge
+yes | dfuseeos init
+dfuseeos start \
+    --booter-bootseq=./bootseq.yaml \
+    --booter-nodeos-api-addr=http://localhost:8888 \
+    --booter-private-key=$KEY \
+    --booter-vault-file=$ROOT/vault/eosc-vault.json
+popd &>/dev/null

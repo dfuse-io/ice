@@ -58,7 +58,7 @@ export const IdeaList: React.FC<IdeaListProps> = ({
         .then(handleFetchIdeas)
         .catch(handleError);
     }
-  }, [dfuseClient, contractAccount, lastSeenAction, poolName]);
+  }, [dfuseClient, contractAccount, lastSeenAction, poolName, ideas]);
 
   return (
     <div>

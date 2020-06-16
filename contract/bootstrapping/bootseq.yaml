@@ -14,6 +14,8 @@
 
 keys:
   ephemeral: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+  dfuseioice: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+  users: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
 contents:
   - name: eosio.bios.abi
@@ -35,6 +37,11 @@ contents:
     url: ./contracts/eosio.token-1.0.2.abi
   - name: eosio.token.wasm
     url: ./contracts/eosio.token-1.0.2.wasm
+
+  - name: dfuseioice.abi
+    url: ./build/ice.abi
+  - name: dfuseioice.wasm
+    url: ./build/ice.wasm
 
 ################################# BOOT SEQUENCE ###################################
 boot_sequence:
@@ -165,7 +172,7 @@ boot_sequence:
     data:
       creator: eosio
       new_account: dfuseioice
-      pubkey: ephemeral
+      pubkey: dfuseioice
       ram_bytes: 600000
 
   - op: system.delegate_bw
@@ -184,6 +191,13 @@ boot_sequence:
       to: dfuseioice
       quantity: 1000.0000 EOS
 
+  - op: system.setcode
+    label: Setting ice contract code signer
+    signer: dfuseioice
+    data:
+      account: dfuseioice
+      contract_name_ref: dfuseioice
+
   # ----------------------------------------------------
   # create user 1
   # ----------------------------------------------------
@@ -193,7 +207,7 @@ boot_sequence:
     data:
       creator: eosio
       new_account: user1
-      pubkey: ephemeral
+      pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
@@ -220,7 +234,7 @@ boot_sequence:
     data:
       creator: eosio
       new_account: user2
-      pubkey: ephemeral
+      pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
@@ -247,7 +261,7 @@ boot_sequence:
     data:
       creator: eosio
       new_account: user3
-      pubkey: ephemeral
+      pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
