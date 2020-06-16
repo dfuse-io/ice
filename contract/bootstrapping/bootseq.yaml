@@ -13,7 +13,7 @@
 # limitations under the License.
 
 keys:
-  ephemeral: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3   # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+  ephemeral: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
 contents:
   - name: eosio.bios.abi
@@ -38,231 +38,230 @@ contents:
 
 ################################# BOOT SEQUENCE ###################################
 boot_sequence:
-- op: system.setcode
-  label: Setting eosio.bios code for account eosio
-  data:
-    account: eosio
-    contract_name_ref: eosio.bios
-- op: system.newaccount
-  label: Create account eosio2
-  data:
-    creator: eosio
-    new_account: eosio2
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio3
-  data:
-    creator: eosio
-    new_account: eosio3
-    pubkey: ephemeral
+  - op: system.setcode
+    label: Setting eosio.bios code for account eosio
+    data:
+      account: eosio
+      contract_name_ref: eosio.bios
+  - op: system.newaccount
+    label: Create account eosio2
+    data:
+      creator: eosio
+      new_account: eosio2
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio3
+    data:
+      creator: eosio
+      new_account: eosio3
+      pubkey: ephemeral
 
-- op: system.newaccount
-  label: Create account eosio.msig (on-chain multi-signature helper)
-  data:
-    creator: eosio
-    new_account: eosio.msig
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.token (main multi-currency contract, including EOS)
-  data:
-    creator: eosio
-    new_account: eosio.token
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.ram (where buyram proceeds go)
-  data:
-    creator: eosio
-    new_account: eosio.ram
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.ramfee (where buyram fees go)
-  data:
-    creator: eosio
-    new_account: eosio.ramfee
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.names (where bidname revenues go)
-  data:
-    creator: eosio
-    new_account: eosio.names
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.stake (where delegated stakes go)
-  data:
-    creator: eosio
-    new_account: eosio.stake
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.saving (unallocated inflation)
-  data:
-    creator: eosio
-    new_account: eosio.saving
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.bpay (fund per-block bucket)
-  data:
-    creator: eosio
-    new_account: eosio.bpay
-    pubkey: ephemeral
-- op: system.newaccount
-  label: Create account eosio.vpay (fund per-vote bucket)
-  data:
-    creator: eosio
-    new_account: eosio.vpay
-    pubkey: ephemeral
-- op: system.setpriv
-  label: Setting privileged account for eosio.msig
-  data:
-    account: eosio.msig
-- op: system.setcode
-  label: Setting eosio.msig code for account eosio.msig
-  data:
-    account: eosio.msig
-    contract_name_ref: eosio.msig
-- op: system.setcode
-  label: Setting eosio.token code for account eosio.token
-  data:
-    account: eosio.token
-    contract_name_ref: eosio.token
-- op: token.create
-  label: Creating the EOS currency symbol
-  data:
-    account: eosio
-    amount: 10000000000.0000 EOS  # Should work with 5% inflation, for the next 50 years (end of uint32 block_num anyway)
-- op: token.issue
-  label: Issuing initial EOS monetary base
-  data:
-    account: eosio
-    amount: 1000011821.0000 EOS  # 1B coins, as per distribution model + gift of RAM to new users.
-    memo: "Creation of EOS. Credits and Acknowledgments: eosacknowledgments.io"
+  - op: system.newaccount
+    label: Create account eosio.msig (on-chain multi-signature helper)
+    data:
+      creator: eosio
+      new_account: eosio.msig
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.token (main multi-currency contract, including EOS)
+    data:
+      creator: eosio
+      new_account: eosio.token
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.ram (where buyram proceeds go)
+    data:
+      creator: eosio
+      new_account: eosio.ram
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.ramfee (where buyram fees go)
+    data:
+      creator: eosio
+      new_account: eosio.ramfee
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.names (where bidname revenues go)
+    data:
+      creator: eosio
+      new_account: eosio.names
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.stake (where delegated stakes go)
+    data:
+      creator: eosio
+      new_account: eosio.stake
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.saving (unallocated inflation)
+    data:
+      creator: eosio
+      new_account: eosio.saving
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.bpay (fund per-block bucket)
+    data:
+      creator: eosio
+      new_account: eosio.bpay
+      pubkey: ephemeral
+  - op: system.newaccount
+    label: Create account eosio.vpay (fund per-vote bucket)
+    data:
+      creator: eosio
+      new_account: eosio.vpay
+      pubkey: ephemeral
+  - op: system.setpriv
+    label: Setting privileged account for eosio.msig
+    data:
+      account: eosio.msig
+  - op: system.setcode
+    label: Setting eosio.msig code for account eosio.msig
+    data:
+      account: eosio.msig
+      contract_name_ref: eosio.msig
+  - op: system.setcode
+    label: Setting eosio.token code for account eosio.token
+    data:
+      account: eosio.token
+      contract_name_ref: eosio.token
+  - op: token.create
+    label: Creating the EOS currency symbol
+    data:
+      account: eosio
+      amount: 10000000000.0000 EOS # Should work with 5% inflation, for the next 50 years (end of uint32 block_num anyway)
+  - op: token.issue
+    label: Issuing initial EOS monetary base
+    data:
+      account: eosio
+      amount: 1000011821.0000 EOS # 1B coins, as per distribution model + gift of RAM to new users.
+      memo: 'Creation of EOS. Credits and Acknowledgments: eosacknowledgments.io'
 
-- op: system.setcode
-  label: Replacing eosio account from eosio.bios contract to eosio.system
-  data:
-    account: eosio
-    contract_name_ref: eosio.system
+  - op: system.setcode
+    label: Replacing eosio account from eosio.bios contract to eosio.system
+    data:
+      account: eosio
+      contract_name_ref: eosio.system
 
+  - op: system.resign_accounts
+    label: Disabling authorization for system accounts, pointing `eosio` to the `eosio.prods` account.
+    data:
+      accounts:
+        #- eosio
+        - eosio.msig
+        - eosio.token
+        - eosio.ram
+        - eosio.ramfee
+        - eosio.stake
+        - eosio.names
+        - eosio.saving
+        - eosio.bpay
+        - eosio.vpay
 
-- op: system.resign_accounts
-  label: Disabling authorization for system accounts, pointing `eosio` to the `eosio.prods` account.
-  data:
-    accounts:
-    #- eosio
-    - eosio.msig
-    - eosio.token
-    - eosio.ram
-    - eosio.ramfee
-    - eosio.stake
-    - eosio.names
-    - eosio.saving
-    - eosio.bpay
-    - eosio.vpay
+  # ----------------------------------------------------
+  # create dfuseioice
+  # ----------------------------------------------------
+  - op: system.newaccount
+    label: Create account dfuseioice
+    data:
+      creator: eosio
+      new_account: dfuseioice
+      pubkey: ephemeral
+      ram_bytes: 600000
 
-# ----------------------------------------------------    
-# create dfuseioice   
-# ----------------------------------------------------
-- op: system.newaccount
-  label: Create account dfuseioice
-  data:
-    creator: eosio
-    new_account: dfuseioice
-    pubkey: ephemeral
-    ram_bytes: 600000
+  - op: system.delegate_bw
+    label: delegatebw from eosio to dfuseioice
+    data:
+      from: eosio
+      to: dfuseioice
+      stake_cpu: 10
+      stake_net: 10
+      Transfer: true
 
-- op: system.delegate_bw
-  label: delegatebw from eosio to dfuseioice
-  data:
-    from: eosio
-    to: dfuseioice
-    stake_cpu: 10
-    stake_net: 10
-    Transfer: true
+  - op: token.transfer
+    label: eosio transfering token to dfuseioice
+    data:
+      from: eosio
+      to: dfuseioice
+      quantity: 1000.0000 EOS
 
-- op: token.transfer
-  label: eosio transfering token to dfuseioice
-  data:
-    from: eosio
-    to: dfuseioice
-    quantity: 1000.0000 EOS
+  # ----------------------------------------------------
+  # create user 1
+  # ----------------------------------------------------
 
-# ----------------------------------------------------    
-# create dfuseioice   
-# ----------------------------------------------------
+  - op: system.newaccount
+    label: Create account user1
+    data:
+      creator: eosio
+      new_account: user1
+      pubkey: ephemeral
+      ram_bytes: 10000
 
-- op: system.newaccount
-  label: Create account user1
-  data:
-    creator: eosio
-    new_account: user1
-    pubkey: ephemeral
-    ram_bytes: 10000
+  - op: system.delegate_bw
+    label: delegatebw from eosio to user1
+    data:
+      from: eosio
+      to: user1
+      stake_cpu: 1
+      stake_net: 1
+      Transfer: true
 
-- op: system.delegate_bw
-  label: delegatebw from eosio to user1
-  data:
-    from: eosio
-    to: user1
-    stake_cpu: 1
-    stake_net: 1
-    Transfer: true
+  - op: token.transfer
+    label: eosio transfering token to user1
+    data:
+      from: eosio
+      to: user1
+      quantity: 100.0000 EOS
 
-- op: token.transfer
-  label: eosio transfering token to user1
-  data:
-    from: eosio
-    to: user1
-    quantity: 100.0000 EOS
+  # ----------------------------------------------------
+  # create user 2
+  # ----------------------------------------------------
+  - op: system.newaccount
+    label: Create account user2
+    data:
+      creator: eosio
+      new_account: user2
+      pubkey: ephemeral
+      ram_bytes: 10000
 
-# ----------------------------------------------------    
-# create user 2
-# ----------------------------------------------------
-- op: system.newaccount
-  label: Create account user2
-  data:
-    creator: eosio
-    new_account: user2
-    pubkey: ephemeral
-    ram_bytes: 10000
+  - op: system.delegate_bw
+    label: delegatebw from eosio to user2
+    data:
+      from: eosio
+      to: user2
+      stake_cpu: 1
+      stake_net: 1
+      Transfer: true
 
-- op: system.delegate_bw
-  label: delegatebw from eosio to user2
-  data:
-    from: eosio
-    to: user2
-    stake_cpu: 1
-    stake_net: 1
-    Transfer: true
+  - op: token.transfer
+    label: eosio transfering token to user2
+    data:
+      from: eosio
+      to: user2
+      quantity: 100.0000 EOS
 
-- op: token.transfer
-  label: eosio transfering token to user2
-  data:
-    from: eosio
-    to: user2
-    quantity: 100.0000 EOS
+  # ----------------------------------------------------
+  # create user 3
+  # ----------------------------------------------------
+  - op: system.newaccount
+    label: Create account user3
+    data:
+      creator: eosio
+      new_account: user3
+      pubkey: ephemeral
+      ram_bytes: 10000
 
-# ----------------------------------------------------    
-# create user 3
-# ----------------------------------------------------
-- op: system.newaccount
-  label: Create account user3
-  data:
-    creator: eosio
-    new_account: user3
-    pubkey: ephemeral
-    ram_bytes: 10000
+  - op: system.delegate_bw
+    label: delegatebw from eosio to user3
+    data:
+      from: eosio
+      to: user3
+      stake_cpu: 1
+      stake_net: 1
+      Transfer: true
 
-- op: system.delegate_bw
-  label: delegatebw from eosio to user3
-  data:
-    from: eosio
-    to: user3
-    stake_cpu: 1
-    stake_net: 1
-    Transfer: true
-
-- op: token.transfer
-  label: eosio transfering token to user3
-  data:
-    from: eosio
-    to: user3
-    quantity: 100.0000 EOS
+  - op: token.transfer
+    label: eosio transfering token to user3
+    data:
+      from: eosio
+      to: user3
+      quantity: 100.0000 EOS
