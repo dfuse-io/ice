@@ -32,83 +32,17 @@
 
 ## 0. Prerequisites
 
+- We assume that you have `Golang` and `NodeJS` installed
 - Clone this repo from:
   https://github.com/dfuse-io/ice
-- Install **dfuse for EOSIO** from:
+- Install **dfuse for EOSIO**.
+  Make sure to install **FROM SOURCE** by cloning the repo and following the readme here:
   https://github.com/dfuse-io/dfuse-eosio
-- Clone and install **eosc** from source:
-  https://github.com/eoscanada/eosc/tree/feature-dfuseos-boot
-  This includes features allowing booting of a dfuse-eosio chain.
-- Install **eosio.cdt** from:
+- Install `eosio.cdt` from:
   https://github.com/EOSIO/eosio.cdt
 - Install Anchor Wallet: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
 
-## 1. Running dfuse for EOSIO
-
-dfuse is an Open Source suite of products that enables low-latency, real-time processing of blockchain data streams, allows for massively parallelizable operations over historical data, and provides the robustness and reliability required by the most demanding loads.
-
-We will be running all dfuse Services for EOSIO in single statically linked binary: **dfuseeos**.
-
-- Initialize dfuseeos. With dfuseeos installed and in your PATH, run:
-
-  ```sh
-  dfuseeos init
-  ```
-
-  ```
-  > dfuse for EOSIO can run a local test node configured for block production,
-  similar to what you use in development, with a clean blank chain and no contracts.
-
-  Alternatively, dfuse for EOSIO can connect to an already existing network
-  Do you want dfuse for EOSIO to run a producing node for you: y█
-  ```
-
-  When prompted about running a producing node, enter `y`
-
-  This will initialize the data folders to store your local development blockchain. It will also run a producer node locally for you to interact with.
-
-    <br>
-
-- Run dfuseeos:
-
-  ```sh
-  dfuseeos start
-  ```
-
-  ```
-  > Your instance should be ready in a few seconds, here some relevant links:
-
-  Dashboard: http://localhost:8081
-  Explorer & APIs: http://localhost:8080
-  GraphiQL: http://localhost:8080/graphiql
-  ```
-
-  This starts the local producer node and all dfuse services to process and serve data from the development blockchain.
-  You can access the `Dashboard` on `http://localhost:8081` to see the statuses of each running service. A high-precision block explorer `eosq` is served on `http://localhost:8080` for you to easily track blocks and transactions, as well as to try out dfuse searching functionalities. A GraphiQL interface is also served on `http://localhost:8080/graphiql` for you to craft and test GraphQL queries to access chain data.
-
-  <br>
-
-  **Keep this process running in a terminal throughout this tutorial**
-  <br>
-
-* If at any time you quit the process, you can simply run `dfuseeos start` again to start the chain and dfuse from where it left off. If your data folders become corrupt or if you want to start a fresh chain, you can run `dfuseeos purge` then `dfuseeos init` again.
-
-## 2. Bootstrap Testnet and Accounts
-
-In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
-
-**In a new terminal, run:**
-
-```sh
-cd contract
-./boot.sh
-```
-
-This script reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. It passes these configs to the EOSIO command line tool `eosc`.
-
-After this script is run, you have a fully bootstrapped EOSIO chain. The script also creates 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `user(1,2,3)` for us to use. These accounts are also delegated cpu and net, and are transferred tokens.
-
-## 3. Write Smart Contract
+## 1. Write Smart Contract
 
 The ICE smart contract needs to accomplish the following:
 
@@ -190,7 +124,7 @@ struct [[eosio::table]] stat_row {
 typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
 ```
 
-## 4. Compile Smart Contract
+## 2. Compile Smart Contract
 
 We need to compile our smart contract in order to deploy it to our local testnet. We have provided a simple compile script in the `contract` folder. Run:
 
@@ -200,25 +134,52 @@ We need to compile our smart contract in order to deploy it to our local testnet
 
 This script uses the `eosio.cdt` CLI tool to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder, and stores the two compiled files in it.
 
-## 5. Deploy Smart Contract
+## 3. Install dfuse for EOSIO
 
-Now we can deploy the compiled smart contracts to our local testnet. Run:
+dfuse is an Open Source suite of products that enables low-latency, real-time processing of blockchain data streams, allows for massively parallelizable operations over historical data, and provides the robustness and reliability required by the most demanding loads.
+
+We will be running all dfuse Services for EOSIO in single statically linked binary: **dfuseeos**.
+Before the `booter` feature is released as a downloadable binary, we need to build `dfuseeos` from source.
+
+- First, clone the repository:
+
+  ```sh
+  git clone https://github.com/dfuse-io/dfuse-eosio.git
+  ```
+
+- Then, install from source:
+
+  ```sh
+  cd dfuse-eosio
+  go install ./cmd/dfuseeos
+  ```
+
+## 3. Running dfuse for EOSIO
+
+In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
 
 ```sh
-./deploy.sh
+cd contract
+./boot.sh
 ```
 
-This script uses the `eosc` CLI tool to deploy the ice smart contract to the `dfuseioice` account that we created in the bootstrap step. If you changed the account name in the `bootseq.yaml` config, make sure to update it in the `deploy.sh` script as well.
+This script reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts, and deploy them. We also create 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `user(1,2,3)` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuseioice` account.
 
-## 6. Test Smart Contract
+After this script is run, you have a fully bootstrapped EOSIO chain, with a `dfuseioice` account and smart contract deployed, as well as three user accounts to use.
 
-We can test the smart contract by creating some pools, ideas and making users votes.
+**Keep this process running in a terminal throughout this tutorial**
+
+## 4. Test Smart Contract
+
+We can test the smart contract by creating some pools, ideas and casting users votes.
+
+**In a new terminal, run:**
 
 ```sh
 ./test.sh
 ```
 
-## 7. Set up Wallet
+## 5. Set up Wallet
 
 ### Signing With Anchor
 
@@ -294,7 +255,7 @@ This will automatically detect the available accounts for you key on the `ice` n
 
 Now you should see the three user accounts in the wallet, their tokens and resources.
 
-## 8. User Interface
+## 6. User Interface
 
 In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
 
@@ -308,7 +269,7 @@ This will install the necessary dependencies for the application, compile it, an
 
 **Keep this process running in a terminal throughout this tutorial**
 
-## 9. Authentication
+## 7. Authentication
 
 Now we can interact with our smart contract from the user interface.
 
@@ -327,7 +288,7 @@ Now we can interact with our smart contract from the user interface.
 - Click `Prove Identity` in the bottom right
 - You are now signed in to the app
 
-## 10. Using the Dapp
+## 8. Using the Dapp
 
 The application shows pools in a list. Click on `Select a pool` and select to view the `hackathon` pool.
 
@@ -357,7 +318,7 @@ Whenver a new pool, idea, or vote is made, you can see the transaction on accoun
 
 http://localhost:8080/account/dfuseioice
 
-## 11. Frontend Authentication
+## 9. Frontend Authentication
 
 Let's walk through how our frontend application is talking to the blockchain.
 
@@ -475,7 +436,7 @@ if (activeUser === true) {
 }
 ```
 
-## 12. Streaming Transaction Data with dfuse
+## 10. Streaming Transaction Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -606,7 +567,7 @@ You can learn more about our cursors here:
 
 With the help of dfuse stream, we are constantly listening for new transactions that call the three actions of our smart contract. When any of them is called, the frontend application will automatically update. This provides a seemless user experience that is unique to the dfuse APIs.
 
-## 13. Reading Contract State Tables with dfuse
+## 11. Reading Contract State Tables with dfuse
 
 State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
 
@@ -694,7 +655,7 @@ export const fetchVotes = async (
 };
 ```
 
-## 14. Calling Smart Contract Actions with UAL and Wallets
+## 12. Calling Smart Contract Actions with UAL and Wallets
 
 To add pools, ideas, and cast votes, we need to call the actions on the smart contract. After a user signs in with their wallet, they can use the `activeUser` from the `UAL` library to sign and broadcast transactions. Each file of `pool, idea, vote` contains the funciton to add a pool, idea, or vote.
 
