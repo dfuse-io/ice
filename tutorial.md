@@ -154,7 +154,7 @@ Before the `booter` feature is released as a downloadable binary, we need to bui
   go install ./cmd/dfuseeos
   ```
 
-## 3. Running dfuse for EOSIO
+## 4. Running dfuse for EOSIO
 
 In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
 
@@ -169,7 +169,7 @@ After this script is run, you have a fully bootstrapped EOSIO chain, with a `dfu
 
 **Keep this process running in a terminal throughout this tutorial**
 
-## 4. Test Smart Contract
+## 5. Test Smart Contract
 
 We can test the smart contract by creating some pools, ideas and casting users votes.
 
@@ -179,7 +179,7 @@ We can test the smart contract by creating some pools, ideas and casting users v
 ./test.sh
 ```
 
-## 5. Set up Wallet
+## 6. Set up Wallet
 
 ### Signing With Anchor
 
@@ -255,7 +255,7 @@ This will automatically detect the available accounts for you key on the `ice` n
 
 Now you should see the three user accounts in the wallet, their tokens and resources.
 
-## 6. User Interface
+## 7. User Interface
 
 In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
 
@@ -269,7 +269,7 @@ This will install the necessary dependencies for the application, compile it, an
 
 **Keep this process running in a terminal throughout this tutorial**
 
-## 7. Authentication
+## 8. Authentication
 
 Now we can interact with our smart contract from the user interface.
 
@@ -288,7 +288,7 @@ Now we can interact with our smart contract from the user interface.
 - Click `Prove Identity` in the bottom right
 - You are now signed in to the app
 
-## 8. Using the Dapp
+## 9. Using the Dapp
 
 The application shows pools in a list. Click on `Select a pool` and select to view the `hackathon` pool.
 
@@ -318,7 +318,7 @@ Whenver a new pool, idea, or vote is made, you can see the transaction on accoun
 
 http://localhost:8080/account/dfuseioice
 
-## 9. Frontend Authentication
+## 10. Frontend Authentication
 
 Let's walk through how our frontend application is talking to the blockchain.
 
@@ -436,7 +436,7 @@ if (activeUser === true) {
 }
 ```
 
-## 10. Streaming Transaction Data with dfuse
+## 11. Streaming Transaction Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -567,7 +567,7 @@ You can learn more about our cursors here:
 
 With the help of dfuse stream, we are constantly listening for new transactions that call the three actions of our smart contract. When any of them is called, the frontend application will automatically update. This provides a seemless user experience that is unique to the dfuse APIs.
 
-## 11. Reading Contract State Tables with dfuse
+## 12. Reading Contract State Tables with dfuse
 
 State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
 
@@ -655,7 +655,7 @@ export const fetchVotes = async (
 };
 ```
 
-## 12. Calling Smart Contract Actions with UAL and Wallets
+## 13. Calling Smart Contract Actions with UAL and Wallets
 
 To add pools, ideas, and cast votes, we need to call the actions on the smart contract. After a user signs in with their wallet, they can use the `activeUser` from the `UAL` library to sign and broadcast transactions. Each file of `pool, idea, vote` contains the funciton to add a pool, idea, or vote.
 

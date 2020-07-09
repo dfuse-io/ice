@@ -1,10 +1,11 @@
 import React from 'react';
 import { Layout, Tag } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { styled } from '../theme';
-import { useAppState } from '../state/state';
+import { styled } from '../../theme';
+import { useAppState } from '../../state/state';
 import { Header } from './header';
-
+import { PoolSelector } from '../pool-selector/pool-selector';
+import { MainView } from '../main-view/main-view';
 const { Footer, Content } = Layout;
 
 const ContentWrapper = styled.div`
@@ -13,17 +14,17 @@ const ContentWrapper = styled.div`
   margin: auto auto;
 `;
 
-export const AppLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const AppLayout: React.FC = () => {
   const { lastSeenBlock } = useAppState();
   return (
     <Layout>
-      <Header />
+      <Header>
+        <PoolSelector />
+      </Header>
       <Content>
-        <ContentWrapper>{children}</ContentWrapper>
+        <ContentWrapper>
+          <MainView />
+        </ContentWrapper>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
         dfuse ©2020

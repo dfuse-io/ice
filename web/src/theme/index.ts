@@ -1,21 +1,15 @@
-import emotionStyled, { CreateStyled } from "@emotion/styled";
-import { colors } from "./colors";
-import { fonts } from "./fonts";
-import { breakpoints, fontSizes, lineHeights, shadows, space } from "./scales";
+import emotionStyled, { CreateStyled } from '@emotion/styled';
+import { colors } from './colors';
+import { fonts } from './fonts';
+export * from './colors';
+export * from './scales';
 
 export const theme = {
-  breakpoints,
-  fontSizes,
-  lineHeights,
-  space,
-  colors,
   fonts,
-  shadows,
-
   Link: {
     color: colors.primary5,
-    cursor: "pointer",
-    textDecoration: "underline",
+    cursor: 'pointer',
+    textDecoration: 'underline',
   },
 };
 

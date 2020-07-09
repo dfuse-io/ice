@@ -5,8 +5,7 @@ import { Scatter } from 'ual-scatter';
 import { Anchor } from 'ual-anchor';
 import { ThemeProvider } from 'emotion-theming';
 import { AppStateProvider } from './state/state';
-import { AppLayout } from './layout/layout';
-import { PoolSelector } from './components/pool-selector/pool-selector';
+import { AppLayout } from './components/layout/layout';
 import './App.scss';
 
 const iceNet = {
@@ -32,9 +31,7 @@ function App() {
         appName={appName}
       >
         <AppStateProvider>
-          <AppLayout>
-            <PoolSelector />
-          </AppLayout>
+          <AppLayout />
         </AppStateProvider>
       </UALProvider>
     </ThemeProvider>

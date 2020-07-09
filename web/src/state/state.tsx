@@ -5,12 +5,13 @@ import React, {
   useState,
   useCallback,
 } from 'react';
+import { message } from 'antd';
 import { DfuseClient, Stream } from '@dfuse/client';
 import { UALContext } from 'ual-reactjs-renderer';
-import { Action } from '../types/types';
 import { launchForeverStream } from '../services/stream';
 import { getDfuseClient } from '../services/client';
-import { message } from 'antd';
+import { Action, IdeaRow, PoolRow, PoolRowForm } from '../types/types';
+import { fetchPools, createPool } from '../services/pool';
 
 export interface StateContextType {
   setLastSeenBlock(blockNum: number): void;
@@ -24,11 +25,25 @@ export interface StateContextType {
   activeUser: any;
   dfuseClient: DfuseClient;
   contractAccount: string;
+  pools: PoolRow[];
+  newPool: boolean;
+  showNewIdea: boolean;
+  setShowNewIdea: any;
+  setNewPool: any;
+  creatingPool: boolean;
+  selectedPool: PoolRow | null;
+  handleSelectPool(value: any): void;
+  handleCreatePool(poolName: string): void;
+  handleFetchPools: any;
+  onNewIdeaCreated(idea: IdeaRow): void;
+  onNewIdeaError(error: string): void;
+  onNewIdeaCancel();
 }
 
 export const StateContext = createContext<StateContextType | null>(null);
 
 export function AppStateProvider(props: React.PropsWithChildren<{}>) {
+  // AppState
   const { activeUser, logout, showModal } = useContext(UALContext);
   const [lastSeenBlock, setLastSeenBlock] = useState(0);
   const [lastSeenAction, setLastSeenAction] = useState<Action | null>(null);
@@ -36,6 +51,82 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
   const [dfuseClient, setDfuseClient] = useState<DfuseClient>(undefined!);
   const [, setStream] = useState<Stream | null>(null);
   const [accountName, setAccountName] = useState('');
+
+  // PoolState
+
+  const [pools, setPools] = useState<PoolRow[]>([]);
+  const [newPool, setNewPool] = useState(false);
+  const [showNewIdea, setShowNewIdea] = useState(false);
+  const [creatingPool, setCreatingPool] = useState(false);
+  const [selectedPool, setSelectedPool] = useState<PoolRow | null>(null);
+
+  const contractAccount =
+    process.env.REACT_APP_DFUSE_CONTRACT_OWNER || 'dfuseioice';
+
+  const handleSelectPool = (value) => {
+    if (value === 'new_pool') {
+      setNewPool(true);
+    } else {
+      pools.forEach((p) => {
+        if (p.pool_name === value) {
+          setSelectedPool(p);
+        }
+      });
+    }
+  };
+
+  const handleCreatePool = (poolName: string) => {
+    setCreatingPool(true);
+    const poolForm = { name: poolName } as PoolRowForm;
+    createPool(activeUser, contractAccount, accountName, poolForm)
+      .then((poolRow) => {
+        setCreatingPool(false);
+        setNewPool(false);
+        setPools([...pools, poolRow]);
+        setSelectedPool(poolRow);
+        message.info(`Hurray! '${poolName}' was created!`);
+      })
+      .catch((e) => {
+        setCreatingPool(false);
+        message.error(`Oops unable to create pool: ${e}`);
+      });
+  };
+
+  const handleFetchPools = useCallback(
+    (poolsResult) => {
+      if (!poolsResult) return;
+      const poolRows: PoolRow[] = [];
+      poolsResult.rows.forEach((r) => {
+        if (r.json) {
+          const pool: PoolRow = r.json;
+          poolRows.push(pool);
+        }
+      });
+      setPools(poolRows);
+      setLastSeenBlock(poolsResult.up_to_block_num || -1);
+    },
+    [setLastSeenBlock]
+  );
+
+  const onNewIdeaCreated = (idea: IdeaRow) => {
+    setShowNewIdea(false);
+    message.info(`Hurray! '${idea.title}' was created!`);
+    if (!dfuseClient) return;
+    fetchPools(dfuseClient, contractAccount)
+      .then(handleFetchPools)
+      .catch((e) => {
+        message.error('Oops! Unable to get pools: ' + e);
+      });
+  };
+
+  const onNewIdeaError = (error: string) => {
+    setShowNewIdea(false);
+    message.error(`Oops unable to create an idea: ${error}`);
+  };
+
+  const onNewIdeaCancel = () => {
+    setShowNewIdea(false);
+  };
 
   const loginFunc: StateContextType['login'] = (): Promise<void> => {
     showModal();
@@ -101,8 +192,20 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
         login: loginFunc,
         logout: logoutFunc,
         dfuseClient: dfuseClient,
-        contractAccount:
-          process.env.REACT_APP_DFUSE_CONTRACT_OWNER || 'dfuseioice',
+        contractAccount,
+        pools,
+        newPool,
+        setNewPool,
+        showNewIdea,
+        setShowNewIdea,
+        creatingPool,
+        selectedPool,
+        handleSelectPool,
+        handleCreatePool,
+        handleFetchPools,
+        onNewIdeaCreated,
+        onNewIdeaError,
+        onNewIdeaCancel,
       }}
     >
       {props.children}
