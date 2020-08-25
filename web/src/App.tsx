@@ -1,7 +1,6 @@
 import React from 'react';
 import { theme } from './theme';
 import { UALProvider } from 'ual-reactjs-renderer';
-import { Scatter } from 'ual-scatter';
 import { Anchor } from 'ual-anchor';
 import { ThemeProvider } from 'emotion-theming';
 import { AppStateProvider } from './state/state';
@@ -19,7 +18,6 @@ const iceNet = {
   ],
 };
 const appName = 'ICE';
-const scatter = new Scatter([iceNet], { appName });
 const anchor = new Anchor([iceNet], { appName });
 
 function App() {
@@ -27,7 +25,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <UALProvider
         chains={[iceNet]}
-        authenticators={[scatter, anchor]}
+        authenticators={[anchor]}
         appName={appName}
       >
         <AppStateProvider>

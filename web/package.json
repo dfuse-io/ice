@@ -32,8 +32,7 @@
     "styled-system": "^5.1.5",
     "typescript": "^3.9.2",
     "ual-anchor": "^0.3.2",
-    "ual-reactjs-renderer": "^0.2.0",
-    "ual-scatter": "^0.2.0"
+    "ual-reactjs-renderer": "^0.2.0"
   },
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",

@@ -10,17 +10,12 @@
 - [5. Deploy Smart Contract](#5-deploy-smart-contract)
 - [6. Test Smart Contract](#6-test-smart-contract)
 - [7. Set up Wallet](#7-set-up-wallet)
-  - [Signing With Scatter](#signing-with-scatter)
-    - [Install Scatter](#install-scatter)
-    - [Connect to custom network](#connect-to-custom-network)
-    - [Import Key](#import-key)
   - [Signing With Anchor](#signing-with-anchor)
     - [Install Anchor](#install-anchor)
     - [Connect to custom network](#connect-to-custom-network-1)
     - [Import Key and Accounts](#import-key-and-accounts)
 - [8. User Interface](#8-user-interface)
 - [9. Authentication](#9-authentication)
-  - [For Scatter](#for-scatter)
   - [For Anchor](#for-anchor)
 - [10. Using the Dapp](#10-using-the-dapp)
   - [Casting Votes](#casting-votes)
@@ -353,7 +348,7 @@ Then entire application is then wrapped in the context provider, so we can acces
 ```ts
 <UALProvider
   chains={[iceNet]}
-  authenticators={[scatter, anchor]}
+  authenticators={[anchor]}
   appName={appName}
 >
   Our App...
