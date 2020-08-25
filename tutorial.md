@@ -2,7 +2,9 @@
 
 #### Demo Idea List Dapp Built with dfuse for EOSIO
 
-- [Prerequisites](#0-prerequisites)
+- [I. Prerequisites](#i-prerequisites)
+- [II. Understanding the ICE Smart Contract](#ii-understanding-the-ice-smart-contract)
+
 - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
 - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
 - [3. Write Smart Contract](#3-write-smart-contract)
@@ -10,12 +12,17 @@
 - [5. Deploy Smart Contract](#5-deploy-smart-contract)
 - [6. Test Smart Contract](#6-test-smart-contract)
 - [7. Set up Wallet](#7-set-up-wallet)
+  - [Signing With Scatter](#signing-with-scatter)
+    - [Install Scatter](#install-scatter)
+    - [Connect to custom network](#connect-to-custom-network)
+    - [Import Key](#import-key)
   - [Signing With Anchor](#signing-with-anchor)
     - [Install Anchor](#install-anchor)
     - [Connect to custom network](#connect-to-custom-network-1)
     - [Import Key and Accounts](#import-key-and-accounts)
 - [8. User Interface](#8-user-interface)
 - [9. Authentication](#9-authentication)
+  - [For Scatter](#for-scatter)
   - [For Anchor](#for-anchor)
 - [10. Using the Dapp](#10-using-the-dapp)
   - [Casting Votes](#casting-votes)
@@ -25,18 +32,14 @@
 - [13. Reading Contract State Tables with dfuse](#13-reading-contract-state-tables-with-dfuse)
 - [14. Calling Smart Contract Actions with UAL and Wallets](#14-calling-smart-contract-actions-with-ual-and-wallets)
 
-## Prerequisites
+## I. Prerequisites
 
 _**Note** - This tutorial assumes that you have [`Golang`](https://www.google.com/search?q=install+golang) and [`NodeJS`](https://www.google.com/search?q=install+nodejs) installed._
 - Clone this repo ```git clone https://github.com/dfuse-io/ice```
-- Install [**dfuse for EOSIO**](https://github.com/dfuse-io/dfuse-eosio).
-  The easiest way is to download the latest tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after the release notes). If you want to install from source, take a look at the `dfuse-eosio` [README](https://github.com/dfuse-io/dfuse-eosio).
-  In both cases, follow the instructions for [Creating a new local chain with `dfuseeos`](https://github.com/dfuse-io/dfuse-eosio/releases/) once you have the `dfuseeos` single binary locally.
-- Install `eosio.cdt` from:
-  https://github.com/EOSIO/eosio.cdt
-- Install Anchor Wallet: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
+- Install `eosio.cdt` from https://github.com/EOSIO/eosio.cdt
+- Install the Anchor Wallet from https://github.com/greymass/anchor
 
-## 1. Write Smart Contract
+## II. Understanding the ICE Smart Contract
 
 The ICE smart contract needs to accomplish the following:
 
@@ -46,7 +49,7 @@ The ICE smart contract needs to accomplish the following:
 
 We have provided the ICE smart contract in the cloned repo. The contract contains 4 tables for pools, ideas, votes, and stats. It also has three actions to add pool, add idea, and cast vote. The full code can be viewed in `contract/src`. Here are the tables and actions that we will be accessing externally:
 
-- Three actions to add pool, add idea, and cast vote.
+- Three actions to add pool, add idea, and cast vote:
 
 ```cpp
 [[eosio::action]]
@@ -118,7 +121,7 @@ struct [[eosio::table]] stat_row {
 typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
 ```
 
-## 2. Compile Smart Contract
+## 1. Compiling the Smart Contract
 
 We need to compile our smart contract in order to deploy it to our local testnet. We have provided a simple compile script in the `contract` folder. Run:
 
@@ -128,28 +131,18 @@ We need to compile our smart contract in order to deploy it to our local testnet
 
 This script uses the `eosio.cdt` CLI tool to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder, and stores the two compiled files in it.
 
-## 3. Install dfuse for EOSIO
+## 2. Installing _dfuse for EOSIO_
 
 dfuse is an Open Source suite of products that enables low-latency, real-time processing of blockchain data streams, allows for massively parallelizable operations over historical data, and provides the robustness and reliability required by the most demanding loads.
 
-We will be running all dfuse Services for EOSIO in single statically linked binary: **dfuseeos**.
-Before the `booter` feature is released as a downloadable binary, we need to build `dfuseeos` from source.
-
-- First, clone the repository:
-
-  ```sh
-  git clone https://github.com/dfuse-io/dfuse-eosio.git
-  ```
-
-- Then, install from source:
-
-  ```sh
-  cd dfuse-eosio
-  go install ./cmd/dfuseeos
-  ```
+We will be running all _dfuse for EOSIO_ Services in a single statically linked binary: **dfuseeos**.
 
 ## 4. Running dfuse for EOSIO
 
+- Install [**dfuse for EOSIO**](https://github.com/dfuse-io/dfuse-eosio).
+  - The easiest way is to download the latest stable tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes). If you want to install from source, take a look at the `dfuse-eosio` [README](https://github.com/dfuse-io/dfuse-eosio).
+  - In both cases, follow the instructions for [Creating a new local chain with `dfuseeos`](https://github.com/dfuse-io/dfuse-eosio/releases/) once you have the `dfuseeos` single binary locally.
+  
 In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
 
 ```sh
@@ -179,23 +172,21 @@ We can test the smart contract by creating some pools, ideas and casting users v
 
 #### Install Anchor
 
-You should have the Anchor wallet installed from the prerequisites section. If not, go here to install: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
+You should have the Anchor wallet installed from the prerequisites section. If not, go here to install the latest stable version: https://github.com/greymass/anchor
 
 #### Connect to custom network
-
-1. **Click on Setup Wallet**
-
-2. **Click `+ Custom Blockchain`**
-
-3. **Enter the following Information:**
+1. **Open the Anchor Wallet app**
+2. **Click on Setup New Wallet**
+3. **Click `+ Custom Blockchain`**
+4. **Enter the following Information:**
 
 ```
 Chain ID: df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain: ice
 Default node for this Blockchain: http://localhost:8080
 ```
-
-4. **Check the box `This blockchain is a test network (TESTNET)`**
+5. **Skip the Advanced Configuration section**
+5. **Check the box `This blockchain is a test network (TESTNET).`**
 
 The network name can be changed. The API protocol, host, and port are specified in `dfuseeos` and is displayed when it launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
 
@@ -209,7 +200,7 @@ This will display the current chain info with chainID.
 
 You'll now see a list of networks, scroll down to ICE, and select the checkbox next to it
 
-6. **Click `Enable 1 Blockchains` to connect**
+6. **Go back up and Click `Enable 1 Blockchains` to connect**
 
 #### Import Key and Accounts
 
@@ -223,7 +214,7 @@ You'll now see a list of networks, scroll down to ICE, and select the checkbox n
 
 ![password screenshot](image.png 'password screenshot')
 
-5. **Paste in the development private key:**
+5. **Paste in the development private key and click save**
 
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -231,35 +222,37 @@ You'll now see a list of networks, scroll down to ICE, and select the checkbox n
 
 ![import key screenshot](image.png 'import key screenshot')
 
-This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key under the folder `contract/bootstrapping`
+This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key under the folder `contract/bootstrapping` 
 
+6. **re-enter your wallet password (the one you just created)**
 6. **Go to the `Home` tab in the menu**
 
-7. **Select to use the blockchain named `ice`**
+7. **Select the blockchain card named `ice`**
 
 8. **Click `Scan for Accounts`**
 
 This will automatically detect the available accounts for you key on the `ice` network.
 
-9. **Select the three active accounts for users**
+9. **Select the three active accounts for users (user1@active, user2@active, user3@active)**
 
 10. **Click `Import Accounts`**
 
-11. **Enter your password, and click `Enable app integrations`**
+11. **Enter your password, authorize, and click `Enable app integrations`**
 
-Now you should see the three user accounts in the wallet, their tokens and resources.
+Now you should see the three user accounts in the wallet, with their tokens and resources.
 
 ## 7. User Interface
 
 In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
 
 ```sh
-cd ../web
 yarn install
 yarn start
 ```
 
 This will install the necessary dependencies for the application, compile it, and serve it from your terminal. After it's done, go to http://localhost:3000 on your web browser to see it in action.
+
+Do you want the application “node” to accept incoming network connections? -> yes
 
 **Keep this process running in a terminal throughout this tutorial**
 
@@ -267,11 +260,9 @@ This will install the necessary dependencies for the application, compile it, an
 
 Now we can interact with our smart contract from the user interface.
 
-1. **Click on the `Login` Button in the top right corner**
+1. **Click on the `Login` Button**
 
-2. **Select the wallet you chose to use**
-
-#### For Anchor
+2. **Select the Anchor wallet**
 
 ![login screenshot](image.png 'login screenshot')
 
@@ -347,7 +338,7 @@ Then entire application is then wrapped in the context provider, so we can acces
 ```ts
 <UALProvider
   chains={[iceNet]}
-  authenticators={[anchor]}
+  authenticators={[scatter, anchor]}
   appName={appName}
 >
   Our App...
