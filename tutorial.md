@@ -2,7 +2,7 @@
 
 #### Demo Idea List Dapp Built with dfuse for EOSIO
 
-- [0. Prerequisites](#0-prerequisites)
+- [Prerequisites](#0-prerequisites)
 - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
 - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
 - [3. Write Smart Contract](#3-write-smart-contract)
@@ -25,14 +25,13 @@
 - [13. Reading Contract State Tables with dfuse](#13-reading-contract-state-tables-with-dfuse)
 - [14. Calling Smart Contract Actions with UAL and Wallets](#14-calling-smart-contract-actions-with-ual-and-wallets)
 
-## 0. Prerequisites
+## Prerequisites
 
-- We assume that you have `Golang` and `NodeJS` installed
-- Clone this repo from:
-  https://github.com/dfuse-io/ice
-- Install **dfuse for EOSIO**.
-  Make sure to install **FROM SOURCE** by cloning the repo and following the readme here:
-  https://github.com/dfuse-io/dfuse-eosio
+_**Note** - This tutorial assumes that you have [`Golang`](https://www.google.com/search?q=install+golang) and [`NodeJS`](https://www.google.com/search?q=install+nodejs) installed._
+- Clone this repo ```git clone https://github.com/dfuse-io/ice```
+- Install [**dfuse for EOSIO**](https://github.com/dfuse-io/dfuse-eosio).
+  The easiest way is to download the latest tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after the release notes). If you want to install from source, take a look at the `dfuse-eosio` [README](https://github.com/dfuse-io/dfuse-eosio).
+  In both cases, follow the instructions for [Creating a new local chain with `dfuseeos`](https://github.com/dfuse-io/dfuse-eosio/releases/) once you have the `dfuseeos` single binary locally.
 - Install `eosio.cdt` from:
   https://github.com/EOSIO/eosio.cdt
 - Install Anchor Wallet: [release page](https://github.com/greymass/anchor/releases/tag/v1.0.2)
