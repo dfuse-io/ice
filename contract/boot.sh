@@ -23,8 +23,8 @@ export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
 pushd $ROOT/bootstrapping &>/dev/null
 KEY=$(head -1 genesis.key)
 printf "${BROWN}Boostraping testnet${NC}\n"
-yes | dfuseeos purge
 yes | dfuseeos init
+yes | dfuseeos purge
 dfuseeos start \
     --booter-bootseq=./bootseq.yaml \
     --booter-nodeos-api-addr=http://localhost:8888 \

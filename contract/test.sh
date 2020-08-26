@@ -10,24 +10,29 @@ BROWN='\033[0;33m'
 NC='\033[0m'
 
 pushd $ROOT/vault &> /dev/null
-    printf "${BROWN} create a \'hackathon\' pool ${NC}\n"
-    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"hackathon"}' -p dfuseioice
+    printf "\n${BROWN}### Creating an \'office\' poll... ${NC}\n"
+    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"office"}' -p dfuseioice
 
-    printf "${BROWN} create ideas in the \'hackathon\' pool ${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"hackathon", "title":"NFT Explorer", "description":"NFTs need an explorer too. So come and explore with me!"}' -p dfuseioice    # transaction_id => 1
-    eosc tx create dfuseioice addidea '{"author":"user1", "pool_name":"hackathon", "title":"TikTokChain", "description":"Lets bring blockchain to TikTok. TikTok pre-sale pricing available for all dfuse employees who vote favourably!"}' -p user1    # transaction_id => 2
-    eosc tx create dfuseioice addidea '{"author":"user2", "pool_name":"hackathon", "title":"ICE", "description":"Impact, Confidence, Ease of Implementation. As you can see, its already implemented, so you should all vote 10!"}' -p user2    # transaction_id => 3
+    printf "\n${BROWN}### Creating ideas to vote on for the \'office\' poll ${NC}\n"
+    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"office", "title":"Bottled water for the plants", "description":"Plants deserve better treatment is all."}' -p dfuseioice    # transaction_id => 1
+    eosc tx create dfuseioice addidea '{"author":"user1", "pool_name":"office", "title":"Renowned sushi chef to cook lunch everyday", "description":"This would probably boost productivity. If not, at least we tried it."}' -p user1    # transaction_id => 2
+    eosc tx create dfuseioice addidea '{"author":"user2", "pool_name":"office", "title":"Mandatory 2-day work week", "description":"Condensing the work week in 2 days of 20 hours each means more free time for all!"}' -p user2    # transaction_id => 3
 
-    printf "${BROWN} create a \'hacktahon2\' pool ${NC}\n"
-    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"hackathon2"}' -p dfuseioice
-    printf "${BROWN} create ideas in the \'hackathon2\' pool ${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"user1", "pool_name":"hackathon2", "title":"Free coffee", "description":"Im tired of ordering coffee. Coffee is now a free for all. Dont let the name of the idea confuse you!"}' -p user1    # transaction_id => 4
-    eosc tx create dfuseioice addidea '{"author":"user2", "pool_name":"hackathon2", "title":"Watcher","description":"My watcher can watch your accounts for you while you watch The Watchmen"}' -p user2    # transaction_id => 5
-    for i in  "1","hackathon" "2","hackathon" "3","hackathon" "4","hackathon2" "5","hackathon2"
+    printf "\n${BROWN}### Creating a \'rebrand\' poll... ${NC}\n"
+    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"rebrand"}' -p dfuseioice
+
+    printf "\n${BROWN}### Creating ideas to vote on for the \'rebrand\' poll ${NC}\n"
+    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"rebrand", "title":"DFuse", "description":"Using capital letters for the D and the F makes it easier to type."}' -p dfuseioice    # transaction_id => 4
+    eosc tx create dfuseioice addidea '{"author":"user1", "pool_name":"rebrand", "title":"EOS Canada", "description":"Has anyone seen that name somewhere before? I kinda dig it!"}' -p user1    # transaction_id => 5
+    eosc tx create dfuseioice addidea '{"author":"user2", "pool_name":"rebrand", "title":"df", "description":"Less is more"}' -p user2    # transaction_id => 6
+    eosc tx create dfuseioice addidea '{"author":"user3", "pool_name":"rebrand", "title":"Google", "description":"It kinda has a nice ring to it..."}' -p user3    # transaction_id => 7
+
+    printf "\n${BROWN}### Random votes being casted on ideas for the demo... ${NC}\n"
+    for i in  "1","office" "2","office" "3","office" "4","rebrand" "5","rebrand" "6","rebrand" "7","rebrand"
     do
         IFS=","
         set -- $i
-        for USER in  "user1" "user2"
+        for USER in  "user1" "user2" "user3"
         do
             IMP="$(( ( RANDOM % 10 )  + 1 ))"
             EAS="$(( ( RANDOM % 10 )  + 1 ))"
