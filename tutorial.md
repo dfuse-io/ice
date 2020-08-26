@@ -1,10 +1,8 @@
 # ICE (Impact, Confidence, Ease)
 
-#### Demo Idea List Dapp Built with dfuse for EOSIO
+#### List Dapp Demo Built with _dfuse for EOSIO_
 
-- [I. Prerequisites](#i-prerequisites)
-- [II. Understanding the ICE Smart Contract](#ii-understanding-the-ice-smart-contract)
-
+<!-- - [I. Prerequisites](#prerequisites)
 - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
 - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
 - [3. Write Smart Contract](#3-write-smart-contract)
@@ -26,121 +24,45 @@
 - [12. Streaming Transaction Data with dfuse](#12-streaming-transaction-data-with-dfuse)
 - [13. Reading Contract State Tables with dfuse](#13-reading-contract-state-tables-with-dfuse)
 - [14. Calling Smart Contract Actions with UAL and Wallets](#14-calling-smart-contract-actions-with-ual-and-wallets)
+- [II. Understanding the ICE Smart Contract](#ii-understanding-the-ice-smart-contract) -->
 
-## I. Prerequisites
+## Requirements
 
-_**Note** - This tutorial assumes that you have [`Golang`](https://www.google.com/search?q=install+golang) and [`NodeJS`](https://www.google.com/search?q=install+nodejs) installed._
-- Clone this repo ```git clone https://github.com/dfuse-io/ice```
-- Install `eosio.cdt` from https://github.com/EOSIO/eosio.cdt
-- Install the Anchor Wallet from https://github.com/greymass/anchor
+This tutorial assumes that you have basic programming knowledge and that you have these tools already installed in your dev environment:
 
-## II. Understanding the ICE Smart Contract
 
-The ICE smart contract needs to accomplish the following:
+* `EOSIO.CDT` 1.7.0 or higher ([installation](https://github.com/EOSIO/eosio.cdt#binary-releases))
+* `Git` ([installation](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
+* `Go` 1.14 or higher ([installation](https://golang.org/doc/install#install))
+* `NodeJS` 14.1.0 or higher ([installation](https://nodejs.org/en/download/package-manager/))
+* `yarn` 1.15 or higher ([installation](https://classic.yarnpkg.com/en/docs/install))
+* (_macOS_) Command Line Tools for Xcode ([installation](https://developer.apple.com/downloads/))
 
-- **_Ability to create a pool with name_** (each pool holds a set of ideas)
-- **_Ability to add one idea at a time to a pool. Each idea has a title and description_**
-- **_Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact (of the idea), confidence (on the impact and cost), and ease (of implementation, where 1 is very expensive and 10 is a no brainer)._**
 
-We have provided the ICE smart contract in the cloned repo. The contract contains 4 tables for pools, ideas, votes, and stats. It also has three actions to add pool, add idea, and cast vote. The full code can be viewed in `contract/src`. Here are the tables and actions that we will be accessing externally:
+## 1. Cloning the ICE repo
+Clone this repo to your local dev environment and move inside the folder.
 
-- Three actions to add pool, add idea, and cast vote:
-
-```cpp
-[[eosio::action]]
-void addpool(const name author,const name name);
-
-[[eosio::action]]
-void addidea(const name author,const name pool_name , const string title, const string description);
-
-[[eosio::action]]
-void castvote(const name voter, const name pool_name, const uint64_t idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
+```
+# clone the ICE repo
+git clone https://github.com/dfuse-io/ice
+cd ice
 ```
 
-- Pools table:
+## 3. Installing _dfuse for EOSIO_
 
-```cpp
-struct [[eosio::table]] pool_row {
-    name pool_name;
-    name author;
+[dfuse](https://www.dfuse.io) is a massively scalable open-source platform for searching and processing blockchain data. [_dfuse for EOSIO_](https://github.com/dfuse-io/dfuse-eosio) includes all [dfuse services](https://dfuse.io/technology) for [EOSIO](https://eos.io/), running locally or from a container, released as a single statically linked binary: `dfuseeos`.
 
-    uint64_t primary_key() const { return pool_name.value; }
-};
-typedef eosio::multi_index<"pools"_n, pool_row> pools_index;
-```
+Installing `dfuseeos` will allow us to run an EOSIO testnet locally, which is required for the ICE dapp demo.
 
-- Ideas table:
-
-```cpp
-struct [[eosio::table]] idea_row {
-    uint64_t id;
-    name pool_name;
-    name author;
-    string title;
-    string description;
-    double avg_impact;
-    double avg_confidence;
-    double avg_ease;
-    double score;
-    uint64_t total_votes;
-
-    uint64_t primary_key() const { return id; }
-};
-typedef eosio::multi_index<"ideas"_n, idea_row> ideas_index;
-```
-
-- Votes table:
-
-```cpp
-struct [[eosio::table]] vote_row {
-    uint64_t idea_id;
-    name voter;
-    uint32_t impact;
-    uint32_t confidence;
-    uint32_t ease;
-
-    uint64_t primary_key() const { return voter.value; }
-};
-typedef eosio::multi_index<"votes"_n, vote_row> votes_index;
-```
-
-- Stats table:
-
-```cpp
-struct [[eosio::table]] stat_row {
-    uint64_t id;
-    uint32_t idea_count;
-
-    uint64_t primary_key() const { return id; }
-};
-typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
-```
-
-## 1. Compiling the Smart Contract
-
-We need to compile our smart contract in order to deploy it to our local testnet. We have provided a simple compile script in the `contract` folder. Run:
-
-```sh
-./compile.sh
-```
-
-This script uses the `eosio.cdt` CLI tool to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder, and stores the two compiled files in it.
-
-## 2. Installing _dfuse for EOSIO_
-
-dfuse is an Open Source suite of products that enables low-latency, real-time processing of blockchain data streams, allows for massively parallelizable operations over historical data, and provides the robustness and reliability required by the most demanding loads.
-
-We will be running all _dfuse for EOSIO_ Services in a single statically linked binary: **dfuseeos**.
+The easiest way to get the `dfuseeos` binary is to download the latest stable tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes).
+  
+If you want to install from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide. You do not need to create or initialize a chain with _dfuse for EOSIO_ at this time.
 
 ## 4. Running dfuse for EOSIO
 
-- Install [**dfuse for EOSIO**](https://github.com/dfuse-io/dfuse-eosio).
-  - The easiest way is to download the latest stable tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes). If you want to install from source, take a look at the `dfuse-eosio` [README](https://github.com/dfuse-io/dfuse-eosio).
-  - In both cases, follow the instructions for [Creating a new local chain with `dfuseeos`](https://github.com/dfuse-io/dfuse-eosio/releases/) once you have the `dfuseeos` single binary locally.
-  
-In order to run a EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
+In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions. We've created a script that will do all of these things automatically for you inside the `contract` folder:
 
-```sh
+```
 cd contract
 ./boot.sh
 ```
@@ -149,27 +71,33 @@ This script reads from the config file at `contract/bootstrapping/bootseq.yaml` 
 
 After this script is run, you have a fully bootstrapped EOSIO chain, with a `dfuseioice` account and smart contract deployed, as well as three user accounts to use.
 
-**Keep this process running in a terminal throughout this tutorial**
+**Please note that this process should be constantly running in a terminal throughout this tutorial**
 
-## 5. Test Smart Contract
+## 5. Compiling the Smart Contract
 
-We can test the smart contract by creating some pools, ideas and casting users votes.
+We need to compile our smart contract in order to deploy it to our local testnet. We have provided a simple compile script for you, also in the `contract` folder. Since we're already in there because of the previous step, we simply need to run the `compile.sh` file. In a new terminal window, run:
 
-**In a new terminal, run:**
+```
+./compile.sh
+```
 
-```sh
+This script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder and stores the two compiled files in it. If you're looking to understand the smart contract and what it accomplishes, take a look at the [smart contract section](#) below. For now, we can move to the next step.
+
+## 6. Test Smart Contract
+
+We can test the smart contract by creating some pools, ideas and casting users votes. In a new terminal, run:
+
+```
 ./test.sh
 ```
 
-## 6. Set up Wallet
+## 7. Install Anchor Wallet
+Now is the time to install the Anchor Wallet, which will allow us to validate our identity. You can grab the latest stable version of the Anchor Wallet at https://github.com/greymass/anchor
 
-### Signing With Anchor
+## 8. Adding our Custom Blockchain to the Wallet
 
-#### Install Anchor
+Once you have the wallet installed, follow these simple steps to add our ICE blockchain to the wallet interface:
 
-You should have the Anchor wallet installed from the prerequisites section. If not, go here to install the latest stable version: https://github.com/greymass/anchor
-
-#### Connect to custom network
 1. **Open the Anchor Wallet app**
 2. **Click on Setup New Wallet**
 3. **Click `+ Custom Blockchain`**
@@ -181,7 +109,7 @@ Name of Blockchain: ice
 Default node for this Blockchain: http://localhost:8080
 ```
 5. **Skip the Advanced Configuration section**
-5. **Check the box `This blockchain is a test network (TESTNET).`**
+6. **Check the box `This blockchain is a test network (TESTNET).`**
 
 The network name can be changed. The API protocol, host, and port are specified in `dfuseeos` and is displayed when it launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
 
@@ -191,13 +119,13 @@ eosc get info
 
 This will display the current chain info with chainID.
 
-5. **Scroll down and save**
+7. **Scroll down and save**
 
 You'll now see a list of networks, scroll down to ICE, and select the checkbox next to it
 
-6. **Go back up and Click `Enable 1 Blockchains` to connect**
+8. **Go back up and Click `Enable 1 Blockchains` to connect**
 
-#### Import Key and Accounts
+## 8. Import Key and Accounts in Anchor Wallet
 
 1. **Go to the `Tools` tab in the menu**
 
@@ -236,11 +164,11 @@ This will automatically detect the available accounts for you key on the `ice` n
 
 Now you should see the three user accounts in the wallet, with their tokens and resources.
 
-## 7. User Interface
+## 9. Start the ICE App
 
 In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
 
-```sh
+```
 yarn install
 yarn start
 ```
@@ -251,7 +179,7 @@ Do you want the application “node” to accept incoming network connections? -
 
 **Keep this process running in a terminal throughout this tutorial**
 
-## 8. Authentication
+## 10. Login the ICE app
 
 Now we can interact with our smart contract from the user interface.
 
@@ -268,7 +196,9 @@ Now we can interact with our smart contract from the user interface.
 - Click `Prove Identity` in the bottom right
 - You are now signed in to the app
 
-## 9. Using the Dapp
+** NOTE** - If your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them or try a different browser.
+
+## 11. Using the Dapp
 
 The application shows pools in a list. Click on `Select a pool` and select to view the `hackathon` pool.
 
@@ -298,7 +228,7 @@ Whenver a new pool, idea, or vote is made, you can see the transaction on accoun
 
 http://localhost:8080/account/dfuseioice
 
-## 10. Frontend Authentication
+## 12. Frontend Authentication
 
 Let's walk through how our frontend application is talking to the blockchain.
 
@@ -416,7 +346,7 @@ if (activeUser === true) {
 }
 ```
 
-## 11. Streaming Transaction Data with dfuse
+## 13. Streaming Transaction Data with dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -547,7 +477,7 @@ You can learn more about our cursors here:
 
 With the help of dfuse stream, we are constantly listening for new transactions that call the three actions of our smart contract. When any of them is called, the frontend application will automatically update. This provides a seemless user experience that is unique to the dfuse APIs.
 
-## 12. Reading Contract State Tables with dfuse
+## 14. Reading Contract State Tables with dfuse
 
 State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
 
@@ -635,7 +565,7 @@ export const fetchVotes = async (
 };
 ```
 
-## 13. Calling Smart Contract Actions with UAL and Wallets
+## 15. Calling Smart Contract Actions with UAL and Wallets
 
 To add pools, ideas, and cast votes, we need to call the actions on the smart contract. After a user signs in with their wallet, they can use the `activeUser` from the `UAL` library to sign and broadcast transactions. Each file of `pool, idea, vote` contains the funciton to add a pool, idea, or vote.
 
@@ -688,3 +618,85 @@ export const createPool = async (
 ```
 
 With the help of the `UAL` library, all other interactions are abstracted away. The component will automatically handle requesting approval from the wallet.
+
+## II. Understanding the ICE Smart Contract
+
+The ICE smart contract needs to accomplish the following:
+
+- **_Ability to create a pool with name_** (each pool holds a set of ideas)
+- **_Ability to add one idea at a time to a pool. Each idea has a title and description_**
+- **_Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact (of the idea), confidence (on the impact and cost), and ease (of implementation, where 1 is very expensive and 10 is a no brainer)._**
+
+We have provided the ICE smart contract in the cloned repo. The contract contains 4 tables for pools, ideas, votes, and stats. It also has three actions to add pool, add idea, and cast vote. The full code can be viewed in `contract/src`. Here are the tables and actions that we will be accessing externally:
+
+- Three actions to add pool, add idea, and cast vote:
+
+```cpp
+[[eosio::action]]
+void addpool(const name author,const name name);
+
+[[eosio::action]]
+void addidea(const name author,const name pool_name , const string title, const string description);
+
+[[eosio::action]]
+void castvote(const name voter, const name pool_name, const uint64_t idea_id, const uint32_t impact,const uint32_t confidence, const uint32_t ease);
+```
+
+- Pools table:
+
+```cpp
+struct [[eosio::table]] pool_row {
+    name pool_name;
+    name author;
+
+    uint64_t primary_key() const { return pool_name.value; }
+};
+typedef eosio::multi_index<"pools"_n, pool_row> pools_index;
+```
+
+- Ideas table:
+
+```cpp
+struct [[eosio::table]] idea_row {
+    uint64_t id;
+    name pool_name;
+    name author;
+    string title;
+    string description;
+    double avg_impact;
+    double avg_confidence;
+    double avg_ease;
+    double score;
+    uint64_t total_votes;
+
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"ideas"_n, idea_row> ideas_index;
+```
+
+- Votes table:
+
+```cpp
+struct [[eosio::table]] vote_row {
+    uint64_t idea_id;
+    name voter;
+    uint32_t impact;
+    uint32_t confidence;
+    uint32_t ease;
+
+    uint64_t primary_key() const { return voter.value; }
+};
+typedef eosio::multi_index<"votes"_n, vote_row> votes_index;
+```
+
+- Stats table:
+
+```cpp
+struct [[eosio::table]] stat_row {
+    uint64_t id;
+    uint32_t idea_count;
+
+    uint64_t primary_key() const { return id; }
+};
+typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
+```
