@@ -51,7 +51,7 @@ export const PoolSelector: React.FC = () => {
     width: 100%;
     background: none;
     background-color: inherit;
-    color: white;
+    color: black;
   `;
 
   const renderPoolSelector = () => {

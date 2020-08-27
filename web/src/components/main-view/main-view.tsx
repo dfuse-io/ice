@@ -65,8 +65,7 @@ export const MainView: React.FC = () => {
         style={{ marginTop: '20px' }}
         description={
           <span>
-            <strong>Select a Pool</strong> from <br />
-            the top search bar
+            Select a <strong>Pool</strong>
           </span>
         }
       />
