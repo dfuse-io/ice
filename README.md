@@ -52,7 +52,7 @@ TODO
 
 ## Contributing
 
-We welcome all contributions. Please refer to the `dfuse for EOSIO` [CONTRIBUTING](../../../dfuse-eosio//blob/develop/CONTRIBUTING.md) page for details on our Code of Conduct and the [CONVENTIONS](../../../dfuse-eosio//blob/develop/CONVENTIONS.md) page for our coding conventions and processes for submitting pull requests. The same contribution and coding conventions apply to this project.
+We welcome all contributions. Please refer to the `dfuse for EOSIO` [CONTRIBUTING](../../../dfuse-eosio//blob/develop/CONTRIBUTING.md) page for details on our Code of Conduct & processes for submitting pull requests, and the [CONVENTIONS](../../../dfuse-eosio//blob/develop/CONVENTIONS.md) page for our coding conventions. The same contribution and coding conventions apply to this project.
 
 ## License
 
