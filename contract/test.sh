@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
 export EOSC_GLOBAL_API_URL=http://localhost:8080

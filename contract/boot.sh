@@ -21,7 +21,7 @@ export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
 pushd $ROOT/bootstrapping > /dev/null
 KEY=$(head -1 genesis.key)
 
-printf "${BROWN}\n### Boostraping a brand new testnet with dfuse for EOSIO...\n\n${NC}"
+printf "\n${BROWN}### Boostraping a brand new testnet with dfuse for EOSIO...${NC}\n\n"
 
 yes | dfuseeos init
 yes | dfuseeos purge
@@ -34,4 +34,4 @@ dfuseeos start \
 
 popd > /dev/null
 
-printf "${BROWN}\n### You should keep this process running in the background while running the ICE demo.\n### Thanks for trying ICE @ https://github.com/dfuse-io/ice\n\n${NC}"
+printf "\n${BROWN}### You should keep this process running in the background while running the ICE demo.\n### Thanks for trying ICE @ https://github.com/dfuse-io/ice${NC}\n\n"

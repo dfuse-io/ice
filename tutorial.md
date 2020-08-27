@@ -95,13 +95,15 @@ Explorer & APIs:  http://localhost:8080
 GraphiQL:         http://localhost:8080/graphiql
 ```
 
+Warnings such as `No existing chain state or fork database.` or `Initializing new blockchain with genesis state` are normal when you first boot the chain. 
+
 You now have a fully bootstrapped EOSIO chain, with a `dfuseioice` account and smart contract deployed, as well as three user accounts to use.
 
 **Please note you should leave process running in a terminal throughout this tutorial**
 
 ## 6. Test Smart Contract
 
-We can test the smart contract by creating some pools, ideas and casting users votes. In a new terminal, run:
+We can test the smart contract by creating some pools, ideas and casting users votes. In a **new** terminal window, run:
 
 ```
 ./test.sh
@@ -116,40 +118,40 @@ Once you have the wallet installed, follow these simple steps to add our ICE blo
 
 1. **Open the Anchor Wallet app**
 2. **Click on `Setup New Wallet`**
-3. **Click `+ Custom Blockchain`**
+3. **Click on `+ Custom Blockchain`**
 4. **Enter the following Information:**
 ```
 Chain ID: df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain: ice
 Default node for this Blockchain: http://localhost:8080
 ```
-5. **Skip the Advanced Configuration section**
+5. **Skip the `Advanced Configuration` section**
 6. **Check the box `This blockchain is a test network (TESTNET).`**
-7. **Scroll down and save**
+7. **Save**
 
-The network name can be changed. The API protocol, host, and port are specified in `dfuseeos` and is displayed when it launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
+The network name we used (`ice`) can be changed later. The API protocol, the host, and the port are all specified in `dfuseeos` and displayed at launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
 
 ```
 eosc get info
 ```
 
-This will display the current chain info with chainID.
+This will display the current chain info. What we're looking for is the `chain_id`.
 
-You'll now see a list of networks, scroll down to ICE, and select the checkbox next to it
+Now that we've added our new chain to the wallet, we can scroll down to the testnet `ICE` and select the checkbox next to it.
 
 8. **Go back up and Click `Enable 1 blockchains` to connect**
 
 ## 8. Import Key and Accounts in Anchor Wallet
 
 1. **Go to the `Tools` tab in the left side menu**
-2. **Click `Manage Keys` under the `Security` tab**
-3. **Click `+ Import Key`**
+2. **Under the `Security` tab, click `Manage Keys`**
+3. **Click the `+ Import Key` button**
 4. **Set a password for you wallet**
 5. **Confirm your password**
 
 ![password screenshot](image.png 'password screenshot')
 
-5. **Paste in the development private key and click `Save Keys to Wallet`**
+5. **Paste in the development private key (also given by `dfuseeos` and click `Save Keys to Wallet`**
 
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -164,11 +166,11 @@ This key was used to boot the chain and generate all accounts. You can find this
 
 7. **Select the blockchain card named `ICE`**
 
-8. **Click `Scan for Accounts`**
+8. **Click the `Scan for Accounts` button**
 
 This will automatically detect the available accounts for you key on the `ICE` network.
 
-9. **Select the three active accounts for users (msdelisle@active, mrkauffman@active, theboss@active)**
+9. **Select the three active accounts for users (mrkauffman@active, msdelisle@active, theboss@active)**
 
 10. **Click `+ Import Accounts`**
 
