@@ -25,8 +25,6 @@ ICE Pools allows you to create different "pools" of ideas and let's the team vot
 
 For those who know what they're doing, here's the quick and dirty version of the steps you need to take to run ICE Pools. If you'd rather follow a step by step guide with explanations of what each step does, head over to the [TUTORIAL](TUTORIAL.md) page.
 
-Install `dfuseeos` first (from https://github.com/dfuse-io/dfuse-eosio) and then:
-
 ```
 # Clone the 'ICE Pools' repo and move to the 'contract' folder
 git clone https://github.com/dfuse-io/ice
