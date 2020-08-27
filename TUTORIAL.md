@@ -1,4 +1,4 @@
-# ICE (Impact, Confidence, Ease)
+# ICE Pools (powered by [dfuse for EOSIO](https://github.com/dfuse-io/dfuse-eosio))
 
 #### List Dapp Demo Built with _dfuse for EOSIO_
 
@@ -28,16 +28,16 @@
 
 ## Requirements
 
-This tutorial assumes that you have basic programming knowledge and that you have these tools already installed in your dev environment:
+This tutorial assumes that you have basic programming knowledge and that you have these tools already installed in your dev environment (or follow the `installation` links to install them).
 
-* `EOSIO.CDT` 1.7.0 or higher ([installation](https://github.com/EOSIO/eosio.cdt#binary-releases))
+* `EOSIO.CDT` v1.7.0 or higher ([installation](https://github.com/EOSIO/eosio.cdt#binary-releases))
 * `Git` ([installation](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
-* `Go` 1.14 or higher ([installation](https://golang.org/doc/install#install))
-* `NodeJS` 14.1.0 or higher ([installation](https://nodejs.org/en/download/package-manager/))
-* `yarn` 1.15 or higher ([installation](https://classic.yarnpkg.com/en/docs/install))
+* `Go` v1.14 or higher ([installation](https://golang.org/doc/install#install))
+* `NodeJS` v14.0.1 or higher ([installation](https://nodejs.org/en/download/package-manager/))
+* `yarn` v1.15 or higher ([installation](https://classic.yarnpkg.com/en/docs/install))
 * (_For macOS_) Command Line Tools for Xcode ([installation](https://developer.apple.com/downloads/))
 
-_**NOTE** - Windows is not currently supported by `dfuse for EOSIO`, which is required by the demo dapp._
+_**NOTE** - The Windows OS is not currently supported by `dfuse for EOSIO`, which is required by ICE Pools._
 
 
 ## 1. Cloning the ICE repo
