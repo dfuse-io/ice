@@ -15,33 +15,33 @@ To successfully run ICE Pools, we assume that you have these tools already insta
 
 _**NOTE** - The Windows OS is not currently supported by `dfuse for EOSIO`, which is required by ICE Pools._
 
-### What it does
+## What is ICE Pools
 
 ICE stands for Impact, Confidence, and Ease. When making business decisions, you often need to figure out what's the next "thing" you should spend your efforts on. You often have a "pool" or list of things to do, but wonder which one could have the most (I)mpact for your business. Or maybe you want to make sure that the team has (C)onfidence in this next item. Or maybe you simply want to tackle a bunch of short and (E)asy tasks to get the ball rolling. Whatever your thinking is, ICE Pools can help you make an informed decision on what that next step should be.
 
 ICE Pools allows you to create different "pools" of ideas and let's the team vote on them. Everything happens on the blockchain so you know that the votes are legit. You can track pretty much everything, from the creation of a user account, to the changes in voting scores, to the date and time "x" event happened on the chain.
 
-### Steps to run
+## Running ICE Pools
 
 For those who know what they're doing, here's the quick and dirty version of the steps you need to take to run ICE Pools. If you'd rather follow a step by step guide with explanations of what each step does, head over to the [TUTORIAL](TUTORIAL.md) page.
 
 Install `dfuseeos` first (from https://github.com/dfuse-io/dfuse-eosio) and then:
 
 ```
-# Clone the repo and move to the 'contract' folder of ICE
+# Clone the 'ICE Pools' repo and move to the 'contract' folder
 git clone https://github.com/dfuse-io/ice
 cd ice/contract
 
 # Compile the ICE smart contract
 ./compile.sh
    
-# Boot chain and create the needed users
+# Boot the chain and create the needed users
 ./boot.sh
 
-# Test smart contract by creating some pools, ideas and making users votes
+# Test the smart contract (create some pools with ideas and random user votes)
 ./test.sh
 
-# move to the web folder, install frontend dependencies & start the app
+# Move to the 'web' folder, install frontend dependencies & start the app
 cd ../web
 yarn install && yarn start
 ```
@@ -54,7 +54,7 @@ TODO
 
 ## Contributing
 
-We welcome all contributions. Please refer to the dfuse for EOSIO [CONTRIBUTING.md](../dfuse-eosio/CONTRIBUTING.md) page for details on our Code of Conduct, [CONVENTIONS.md](../dfuse-eosio/CONVENTIONS.md) page for our coding conventions and processes for submitting pull requests. The same contribution and coding conventions apply to this project.
+We welcome all contributions. Please refer to the dfuse for EOSIO [CONTRIBUTING.md](../../../dfuse-eosio/CONTRIBUTING.md) page for details on our Code of Conduct, [CONVENTIONS.md](../../../dfuse-eosio/CONVENTIONS.md) page for our coding conventions and processes for submitting pull requests. The same contribution and coding conventions apply to this project.
 
 ## License
 
