@@ -1,14 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 BROWN='\033[0;33m'
 NC='\033[0m'
-
-BUILD_SUFFIX=${1}
 CORES=$(getconf _NPROCESSORS_ONLN)
 
-printf "${BROWN}Compiling ${BUILD_SUFFIX}${NC}\n"
+printf "\n${BROWN}Compiling. It shouldn\'t take too long...${NC}\n"
 
-mkdir -p $ROOT/bootstrapping/build${BUILD_SUFFIX}
-eosio-cpp ./src/ice.cpp -o ./bootstrapping/build/ice.wasm
+mkdir -p $ROOT/bootstrapping/build
+eosio-cpp ./src/ice.cpp -o ./bootstrapping/build/ice.wasm > /dev/null
+
+printf "\n${BROWN}Done!${NC}\n\n"
