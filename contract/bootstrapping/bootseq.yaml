@@ -201,81 +201,80 @@ boot_sequence:
   # ----------------------------------------------------
   # create user 1
   # ----------------------------------------------------
-
   - op: system.newaccount
-    label: Create account user1
+    label: Create account msdelisle
     data:
       creator: eosio
-      new_account: user1
+      new_account: msdelisle
       pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
-    label: delegatebw from eosio to user1
+    label: delegatebw from eosio to msdelisle
     data:
       from: eosio
-      to: user1
+      to: msdelisle
       stake_cpu: 1
       stake_net: 1
       Transfer: true
 
   - op: token.transfer
-    label: eosio transfering token to user1
+    label: eosio transfering token to msdelisle
     data:
       from: eosio
-      to: user1
+      to: msdelisle
       quantity: 100.0000 EOS
 
   # ----------------------------------------------------
   # create user 2
   # ----------------------------------------------------
   - op: system.newaccount
-    label: Create account user2
+    label: Create account mrkauffman
     data:
       creator: eosio
-      new_account: user2
+      new_account: mrkauffman
       pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
-    label: delegatebw from eosio to user2
+    label: delegatebw from eosio to mrkauffman
     data:
       from: eosio
-      to: user2
+      to: mrkauffman
       stake_cpu: 1
       stake_net: 1
       Transfer: true
 
   - op: token.transfer
-    label: eosio transfering token to user2
+    label: eosio transfering token to mrkauffman
     data:
       from: eosio
-      to: user2
+      to: mrkauffman
       quantity: 100.0000 EOS
 
   # ----------------------------------------------------
   # create user 3
   # ----------------------------------------------------
   - op: system.newaccount
-    label: Create account user3
+    label: Create account theboss
     data:
       creator: eosio
-      new_account: user3
+      new_account: theboss
       pubkey: users
       ram_bytes: 10000
 
   - op: system.delegate_bw
-    label: delegatebw from eosio to user3
+    label: delegatebw from eosio to theboss
     data:
       from: eosio
-      to: user3
+      to: theboss
       stake_cpu: 1
       stake_net: 1
       Transfer: true
 
   - op: token.transfer
-    label: eosio transfering token to user3
+    label: eosio transfering token to theboss
     data:
       from: eosio
-      to: user3
+      to: theboss
       quantity: 100.0000 EOS

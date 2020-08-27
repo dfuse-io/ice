@@ -22,7 +22,7 @@ export EOSC_GLOBAL_INSECURE_VAULT_PASSPHRASE=secure
 
 pushd $ROOT/bootstrapping &>/dev/null
 KEY=$(head -1 genesis.key)
-printf "${BROWN}Boostraping testnet${NC}\n"
+printf "${BROWN}Boostraping a brand new testnet...${NC}\n"
 yes | dfuseeos init
 yes | dfuseeos purge
 dfuseeos start \

@@ -35,11 +35,13 @@ This tutorial assumes that you have basic programming knowledge and that you hav
 * `Go` 1.14 or higher ([installation](https://golang.org/doc/install#install))
 * `NodeJS` 14.1.0 or higher ([installation](https://nodejs.org/en/download/package-manager/))
 * `yarn` 1.15 or higher ([installation](https://classic.yarnpkg.com/en/docs/install))
-* (_macOS_) Command Line Tools for Xcode ([installation](https://developer.apple.com/downloads/))
+* (_For macOS_) Command Line Tools for Xcode ([installation](https://developer.apple.com/downloads/))
+
+_**NOTE** - Windows is not currently supported by `dfuse for EOSIO`, which is required by the demo dapp._
 
 
 ## 1. Cloning the ICE repo
-The first step we need to take is obviously to clone this repo!
+The first step we need to take is obviously to clone this repo! Open a terminal window and `git clone` the repo:
 
 ```
 # clone the ICE repo
@@ -48,7 +50,7 @@ git clone https://github.com/dfuse-io/ice
 
 ## 2. Compiling the ICE Smart Contract
 
-Next, we need to compile our smart contract in order to deploy it to our local testnet. We've provided a compile script for you in the `ice/contract` folder. We simply need to move inside the right folder and run the `compile.sh` file as such:
+Next, we need to compile our smart contract in order to deploy it to our local testnet. We've provided a `compile.sh` script for you in the `ice/contract` folder. We simply need to move inside the `contract` folder and run the `compile.sh` file as such:
 
 ```
 # move inside the contract folder and run compile.sh
@@ -56,7 +58,7 @@ cd ice/contract
 ./compile.sh
 ```
 
-This script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder and stores the two compiled files in it. If you're looking to understand the smart contract and what it accomplishes, take a look at [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract) below.
+The `compile.sh` script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements)) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder inside the `bootstrapping` folder and stores the two compiled files (`ice.wasm` and `ice.abi`) in it. If you're looking to understand what the smart contract actually accomplishes, take a look at [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract) at the bottom of this tutorial.
 
 Now that our smart contract is compiled, we're ready to install [_dfuse for EOSIO_](https://github.com/dfuse-io/dfuse-eosio) which will allow us to run an [EOSIO](https://eos.io/) testnet locally.
 
@@ -64,22 +66,24 @@ Now that our smart contract is compiled, we're ready to install [_dfuse for EOSI
 
 [dfuse](https://www.dfuse.io) is a massively scalable open-source platform for searching and processing blockchain data. dfuse for EOSIO includes all [dfuse services](https://dfuse.io/technology) for EOSIO, running locally or from a container, released as a single statically linked binary: `dfuseeos`.
 
-The easiest way to get the `dfuseeos` binary is to download the latest stable tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes). The next step assumes that you have extracted the content of the tarball and moved the `dfuseeos` binary to your `$GOPATH/bin` folder*.
+The easiest way to get the `dfuseeos` binary is to download the latest stable version in a tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes). The next step assumes that you have extracted the content of the tarball and moved the `dfuseeos` binary inside your `$GOPATH/bin` folder*.
   
-If you'd rather install from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide. You do not need to create or initialize a chain with _dfuse for EOSIO_ at this time.
+If you'd rather install _dfuse for EOSIO_ from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide. If you install from source, you do not need to create or initialize a chain with _dfuse for EOSIO_ at this time.
 
-_*Your `$GOPATH` is where Go is installed. By default on macOS, your `$GOPATH` is `/Users/$USER/go` where `$USER` is your username. If you installed Go through [`Homebrew`](https://brew.sh/), your folder structure might be different._
+_*Your `$GOPATH` is where Go is installed on your system. By default, on macOS, your `$GOPATH` is `/Users/$USER/go` where `$USER` is your username. If you installed Go through [`Homebrew`](https://brew.sh/), your folder structure might be different._
 
 ## 4. Running dfuse for EOSIO
 
-In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund them with tokens for our development needs. This is an important step to enable accounts to push feeless transactions. We've created a script that will automatically do all of these things for you. You can find it inside the `contract` folder (which you should be in because of [step #2](#compiling-the-ice-smart-contract):
+In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund accounts with tokens for our development needs. This is an important step to enable accounts to push feeless transactions. We've created a script that will automatically do all of these things for you. You can find it inside the `contract` folder.
+ 
+Your terminal window should already be in the `contract` folder because of [step #2](#compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` file:
 
 ```
 # run boot.sh
 ./boot.sh
 ```
 
-_**macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, you should select `allow` as `dfuseeos` needs to accept connections from your local environment._
+_**For macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, you should select `allow` as `dfuseeos` needs to accept connections from your local environment._
 
 This script reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts, and deploy them. We also create 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `user(1,2,3)` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuseioice` account.
 
@@ -164,7 +168,7 @@ This key was used to boot the chain and generate all accounts. You can find this
 
 This will automatically detect the available accounts for you key on the `ICE` network.
 
-9. **Select the three active accounts for users (user1@active, user2@active, user3@active)**
+9. **Select the three active accounts for users (msdelisle@active, mrkauffman@active, theboss@active)**
 
 10. **Click `+ Import Accounts`**
 
