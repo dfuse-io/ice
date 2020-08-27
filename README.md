@@ -44,7 +44,7 @@ cd ../web
 yarn install && yarn start
 ```
 
-You should now be able to visit [localhost:3000](localhost:3000) in your browser to play with the app.
+You should now be able to visit [localhost:3000](http://localhost:3000) in your browser to play with the app.
 
 ## Overview - Repository Map
 
@@ -52,7 +52,7 @@ TODO
 
 ## Contributing
 
-We welcome all contributions. Please refer to the dfuse for EOSIO [CONTRIBUTING.md](../../../dfuse-eosio/CONTRIBUTING.md) page for details on our Code of Conduct, [CONVENTIONS.md](../../../dfuse-eosio/CONVENTIONS.md) page for our coding conventions and processes for submitting pull requests. The same contribution and coding conventions apply to this project.
+We welcome all contributions. Please refer to the dfuse for EOSIO [CONTRIBUTING](../../../dfuse-eosio//blob/develop/CONTRIBUTING.md) page for details on our Code of Conduct and the [CONVENTIONS](../../../dfuse-eosio//blob/develop/CONVENTIONS.md) page for our coding conventions and processes for submitting pull requests. The same contribution and coding conventions apply to this project.
 
 ## License
 
