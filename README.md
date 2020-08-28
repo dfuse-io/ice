@@ -23,7 +23,7 @@ ICE Pools allows you to create different "pools" of ideas and let's the team vot
 
 ## Running ICE Pools
 
-For those who know what they're doing, here's the quick and dirty version of the steps you need to take to run ICE Pools. If you'd rather follow a step by step guide with explanations of what each step does, head over to the [TUTORIAL](TUTORIAL.md) page.
+For those who know what they're doing, here's the quick and dirty version of the steps you need to get ICE Pools up and running in your browser. If you'd rather follow a step by step guide with explanations of what each step does, head over to the [TUTORIAL](TUTORIAL.md) page.
 
 ```
 # Clone the 'ICE Pools' repo and move to the 'contract' folder
