@@ -24,8 +24,7 @@ KEY=$(head -1 genesis.key)
 printf "\n${BROWN}### Boostraping a brand new testnet with dfuse for EOSIO...${NC}\n\n"
 
 yes | dfuseeos init
-yes | dfuseeos purge
-
+dfuseeos purge -f
 dfuseeos start \
     --booter-bootseq=./bootseq.yaml \
     --booter-nodeos-api-addr=http://localhost:8888 \
@@ -34,4 +33,4 @@ dfuseeos start \
 
 popd > /dev/null
 
-printf "\n${BROWN}### You should keep this process running in the background while running the ICE demo.\n### Thanks for trying ICE @ https://github.com/dfuse-io/ice${NC}\n\n"
+printf "\n${BROWN}### You should keep this process running in the background while running the ICE Pools demo.\n### Thanks for trying ICE Pools @ https://github.com/dfuse-io/ice${NC}\n\n"

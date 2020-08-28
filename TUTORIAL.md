@@ -1,7 +1,5 @@
 # ICE Pools (powered by [dfuse for EOSIO](https://github.com/dfuse-io/dfuse-eosio))
 
-#### List Dapp Demo Built with _dfuse for EOSIO_
-
 <!-- - [I. Prerequisites](#prerequisites)
 - [1. Running dfuse for EOSIO](#1-running-dfuse-for-eosio)
 - [2. Bootstrap Testnet and Accounts](#2-bootstrap-testnet-and-accounts)
@@ -26,6 +24,12 @@
 - [14. Calling Smart Contract Actions with UAL and Wallets](#14-calling-smart-contract-actions-with-ual-and-wallets)
 - [II. Understanding the ICE Smart Contract](#ii-understanding-the-ice-smart-contract) -->
 
+## Running ICE Pools
+
+This tutorial is a step by step guide on how to get ICE Pools up and running in your browser where we take our time to go over each step and explain what some of the code does. We're also going to show you how to interact with the app once it's up and running.
+
+If you're an experienced developer and you're looking for a faster way to get up and running with ICE Pools, take a look at the [Running ICE Pools](https://github.com/dfuse-io/ice/blob/master/README.md#running-ice-pools) section in the [README](https://github.com/dfuse-io/ice/blob/master/README.md).
+
 ## Requirements
 
 This tutorial assumes that you have basic programming knowledge and that you have these tools already installed in your dev environment (or follow the `installation` links to install them).
@@ -44,13 +48,13 @@ _**NOTE** - The Windows OS is not currently supported by `dfuse for EOSIO`, whic
 The first step we need to take is obviously to clone this repo! Open a terminal window and `git clone` the repo:
 
 ```
-# clone the ICE repo
+# clone the ICE Pools repo
 git clone https://github.com/dfuse-io/ice
 ```
 
 ## 2. Compiling the ICE Smart Contract
 
-Next, we need to compile our smart contract in order to deploy it to our local testnet. We've provided a `compile.sh` script for you in the `ice/contract` folder. We simply need to move inside the `contract` folder and run the `compile.sh` file as such:
+Once we have the repo cloned to our dev environment, the first thing we want to do is to compile our smart contract in order to deploy it to our local testnet. We've provided a couple bash scripts to make this demo easier. You can find them all int the `/contract` folder. To compile our smart contract, we simply need to move inside the `contract` folder and run the `compile.sh` file:
 
 ```
 # move inside the contract folder and run compile.sh
@@ -58,25 +62,27 @@ cd ice/contract
 ./compile.sh
 ```
 
-The `compile.sh` script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements)) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder inside the `bootstrapping` folder and stores the two compiled files (`ice.wasm` and `ice.abi`) in it. If you're looking to understand what the smart contract actually accomplishes, take a look at [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract) at the bottom of this tutorial.
+The `compile.sh` script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements)) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder inside the `bootstrapping` folder and stores the two compiled files (`ice.wasm` and `ice.abi`) in it. If you're looking to understand what's inside the smart contract and what it actually accomplishes, take a look at [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract) at the bottom of this tutorial.
 
 Now that our smart contract is compiled, we're ready to install [_dfuse for EOSIO_](https://github.com/dfuse-io/dfuse-eosio) which will allow us to run an [EOSIO](https://eos.io/) testnet locally.
 
 ## 3. Installing _dfuse for EOSIO_
 
-[dfuse](https://www.dfuse.io) is a massively scalable open-source platform for searching and processing blockchain data. dfuse for EOSIO includes all [dfuse services](https://dfuse.io/technology) for EOSIO, running locally or from a container, released as a single statically linked binary: `dfuseeos`.
+[dfuse](https://www.dfuse.io) is a massively scalable open-source platform for searching and processing blockchain data. dfuse for EOSIO includes all [dfuse services](https://dfuse.io/technology) for EOSIO as a single statically linked binary: `dfuseeos`. You can easily run `dfuseeos` locally or from a container.
 
-The easiest way to get the `dfuseeos` binary is to download the latest stable version in a tarball from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (right after each release notes). The next step assumes that you have extracted the content of the tarball and moved the `dfuseeos` binary inside your `$GOPATH/bin` folder*.
+The easiest way to get the `dfuseeos` binary is to download the latest stable version in a tarball (files that have been packed into a tar file like `*.tar.gz`) from the [Releases](https://github.com/dfuse-io/dfuse-eosio/releases/) page under the `Assets` section (after each release notes, you will find the `Assets` section).
+
+Once you have downloaded the right file for your OS, extract its content and move the `dfuseeos` binary inside your `$GOPATH/bin` folder*.
   
-If you'd rather install _dfuse for EOSIO_ from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide. If you install from source, you do not need to create or initialize a chain with _dfuse for EOSIO_ at this time.
+If you'd rather install _dfuse for EOSIO_ from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide but be advised it's a longer process. If you do decide to install from source, you do not need to create or initialize a chain with _dfuse for EOSIO_ at this time. More about that later.
 
-_*Your `$GOPATH` is where Go is installed on your system. By default, on macOS, your `$GOPATH` is `/Users/$USER/go` where `$USER` is your username. If you installed Go through [`Homebrew`](https://brew.sh/), your folder structure might be different._
+_*Your `$GOPATH` is where Go is installed on your system. By default, on macOS, your `$GOPATH` is `/Users/$USER/go` where `$USER` is your username. If you installed `Go` through [`Homebrew`](https://brew.sh/), your folder structure will be different._
 
 ## 4. Running dfuse for EOSIO
 
-In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund accounts with tokens for our development needs. This is an important step to enable accounts to push feeless transactions. We've created a script that will automatically do all of these things for you. You can find it inside the `contract` folder.
+In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund accounts with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
  
-Your terminal window should already be in the `contract` folder because of [step #2](#compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` file:
+Your terminal window should already be in the `contract` folder because of [step #2](#compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` script that will automate all of the account creation and funding process. `boot.sh` will also initialze _dfuse for EOSIO_ for us, purge it (clean start), and start it.
 
 ```
 # run boot.sh
@@ -85,7 +91,7 @@ Your terminal window should already be in the `contract` folder because of [step
 
 _**For macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, you should select `allow` as `dfuseeos` needs to accept connections from your local environment._
 
-This script reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts, and deploy them. We also create 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `user(1,2,3)` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuseioice` account.
+`boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuseioice` account.
 
 A successful `dfuseeos` start will list the launching applications as well as the graphical interfaces with their relevant links:
 
@@ -110,7 +116,8 @@ We can test the smart contract by creating some pools, ideas and casting users v
 ```
 
 ## 7. Install Anchor Wallet
-Now is the time to install the Anchor Wallet, which will allow us to validate our identity. You can grab the latest stable version of the Anchor Wallet at https://github.com/greymass/anchor
+
+Now is the time to install the Anchor Wallet, which will allow us to validate our identity. You can grab the latest stable version of the Anchor Wallet at https://github.com/greymass/anchor. The next steps assume this is a brand new Anchor Wallet installation.
 
 ## 8. Adding our Custom Blockchain to the Wallet
 

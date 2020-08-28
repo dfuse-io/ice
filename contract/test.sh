@@ -9,25 +9,25 @@ BROWN='\033[0;33m'
 NC='\033[0m'
 
 pushd $ROOT/vault > /dev/null
-    printf "\n${BROWN}### Creating an \'office\' poll...${NC}\n"
-    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"office"}' -p dfuseioice
+    printf "\n${BROWN}### Creating a \'new.feature\' pool for ideas...${NC}"
+    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"new.feature"}' -p dfuseioice
 
-    printf "\n${BROWN}### Creating ideas to vote on for the \'office\' poll${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"office", "title":"Bottled water for the plants", "description":"Plants deserve better treatment is all."}' -p dfuseioice    # transaction_id => 1
-    eosc tx create dfuseioice addidea '{"author":"msdelisle", "pool_name":"office", "title":"Renowned sushi chef to cook lunch everyday", "description":"This would probably boost productivity. If not, at least we tried it."}' -p msdelisle    # transaction_id => 2
-    eosc tx create dfuseioice addidea '{"author":"mrkauffman", "pool_name":"office", "title":"Mandatory 2-day work week", "description":"Condensing the work week in 2 days of 20 hours each means more free time for all!"}' -p mrkauffman    # transaction_id => 3
+    printf "\n${BROWN}### Creating ideas to poll in the \'new.feature\' pool${NC}"
+    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"new.feature", "title":"Reading minds", "description":"Because reading minds is what our customers really want, we should focus on this feature next!"}' -p dfuseioice    # transaction_id => 1
+    eosc tx create dfuseioice addidea '{"author":"msdelisle", "pool_name":"new.feature", "title":"Seeing through walls", "description":"We had many request from users who want to see through walls, so I think we should focus on this asap."}' -p msdelisle    # transaction_id => 2
+    eosc tx create dfuseioice addidea '{"author":"mrkauffman", "pool_name":"new.feature", "title":"Flying", "description":"Jetpacks are overrated, our customers want to be able to fly on their own."}' -p mrkauffman    # transaction_id => 3
 
-    printf "\n${BROWN}### Creating a \'rebrand\' poll... ${NC}\n"
-    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"rebrand"}' -p dfuseioice
+    printf "\n${BROWN}### Creating a \'hackathon\' pool for ideas... ${NC}"
+    eosc tx create dfuseioice addpool '{"author":"dfuseioice", "name":"hackathon"}' -p dfuseioice
 
-    printf "\n${BROWN}### Creating ideas to vote on for the \'rebrand\' poll${NC}\n"
-    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"rebrand", "title":"DFuse", "description":"Using capital letters for the D and the F makes it easier to type."}' -p dfuseioice    # transaction_id => 4
-    eosc tx create dfuseioice addidea '{"author":"msdelisle", "pool_name":"rebrand", "title":"EOS Canada", "description":"Has anyone seen that name somewhere before? I kinda dig it!"}' -p msdelisle    # transaction_id => 5
-    eosc tx create dfuseioice addidea '{"author":"mrkauffman", "pool_name":"rebrand", "title":"df", "description":"Less is more"}' -p mrkauffman    # transaction_id => 6
-    eosc tx create dfuseioice addidea '{"author":"theboss", "pool_name":"rebrand", "title":"Google", "description":"It kinda has a nice ring to it... sounds like money!"}' -p theboss    # transaction_id => 7
+    printf "\n${BROWN}### Creating ideas to poll in the \'hackathon\' pool${NC}"
+    eosc tx create dfuseioice addidea '{"author":"dfuseioice", "pool_name":"hackathon", "title":"Helium Blockchain Hotspot", "description":"We should definitely build a Helium Hotspot!"}' -p dfuseioice    # transaction_id => 4
+    eosc tx create dfuseioice addidea '{"author":"msdelisle", "pool_name":"hackathon", "title":"Decentralized OS", "description":"Building a decentralized OS sounds like a really fun project."}' -p msdelisle    # transaction_id => 5
+    eosc tx create dfuseioice addidea '{"author":"mrkauffman", "pool_name":"hackathon", "title":"Game with NFTs", "description":"What about an ARPG game with unique NFT items that are tradable on the blockchain?"}' -p mrkauffman    # transaction_id => 6
+    eosc tx create dfuseioice addidea '{"author":"theboss", "pool_name":"hackathon", "title":"dfuse for Ethereum binary", "description":"We should package our dfuse for Ethereum services in a single binary."}' -p theboss    # transaction_id => 7
 
-    printf "\n${BROWN}### Random votes being casted on ideas for the ICE demo...${NC}\n"
-    for i in  "1","office" "2","office" "3","office" "4","rebrand" "5","rebrand" "6","rebrand" "7","rebrand"
+    printf "\n${BROWN}### Random votes being casted on ideas for the ICE Pools demo...${NC}"
+    for i in  "1","new.feature" "2","new.feature" "3","new.feature" "4","hackathon" "5","hackathon" "6","hackathon" "7","hackathon"
     do
         IFS=","
         set -- $i
@@ -41,4 +41,4 @@ pushd $ROOT/vault > /dev/null
     done
 popd > /dev/null
 
-printf "\n${BROWN}### We\'re done here!${NC}\n"
+printf "\n${BROWN}### We\'re done here!${NC}\n\n"
