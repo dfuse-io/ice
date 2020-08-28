@@ -93,7 +93,7 @@ _**For macOS** - If you get a prompt similar to `Do you want the application “
 
 `boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuse.ice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` with tokens for us to use. These accounts are also delegated [CPU](https://developers.eos.io/welcome/latest/overview/core_concepts/#cpu), [NET](https://developers.eos.io/welcome/latest/overview/core_concepts/#network-net), and [RAM](https://developers.eos.io/welcome/latest/overview/core_concepts/#ram). The script also handles deploying the compiled ICE smart contract to the `dfuse.ice` account.
 
-A successful `dfuseeos` start by `boot.sh` will list the _dfuse for EOSIO_ applications that were launched with their url with their relevant links:
+A successful `dfuseeos` start by `boot.sh` will list the _dfuse for EOSIO_ applications that were launched with their relevant links. We don't need those for now, but it's nice to know they will be there when we need them.
 
 ```
 Dashboard:        http://localhost:8081
@@ -102,9 +102,9 @@ Explorer & APIs:  http://localhost:8080
 GraphiQL:         http://localhost:8080/graphiql
 ```
 
-You now have a fully bootstrapped EOSIO chain, with a `dfuse.ice` account and smart contract deployed, as well as three user accounts to use.
+Congrats! You now have a fully bootstrapped EOSIO chain, with a `dfuse.ice` account, a smart contract deployed, as well as three user accounts to use.
 
-**Please note you need to leave this process running in the terminal throughout this tutorial**
+**Please note that you need to leave this process running in the terminal throughout this tutorial**
 
 ## Testing our Smart Contract
 
@@ -116,11 +116,11 @@ In a **new** (that's important) terminal window, run `test.sh` from the `contrac
 ./test.sh
 ```
 
-`test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial. We'll want to see these pools, ideas, and votes in an app now. That's in the next step.
+`test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial.  Now we'll want to see these pools in action, the ideas, and the votes in an app with an actual user interface. That's in the next step.
 
 ## Starting the ICE Pools App
 
-In the cloned repo, go to the `web` folder. This is where the React frontend application lives. We have built a simple user interface to interact with the smart contract and display data from it. Run:
+We're going to move out of the `contract` folder and go to the `web` folder. This is where the React frontend application lives. We have built a simple UI to interact with the smart contract and display data from it. We'll then install the necessary dependencies for the application, compile it, and serve it from your terminal with `yarn`.
 
 ```
 # move to the web folder, install dependencies & start the app
@@ -128,110 +128,119 @@ cd ../web
 yarn install && yarn start
 ```
 
-This will install the necessary dependencies for the application, compile it, and serve it from your terminal. Please bear with the yarn process as it might take some time to serve the app. After it's done, go to http://localhost:3000 on your web browser to see it in action.
+Please bear with the yarn process as it might take some time to serve the app. You should automatically get a new tab opened in your browser that's pointing to `localhost:3000`. It will automatically serve the app once you see `Compiled successfully! You can now view web in the browser.` in your terminal window.
 
-Do you want the application “node” to accept incoming network connections? -> yes
+ If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action.
 
-Next, we'll want to be able to create new pools, add new ideas and edit a previous vote. To do that, we need to be logged in the have the right permissions. That will be done through the usage of a wallet callet Anchor.
+**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`.
 
-**Keep this process running in a terminal throughout this tutorial**
+**Please also note that you need to leave this process running in the terminal throughout this tutorial**
+
+## Browsing the ICE Pools app
+
+Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
+
+You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
+
+![idea screenshot](image.png 'idea screenshot')
+
+It's al lfun and games, but we'll want to be able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
 ## Installing the Anchor Wallet
 
-Now is the time to install the Anchor Wallet, which will allow us to validate our identity. You can grab the latest stable version of the Anchor Wallet at https://github.com/greymass/anchor. The next steps assume this is a brand new Anchor Wallet installation.
+The [Anchor Wallet](https://greymass.com/en/anchor/) is an EOSIO Wallet and Authenticator released by the [Greymass](https://greymass.com/en) team. Installing the Anchor Wallet will allow us to validate our identity as a valid user. You can grab the latest stable version of the Anchor Wallet for your OS from https://greymass.com/en/anchor/ and install it. Once that is done, it's time to setup the wallet with our local bootstrapped blockchain.
 
 ## Adding our Custom Blockchain to the Wallet
 
-Once you have the wallet installed, follow these simple steps to add our ICE blockchain to the wallet interface:
+This step assumes that this is a brand new Anchor Wallet installation. Once you have the wallet installed, follow these simple steps to add our local blockchain to the wallet interface:
 
-1. **Open the Anchor Wallet app**
-2. **Click on `Setup New Wallet`**
-3. **Click on `+ Custom Blockchain`**
-4. **Enter the following Information:**
+1. Open the Anchor Wallet app
+2. Select `Setup New Wallet` on the welcome screen
+3. Select `Custom Blockchain` on the next screen
+4. Then, enter the following Information:
 ```
-Chain ID: df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
-Name of Blockchain: ice
-Default node for this Blockchain: http://localhost:8080
+Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
+Name of Blockchain:                 ICE
+Default node for this Blockchain:   http://localhost:8080
 ```
-5. **Skip the `Advanced Configuration` section**
-6. **Check the box `This blockchain is a test network (TESTNET).`**
-7. **Save**
+5. Skip the `Advanced Configuration` section
+6. Check the box `This blockchain is a test network (TESTNET).`
+7. Select `Save`
 
-The network name we used (`ice`) can be changed later. The API protocol, the host, and the port are all specified in `dfuseeos` and displayed at launched. The ChainID is derived from the genesis state, and is specified in `dfuseeos`. You can also verify that it is indeed correct by running:
+The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a new terminal window.
 
 ```
 eosc get info
 ```
 
-This will display the current chain info. What we're looking for is the `chain_id`.
+[`eosc`](https://eosc.app/) is a flexible & powerful command line tool to interact with an EOSIO chain. Running `get info` will display the current chain info. What we're looking for in this case is to confirm the `chain_id`.
 
-Now that we've added our new chain to the wallet, we can scroll down to the testnet `ICE` and select the checkbox next to it.
+## Importing Key Pairs in the Wallet
 
-8. **Go back up and Click `Enable 1 blockchains` to connect**
+Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet. We can do that from the `Which blockchains do you plan on using?` screen, which you should be on after saving your custom blockchain. On that screen, look for the `testnet` labels and scroll down to the `ICE` blockchain. Once you find it, select the checkbox next to it. Now, go back up and select `Enable 1 blockchains`. Once you've selected the ICE blockchain, follow these next steps to import our key to the wallet:
 
-## Import Key and Accounts in Anchor Wallet
-
-1. **Go to the `Tools` tab in the left side menu**
-2. **Under the `Security` tab, click `Manage Keys`**
-3. **Click the `+ Import Key` button**
-4. **Set a password for you wallet**
-5. **Confirm your password**
-
-![password screenshot](image.png 'password screenshot')
-
-5. **Paste in the development private key (also given by `dfuseeos` and click `Save Keys to Wallet`**
-
+1. Select `Tools` from the left-side menu
+2. Under the `Security` table, select `Manage Keys`
+3. Select `Import Key`
+4. Set a password for you wallet
+5. Re-enter the same password to confirm
+6. Paste in the development private key (also specified by `dfuseeos`)
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
+_This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
+7. Select `Save Keys to Wallet`
+8. Enter your wallet password (the one you just created on step 4.)
+9. Select `Authorize`
 
-![import key screenshot](image.png 'import key screenshot')
+And voilà! Your key is now saved inside the wallet. Time to look for accounts on your chain and add them to the wallet.
 
-This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key under the folder `contract/bootstrapping` 
+## Importing Accounts in the Wallet
 
-6. **re-enter your wallet password (the one you just created) and click `authorize`**
-6. **Go to the `Home` tab in the menu**
+1. Select `Home` from the left-side menu
+2. Select the blockchain card named `ICE`
+3. Select `Scan for Accounts`
+_This will automatically detect the available accounts for you key on the `ICE` network._
+4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)
+5. Select `Import Accounts` at the bottom of the window
+6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
+7. Select `Authorize`
+8. Select `Yes, enable app integrations`
 
-7. **Select the blockchain card named `ICE`**
+You should now see the three user accounts in the wallet, with their tokens and resources. Using these accounts, we'll use the wallet to authorize our login in the ICE Pools app.
 
-8. **Click the `Scan for Accounts` button**
+## Logging in the ICE Pools app
 
-This will automatically detect the available accounts for you key on the `ICE` network.
+To interact with our smart contract from the user interface, we need to log into the app with a valid user account. The good news is, it's a really easy process:
 
-9. **Select the three active accounts for users (mrkauffman@active, msdelisle@active, theboss@active)**
-
-10. **Click `+ Import Accounts`**
-
-11. **Enter your password, authorize, and click `Yes, enable app integrations`**
-
-Now you should see the three user accounts in the wallet, with their tokens and resources.
-
-## Log in the ICE Pools app
-
-Now we can interact with our smart contract from the user interface.
-
-1. **Click on the `Login` Button**
-
-2. **Select the Anchor wallet**
-
+1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
+2. Select `Anchor`
 ![login screenshot](image.png 'login screenshot')
+3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
+4. Select one of the 3 user accounts from the dropdown list
+5. Select `Unlock Wallet + Sign` in the bottom right
+6. Enter your wallet password
+7. Select `Authorize`
 
-- Click `Open Anchor App`
-- Select one of the user accounts, and use its active permission
-- Click `Unlock Wallet` in the bottom right
-- Enter your password
-- Click `Prove Identity` in the bottom right
-- You are now signed in to the app
+Congratulations! You are now signed in as a valid user.
 
-** NOTE** - If your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them or try a different browser.
+_**NOTE** - If you can't login or if your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them (Incognito sometimes doesn't work as intended) or try in a different browser._
 
-## Using the Dapp
+#### Adding Pools and Ideas
 
-The application shows pools in a list. Click on `Select a pool` and select to view the `hackathon` pool.
+You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
-We see three prepopulated ideas in the pool. You can click on any idea to expand and see its details.
+From the pool dropdown list, click on `Create a new pool!`, enter a pool name* (you are limited to 13 alphanumeric characters) in the dropdown that became an input, and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
 
-![idea screenshot](image.png 'idea screenshot')
+Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser.
+
+With a pool selected, click on `New Idea`. Enter a title and description, then click `OK`. Go through the transaction signing process in your wallet, and a new idea is added.
+
+Whenever a new pool, idea, or vote is made, you can see the transaction on account page of our block explorer.
+
+http://localhost:8080/account/dfuse.ice
+
+_*Note that you are limited to 12 characters [a-z], [1-5] or 13 characters if the final character is between [a-j] for the pool name.
 
 #### Casting Votes
 
@@ -241,19 +250,8 @@ Click sign transaction when you are ready.
 
 ![wallet signing screenshot](image.png 'signing screenshot')
 
-Your transaction has been submitted, and the vote scores is automatically updated.
+Your transaction has been submitted and the vote scores are automatically updated.
 
-#### Adding Pools and Ideas
-
-You can also add new Pools and Ideas.
-
-Click on `Create a new pool` in the pool dropdown list, enter a pool name, and click `Create Pool`. Go through the transaction signing process in your wallet, and a new pool is added.
-
-With a pool selected, click on `New Idea`. Enter a title and description, then click `OK`. Go through the transaction signing process in your wallet, and a new idea is added.
-
-Whenver a new pool, idea, or vote is made, you can see the transaction on account page of our block explorer.
-
-http://localhost:8080/account/dfuse.ice
 
 ## Frontend Authentication
 

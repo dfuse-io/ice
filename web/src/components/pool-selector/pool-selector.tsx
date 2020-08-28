@@ -78,7 +78,7 @@ export const PoolSelector: React.FC = () => {
             ))}
             {loggedIn && (
               <Option key={`pool-new_pool`} value={'new_pool'}>
-                create a new pool
+                Create a new pool!
               </Option>
             )}
           </StyledSelect>
