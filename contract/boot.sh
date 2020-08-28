@@ -24,7 +24,7 @@ KEY=$(head -1 genesis.key)
 printf "\n${BROWN}### Boostraping a brand new testnet with dfuse for EOSIO...${NC}\n\n"
 
 yes | dfuseeos init
-dfuseeos purge -f
+dfuseeos purge || echo 'Not purging, continuing with existing chain data'
 dfuseeos start \
     --booter-bootseq=./bootseq.yaml \
     --booter-nodeos-api-addr=http://localhost:8888 \

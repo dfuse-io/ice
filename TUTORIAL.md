@@ -118,6 +118,8 @@ In a **new** (that's important) terminal window, run `test.sh` from the `contrac
 
 `test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial.  Now we'll want to see these pools in action, the ideas, and the votes in an app with an actual user interface. That's in the next step.
 
+[::TODO::] maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever)
+         
 ## Starting the ICE Pools App
 
 We're going to move out of the `contract` folder and go to the `web` folder. This is where the React frontend application lives. We have built a simple UI to interact with the smart contract and display data from it. We'll then install the necessary dependencies for the application, compile it, and serve it from your terminal with `yarn`.
@@ -232,13 +234,20 @@ You can now add new pools and ideas, or even edit a past vote that your user mad
 
 From the pool dropdown list, click on `Create a new pool!`, enter a pool name* (you are limited to 13 alphanumeric characters) in the dropdown that became an input, and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
 
-Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser.
+Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the new pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it?
 
-With a pool selected, click on `New Idea`. Enter a title and description, then click `OK`. Go through the transaction signing process in your wallet, and a new idea is added.
+Select `New Idea` and enter a title and a description, then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted once again. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification.
 
-Whenever a new pool, idea, or vote is made, you can see the transaction on account page of our block explorer.
+Whenever a new pool, idea, or vote is submitted, you can see the transaction on the account page of our block explorer eosq. Do you remember this?
 
-http://localhost:8080/account/dfuse.ice
+```
+Dashboard:        http://localhost:8081
+
+Explorer & APIs:  http://localhost:8080
+GraphiQL:         http://localhost:8080/graphiql
+```
+
+We're going to use our Explorer (which is our local version of eosq) and go to the account page of `dfuse.ice` at http://localhost:8080/account/dfuse.ice
 
 _*Note that you are limited to 12 characters [a-z], [1-5] or 13 characters if the final character is between [a-j] for the pool name.
 
