@@ -106,7 +106,7 @@ Explorer & APIs:  http://localhost:8080
 GraphiQL:         http://localhost:8080/graphiql
 ```
 
-Congrats! You now have a fully bootstrapped EOSIO chain, with a `dfuse.ice` account, a smart contract deployed, as well as three user accounts to use.
+Congrats! You now have a fully bootstrapped EOSIO chain running locally with a `dfuse.ice` account, a smart contract deployed, as well as three user accounts created and ready to use.
 
 **Please note that you need to leave this process running in the terminal throughout this tutorial**
 
@@ -138,21 +138,25 @@ yarn install && yarn start
 
 Please bear with the yarn process as it might take some time to serve the app. You should automatically get a new tab opened in your browser that's pointing to `localhost:3000`. It will automatically serve the app once you see `Compiled successfully! You can now view web in the browser.` in your terminal window.
 
- If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action.
+ If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
+ 
+ ![screenshot](image.png 'idea screenshot')
 
-**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`.
+_**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
-**Please also note that you need to leave this process running in the terminal throughout this tutorial**
+**Please also note that you need to leave this process running in the terminal throughout this tutorial.**
 
 ### 7. Browsing the ICE Pools App
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
+ ![screenshot](image.png 'idea screenshot')
+ 
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
 ![idea screenshot](image.png 'idea screenshot')
 
-It's al lfun and games, but we'll want to be able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
+It's all fun and games to be able to "view" them, but what about being able to create new pools, to add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
 ### 8. Installing the Anchor Wallet
 
