@@ -14,7 +14,7 @@
 
 keys:
   ephemeral: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
-  dfuseioice: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+  dfuse.ice: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
   users: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3 # EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
 contents:
@@ -38,9 +38,9 @@ contents:
   - name: eosio.token.wasm
     url: ./contracts/eosio.token-1.0.2.wasm
 
-  - name: dfuseioice.abi
+  - name: dfuse.ice.abi
     url: ./build/ice.abi
-  - name: dfuseioice.wasm
+  - name: dfuse.ice.wasm
     url: ./build/ice.wasm
 
 ################################# BOOT SEQUENCE ###################################
@@ -165,38 +165,38 @@ boot_sequence:
         - eosio.vpay
 
   # ----------------------------------------------------
-  # create dfuseioice
+  # create dfuse.ice
   # ----------------------------------------------------
   - op: system.newaccount
-    label: Create account dfuseioice
+    label: Create account dfuse.ice
     data:
       creator: eosio
-      new_account: dfuseioice
-      pubkey: dfuseioice
+      new_account: dfuse.ice
+      pubkey: dfuse.ice
       ram_bytes: 600000
 
   - op: system.delegate_bw
-    label: delegatebw from eosio to dfuseioice
+    label: delegatebw from eosio to dfuse.ice
     data:
       from: eosio
-      to: dfuseioice
+      to: dfuse.ice
       stake_cpu: 10
       stake_net: 10
       Transfer: true
 
   - op: token.transfer
-    label: eosio transfering token to dfuseioice
+    label: eosio transfering token to dfuse.ice
     data:
       from: eosio
-      to: dfuseioice
+      to: dfuse.ice
       quantity: 1000.0000 EOS
 
   - op: system.setcode
     label: Setting ice contract code signer
-    signer: dfuseioice
+    signer: dfuse.ice
     data:
-      account: dfuseioice
-      contract_name_ref: dfuseioice
+      account: dfuse.ice
+      contract_name_ref: dfuse.ice
 
   # ----------------------------------------------------
   # create user 1

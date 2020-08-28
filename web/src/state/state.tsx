@@ -61,7 +61,7 @@ export function AppStateProvider(props: React.PropsWithChildren<{}>) {
   const [selectedPool, setSelectedPool] = useState<PoolRow | null>(null);
 
   const contractAccount =
-    process.env.REACT_APP_DFUSE_CONTRACT_OWNER || 'dfuseioice';
+    process.env.REACT_APP_DFUSE_CONTRACT_OWNER || 'dfuse.ice';
 
   const handleSelectPool = (value) => {
     if (value === 'new_pool') {

@@ -91,7 +91,7 @@ Your terminal window should already be in the `contract` folder because of [step
 
 _**For macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, you should select `allow` as `dfuseeos` needs to accept connections from your local environment._
 
-`boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuseioice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuseioice` account.
+`boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuse.ice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` for us to use. These accounts are also delegated cpu and net, and are transferred tokens. The script also handles deploying the compiled ice smart contract to the `dfuse.ice` account.
 
 A successful `dfuseeos` start will list the launching applications as well as the graphical interfaces with their relevant links:
 
@@ -103,7 +103,7 @@ GraphiQL:         http://localhost:8080/graphiql
 
 Warnings such as `No existing chain state or fork database.` or `Initializing new blockchain with genesis state` are normal when you first boot the chain. 
 
-You now have a fully bootstrapped EOSIO chain, with a `dfuseioice` account and smart contract deployed, as well as three user accounts to use.
+You now have a fully bootstrapped EOSIO chain, with a `dfuse.ice` account and smart contract deployed, as well as three user accounts to use.
 
 **Please note you should leave process running in a terminal throughout this tutorial**
 
@@ -230,7 +230,7 @@ We see three prepopulated ideas in the pool. You can click on any idea to expand
 
 #### Casting Votes
 
-To cast vote on an idea, select the score you want to assign to the three parameters (impact, confidence, and ease), then click confirm. You will be prompted by the wallet you chose to sign in with. Review the transaction data. We are calling the `castvote` method on the `dfuseioice` contract. The pool name, idea id, account name, and the vote scores you have entered are also displayed in the transaction.
+To cast vote on an idea, select the score you want to assign to the three parameters (impact, confidence, and ease), then click confirm. You will be prompted by the wallet you chose to sign in with. Review the transaction data. We are calling the `castvote` method on the `dfuse.ice` contract. The pool name, idea id, account name, and the vote scores you have entered are also displayed in the transaction.
 
 Click sign transaction when you are ready.
 
@@ -248,7 +248,7 @@ With a pool selected, click on `New Idea`. Enter a title and description, then c
 
 Whenver a new pool, idea, or vote is made, you can see the transaction on account page of our block explorer.
 
-http://localhost:8080/account/dfuseioice
+http://localhost:8080/account/dfuse.ice
 
 ## 12. Frontend Authentication
 
@@ -402,7 +402,7 @@ To send a talk to the GraphQL endpoint, we first need to define our GraphQL quer
 
 ```graphql
 subscription  {
-    searchTransactionsForward(query: "receiver:dfuseioice -action:transfer", lowBlockNum:${lastSeenBlock}) {
+    searchTransactionsForward(query: "receiver:dfuse.ice -action:transfer", lowBlockNum:${lastSeenBlock}) {
       cursor
       trace {
         matchingActions {
@@ -417,10 +417,10 @@ subscription  {
 With the above query, we are setting up a subscription to listen for transactions. The `query` parameter is a custom query language allowing us to search for the transactions that we are interested in.
 
 ```graphql
-query: 'receiver:dfuseioice -action:transfer'
+query: 'receiver:dfuse.ice -action:transfer'
 ```
 
-In this specific query, we are looking for transactions that are sent to the `dfuseioice` account, with an action that is NOT named `transfer`. This filters the results to only include transactions which invokes the `addpool, addidea, and castvote` actions on our contract.
+In this specific query, we are looking for transactions that are sent to the `dfuse.ice` account, with an action that is NOT named `transfer`. This filters the results to only include transactions which invokes the `addpool, addidea, and castvote` actions on our contract.
 
 You can find more examples of results you can search for here:
 [Search Language Reference](https://docs.dfuse.io/reference/eosio/search-terms/)
