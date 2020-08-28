@@ -118,6 +118,8 @@ In a **new** (that's important) terminal window, run `test.sh` from the `contrac
 
 `test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial.  Now we'll want to see these pools in action, the ideas, and the votes in an app with an actual user interface. That's in the next step.
 
+_**NOTE** - If you get an error similar to `ERROR: pushing transaction: http://localhost:8080/v1/chain/push_transaction: status code=502`, that means that the chain was not yet ready to receive your transactions. Try to run the script again after a couple seconds._
+
 [::TODO::] maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever)
          
 ## Starting the ICE Pools App
@@ -228,17 +230,35 @@ Congratulations! You are now signed in as a valid user.
 
 _**NOTE** - If you can't login or if your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them (Incognito sometimes doesn't work as intended) or try in a different browser._
 
-#### Adding Pools and Ideas
+## Adding a Pool
 
 You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
-From the pool dropdown list, click on `Create a new pool!`, enter a pool name* (you are limited to 13 alphanumeric characters) in the dropdown that became an input, and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
+From the pool dropdown list, click on `Create a new pool!`, enter a pool name* in the dropdown that became an input, and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
 
-Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the new pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it?
+Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it?
 
-Select `New Idea` and enter a title and a description, then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted once again. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification.
+_*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitations; a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
 
-Whenever a new pool, idea, or vote is submitted, you can see the transaction on the account page of our block explorer eosq. Do you remember this?
+## Adding an Idea
+
+Select `New Idea` and enter a title and a description, then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification.
+
+
+
+## Casting Votes
+
+Now that we have a new pool and an idea in the pool, why don't we try voting on that idea? To cast vote on an idea, select the score you want to assign to the three parameters (impact, confidence, and ease), then click confirm. You will be prompted by the wallet you chose to sign in with. Review the transaction data. We are calling the `castvote` method on the `dfuse.ice` contract. The pool name, idea id, account name, and the vote scores you have entered are also displayed in the transaction.
+
+Click sign transaction when you are ready.
+
+![wallet signing screenshot](image.png 'signing screenshot')
+
+Your transaction has been submitted and the vote scores are automatically updated.
+
+## Exploring Pools, Ideas and Votes on the Blockchain
+
+Whenever a new pool, idea, or vote is submitted, we can see that transaction on the account page of `dfuse.ice` our block explorer, which is a local version of [eosq](eosq.app). Do you remember this console output from running the `boot.sh` script?
 
 ```
 Dashboard:        http://localhost:8081
@@ -247,20 +267,13 @@ Explorer & APIs:  http://localhost:8080
 GraphiQL:         http://localhost:8080/graphiql
 ```
 
-We're going to use our Explorer (which is our local version of eosq) and go to the account page of `dfuse.ice` at http://localhost:8080/account/dfuse.ice
+We're going to use our Explorer (our local version of eosq) and go to the account page of `dfuse.ice` which is located at http://localhost:8080/account/dfuse.ice. On that page, you can see pretty much all the relevant information about `dfuse.ice`, including its token balance, staked tokens for resources, and more importantly in our case, the transactions made by that account.
 
-_*Note that you are limited to 12 characters [a-z], [1-5] or 13 characters if the final character is between [a-j] for the pool name.
+![wallet signing screenshot](image.png 'transactions screenshot')
 
-#### Casting Votes
+After submitting an action, refresh the page to see the `Transaction ID` of that action and the `Block ID` in which that transaction was created. We can [dig even deeper using the explorer](https://www.dfuse.io/en/blog/contextual-search-eosq-magnifies-your-search-for-data-on-eos), but that's not the goal of this tutorial.
 
-To cast vote on an idea, select the score you want to assign to the three parameters (impact, confidence, and ease), then click confirm. You will be prompted by the wallet you chose to sign in with. Review the transaction data. We are calling the `castvote` method on the `dfuse.ice` contract. The pool name, idea id, account name, and the vote scores you have entered are also displayed in the transaction.
-
-Click sign transaction when you are ready.
-
-![wallet signing screenshot](image.png 'signing screenshot')
-
-Your transaction has been submitted and the vote scores are automatically updated.
-
+![wallet signing screenshot](image.png 'opened transaction pill screenshot')
 
 ## Frontend Authentication
 
