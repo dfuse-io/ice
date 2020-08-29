@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
-![01-fresh-installa](screenshots/01-fresh-install.png '01-fresh-installb')
+![screenshot of a fresh ICE Pools app install](screenshots/01-fresh-install.png 'Fresh install')
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -150,11 +150,11 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
-![02-select-pool](02-select-pool '02-select-pool')
+![screenshot of the available pools from the dropdown](screenshots/02-select-pool 'Select a pool')
  
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
-![03-hackathon-ideas](03-hackathon-ideas.png '03-hackathon-ideas')
+![screenshot of available ideas from the hackathon pool](screenshots/03-hackathon-ideas.png 'Ideas from the Hackathon pool')
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
@@ -169,18 +169,18 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 1. Open the Anchor Wallet app
 2. Select `Setup New Wallet` on the welcome screen
 3. Select `Custom Blockchain` on the next screen
-![04-anchor-custom-blockchain](04-anchor-custom-blockchain '04-anchor-custom-blockchain')
+![04-anchor-custom-blockchain](screenshots/04-anchor-custom-blockchain '04-anchor-custom-blockchain')
 4. Then, enter the following Information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
-![05-anchor-custom-blockchain-info](05-anchor-custom-blockchain-info '05-anchor-custom-blockchain-info')
+![05-anchor-custom-blockchain-info](screenshots/05-anchor-custom-blockchain-info '05-anchor-custom-blockchain-info')
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
-![06-anchor-custom-blockchain-save](06-anchor-custom-blockchain-save '06-anchor-custom-blockchain-save')
+![06-anchor-custom-blockchain-save](screenshots/06-anchor-custom-blockchain-save '06-anchor-custom-blockchain-save')
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
