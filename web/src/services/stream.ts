@@ -2,7 +2,7 @@ import { DfuseClient, Stream } from '@dfuse/client';
 import { Action, ActionTrace } from '../types/types';
 
 const query = (lastSeenBlock) => `subscription  {
-    searchTransactionsForward(query: "receiver:dfuseioice -action:transfer", lowBlockNum:${lastSeenBlock}) {
+    searchTransactionsForward(query: "receiver:dfuse.ice -action:transfer", lowBlockNum:${lastSeenBlock}) {
       cursor
       trace {
         matchingActions {

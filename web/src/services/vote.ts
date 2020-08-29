@@ -18,7 +18,7 @@ export const castVoteTrx = (
   return {
     actions: [
       {
-        account: 'dfuseioice',
+        account: 'dfuse.ice',
         name: 'castvote',
         authorization: [
           {
