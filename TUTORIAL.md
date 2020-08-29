@@ -166,13 +166,13 @@ The [Anchor Wallet](https://greymass.com/en/anchor/) is an EOSIO Wallet and Auth
 
 This step assumes that this is a brand new Anchor Wallet installation. Once you have the wallet installed, follow these simple steps to add our local blockchain to the wallet interface:
 
-#### 1. Open the Anchor Wallet app**
-#### 2. Select `Setup New Wallet` on the welcome screen**
-#### 3. Select `Custom Blockchain` on the next screen**
+#### 1. Open the Anchor Wallet app
+#### 2. Select `Setup New Wallet` on the welcome screen
+#### 3. Select `Custom Blockchain` on the next screen
 
 <img src="screenshots/04-anchor-custom-blockchain.png" alt="screenshot of the custom blockhain button" title="Click on the 'Custom Blockhain' button" width="450" />
 
-#### 4. Then, enter the following information:**
+#### 4. Then, enter the following information:
 
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
@@ -180,9 +180,9 @@ Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
 
-#### 5. Skip the `Advanced Configuration` section**
-#### 6. Check the box `This blockchain is a test network (TESTNET).`**
-#### 7. Select `Save`**
+#### 5. Skip the `Advanced Configuration` section
+#### 6. Check the box `This blockchain is a test network (TESTNET).`
+#### 7. Select `Save`
 
 <img src="screenshots/06-anchor-custom-blockchain-save.png" alt="screenshot of the ticked box and the save button" title="Tick the box and click 'Save'" width="450" />
 
@@ -196,13 +196,13 @@ eosc get info
 
  The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
 
-* Scroll down the list of networks and look for the `testnet` labels.
-* Scroll down further to find our `ICE` blockchain.
-* Once you find it, select the checkbox next to it.
+#### Scroll down the list of networks and look for the `testnet` labels.
+#### Scroll down further to find our `ICE` blockchain.
+#### Once you find it, select the checkbox next to it.
 
 <img src="screenshots/07-anchor-enable-ice.png" alt="screenshot of the ice testnet with a checked box" title="Tick the box of the ICE Testnet" width="450" />
 
-* Now, go back up and select `Enable 1 blockchains`.
+#### Now, go back up and select `Enable 1 blockchains`.
 
 <img src="screenshots/08-anchor-enable-ice-button.png" alt="screenshot of the enable blockchain button" title="Click on the 'Enable 1 Blockchains' button" width="450" />
 
@@ -212,27 +212,27 @@ The ICE network is now enabled within Anchor.
 
 Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
-**1. Select `Tools` from the left-side menu**
+#### 1. Select `Tools` from the left-side menu
 
 <img src="screenshots/09-anchor-key-import-tools.png" alt="screenshot of the left-side menu in the Anchor app" title="Click on the 'Tools' button" width="450" />
 
-**2. Under the `Security` table, select `Manage Keys`**
+#### 2. Under the `Security` table, select `Manage Keys`
 
 <img src="screenshots/10-anchor-key-import-manage.png" alt="screenshot of the 'tools' available options in the Anchor app" title="Click on the 'Security' button" width="450" />
 
-**3. Select `Import Key`**
+#### 3. Select `Import Key`
 
 <img src="screenshots/11-anchor-key-import-button.png" alt="screenshot of the 'import key' button in the Anchor app" title="Click on the 'Import Key' button" width="450" />
 
-**4. Set a password for you wallet and select `Set Password`**
+#### 4. Set a password for you wallet and select `Set Password`
 
 <img src="screenshots/12-anchor-key-import-set-password.png" alt="screenshot of the 'set password' button in the Anchor app" title="Click on the 'Set Password' button" width="450" />
 
-**5. Re-enter the same password to confirm**
+#### 5. Re-enter the same password to confirm
 
 <img src="screenshots/13-anchor-key-import-set-password-confirm.png" alt="screenshot of the second 'set password' button in the Anchor app" title="Click on the 'Set Password' button once again" width="450" />
 
-**6. Paste in the development private key (also specified by `dfuseeos`)**
+#### 6. Paste in the development private key (also specified by `dfuseeos`)
 
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
@@ -240,35 +240,35 @@ Now that we've added our new chain to the wallet, we'll want to use it to import
 
 _This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
 
-**7. Select `Save Keys to Wallet`**
+#### 7. Select `Save Keys to Wallet`
 
 <img src="screenshots/14-anchor-key-import-save-key.png" alt="screenshot of the 'save keys to wallet' button in the Anchor app" title="Click on the 'Save Keys to Wallet' button" width="450" />
 
-**8. Enter your wallet password (the one you just created on step 4.)**
-**9. Select `Authorize`**
+#### 8. Enter your wallet password (the one you just created on step 4.)
+#### 9. Select `Authorize`
 
 And voilà! Your key is now saved inside the wallet. Time to look for accounts on your chain and add them to the wallet.
 
 ### 11. Importing Accounts in the Wallet
 
-**1. Select `Home` from the left-side menu**
-**2. Select the blockchain card named `ICE`**
+#### 1. Select `Home` from the left-side menu
+#### 2. Select the blockchain card named `ICE`
 
 <img src="screenshots/15-anchor-account-import-select-ice.png" alt="screenshot of the 'ice' card in the Anchor app" title="Click on the 'ICE' card" width="450" />
 
-**3. Select `Scan for Accounts`**
+#### 3. Select `Scan for Accounts`
 _This will automatically detect the available accounts using your key pairs on the `ICE` network._
 
 <img src="screenshots/16-anchor-account-import-scan.png" alt="screenshot of the 'scan for accounts' button in the Anchor app" title="Click on the 'Scan for Accounts' button" width="450" />
 
-**4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)**
-**5. Select `Import Account(s)` at the bottom of the window**
+#### 4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)**
+#### 5. Select `Import Account(s)` at the bottom of the window
 
 <img src="screenshots/17-anchor-account-import-button.png" alt="screenshot of the 'import account(s)' button in the Anchor app" title="Click on the 'Import Account(s)' button" width="450" />
 
-**6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)**
-**7. Select `Authorize`**
-**8. Select `Yes, enable app integrations`**
+#### 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
+#### 7. Select `Authorize`
+#### 8. Select `Yes, enable app integrations`
 
 <img src="screenshots/18-anchor-account-import-yes.png" alt="screenshot of the 'yes, enable app integration' button in the Anchor app" title="Click on the 'Yes, enable app integration' button" width="450" />
 
@@ -278,22 +278,22 @@ You should now see the three user accounts in the wallet, with their tokens and 
 
 To interact with our smart contract from the user interface, we need to log into the app with a valid user account. The good news is, it's a really easy process:
 
-**1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button**
-**2. Select `Anchor`**
+#### 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
+#### 2. Select `Anchor`
 
 <img src="screenshots/19-login-anchor.png" alt="screenshot of the selection screen" title="Select 'Anchor' from the selection screen" width="450" />
 
-**3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_**
+#### 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
 
 <img src="screenshots/20-login-anchor-open.png" alt="screenshot of the qr code to sign the authorization" title="Click on the 'Open Anchor app' button" width="450" />
 
-**4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)**
-**5. Select `Unlock Wallet + Sign` in the bottom right**
+#### 4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)**
+#### 5. Select `Unlock Wallet + Sign` in the bottom right
 
 <img src="screenshots/21-login-anchor-signing-request.png" alt="screenshot of the user selection screen in the Anchor app" title="Click on the 'Unlock Wallet + Sign' button" width="450" />
 
-**6. Enter your wallet password**
-**7. Select `Authorize`**
+#### 6. Enter your wallet password
+#### 7. Select `Authorize`
 
 Congratulations! You are now signed in as "theboss".
 
