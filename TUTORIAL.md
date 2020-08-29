@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
-![screenshot of a fresh ICE Pools app install](screenshots/01-fresh-install.png 'Fresh ICE Pools app install')
+ <img src="screenshots/01-fresh-install.png" alt="screenshot of a fresh ICE Pools app install" title="Fresh ICE Pools app install" />
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
