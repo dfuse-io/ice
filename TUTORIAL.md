@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
- <img src="screenshots/01-fresh-install.png" alt="screenshot of a fresh ICE Pools app install" title="Fresh ICE Pools app install" width="450" />
+<img src="screenshots/01-fresh-install.png" alt="screenshot of a fresh ice pools app install" title="Fresh ICE Pools app install" width="450" />
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -150,11 +150,11 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
-![screenshot of the available pools from the dropdown](screenshots/02-select-pool.png 'Available pools from the dropdown')
+<img src="screenshots/screenshots/02-select-pool.png" alt="screenshot of the available pools from the dropdown" title="Available pools from the dropdown" width="450" />
  
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
-![screenshot of the list of ideas inside the hackathon pool](screenshots/03-hackathon-ideas.png 'List of ideas inside the Hackathon pool')
+<img src="screenshots/03-hackathon-ideas.png" alt="screenshot of the list of ideas inside the hackathon pool" title="List of ideas inside the 'Hackathon' pool" width="450" />
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
@@ -170,7 +170,7 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 2. Select `Setup New Wallet` on the welcome screen
 3. Select `Custom Blockchain` on the next screen
 
-![screenshot of the Custom Blockhain button](screenshots/04-anchor-custom-blockchain.png 'Click on the "Custom Blockhain" button')
+<img src="screenshots/04-anchor-custom-blockchain.png" alt="screenshot of the custom blockhain button" title="Click on the 'Custom Blockhain' button" width="450" />
 
 4. Then, enter the following information:
 ```
@@ -183,7 +183,7 @@ Default node for this Blockchain:   http://localhost:8080
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
 
-![screenshot of the ticked box and the save button](screenshots/06-anchor-custom-blockchain-save.png 'Tick the box and click "Save"')
+<img src="screenshots/06-anchor-custom-blockchain-save.png" alt="screenshot of the ticked box and the save button" title="Tick the box and click 'Save'" width="450" />
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
@@ -199,11 +199,11 @@ eosc get info
 * Scroll down further to find our `ICE` blockchain.
 * Once you find it, select the checkbox next to it.
 
-![screenshot of the ICE testnet with a checked box](screenshots/07-anchor-enable-ice.png 'Tick the box of the ICE Testnet')
+<img src="screenshots/07-anchor-enable-ice.png" alt="screenshot of the ice testnet with a checked box" title="Tick the box of the ICE Testnet" width="450" />
 
 * Now, go back up and select `Enable 1 blockchains`.
 
-![screenshot of the enable blockchain button](screenshots/08-anchor-enable-ice-button.png 'Click on the "Enable 1 Blockchains" button')
+<img src="screenshots/08-anchor-enable-ice-button.png" alt="screenshot of the enable blockchain button" title="Click on the 'Enable 1 Blockchains' button" width="450" />
 
 The ICE network is now enabled within Anchor.
 
