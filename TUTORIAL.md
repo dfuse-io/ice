@@ -138,7 +138,7 @@ yarn install && yarn start
 
 Please bear with the yarn process as it might take some time to serve the app. You should automatically get a new tab opened in your browser that's pointing to `localhost:3000`. It will automatically serve the app once you see `Compiled successfully! You can now view web in the browser.` in your terminal window.
 
- If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
+ If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this (_you can click on an image to enlarge it_):
  
 <img src="screenshots/01-fresh-install.png" alt="screenshot of a fresh ice pools app install" title="Fresh ICE Pools app install" width="450" />
 
@@ -150,7 +150,7 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
-<img src="screenshots/screenshots/02-select-pool.png" alt="screenshot of the available pools from the dropdown" title="Available pools from the dropdown" width="450" />
+<img src="screenshots/02-select-pool.png" alt="screenshot of the available pools from the dropdown" title="Available pools from the dropdown" width="450" />
  
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
@@ -212,16 +212,34 @@ The ICE network is now enabled within Anchor.
 Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
 1. Select `Tools` from the left-side menu
+
+<img src="screenshots/09-anchor-key-import-tools.png" alt="screenshot of the left-side menu in the Anchor app" title="Click on the 'Tools' button" width="450" />
+
 2. Under the `Security` table, select `Manage Keys`
+
+<img src="screenshots/10-anchor-key-import-manage.png" alt="screenshot of the 'tools' available options in the Anchor app" title="Click on the 'Security' button" width="450" />
+
 3. Select `Import Key`
+
+<img src="screenshots/11-anchor-key-import-button.png" alt="screenshot of the 'import key' button in the Anchor app" title="Click on the 'Import Key' button" width="450" />
+
 4. Set a password for you wallet and select `Set Password`
+
+<img src="screenshots/12-anchor-key-import-set-password.png" alt="screenshot of the 'set password' button in the Anchor app" title="Click on the 'Set Password' button" width="450" />
+
 5. Re-enter the same password to confirm
+
+<img src="screenshots/13-anchor-key-import-set-password-confirm.png" alt="screenshot of the second 'set password' button in the Anchor app" title="Click on the 'Set Password' button once again" width="450" />
+
 6. Paste in the development private key (also specified by `dfuseeos`)
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
 _This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
 7. Select `Save Keys to Wallet`
+
+<img src="screenshots/14-anchor-key-import-save-key.png" alt="screenshot of the 'save keys to wallet' button in the Anchor app" title="Click on the 'Save Keys to Wallet' button" width="450" />
+
 8. Enter your wallet password (the one you just created on step 4.)
 9. Select `Authorize`
 
@@ -231,8 +249,14 @@ And voilà! Your key is now saved inside the wallet. Time to look for accounts o
 
 1. Select `Home` from the left-side menu
 2. Select the blockchain card named `ICE`
+
+<img src="screenshots/15-anchor-account-import-select-ice.png" alt="screenshot of the 'ice' card in the Anchor app" title="Click on the 'ICE' card" width="450" />
+
 3. Select `Scan for Accounts`
 _This will automatically detect the available accounts for you key on the `ICE` network._
+
+<img src="screenshots/16-anchor-account-import-scan.png" alt="screenshot of the 'scan for accounts' button in the Anchor app" title="Click on the 'Scan for Accounts' button" width="450" />
+
 4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)
 5. Select `Import Accounts` at the bottom of the window
 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
