@@ -124,7 +124,7 @@ In a **new** (that's important) terminal window, run `test.sh` from the `contrac
 
 _**NOTE** - If you get an error similar to `ERROR: pushing transaction: http://localhost:8080/v1/chain/push_transaction: status code=502`, that means that the chain was not yet ready to receive your transactions. Try to run the script again after a couple seconds._
 
-[::TODO::] maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever)
+<!-- TODO:: @stepd to @phil: maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever) -->
          
 ### 6. Starting the ICE Pools App
 
@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this (_you can click on an image to enlarge it_):
  
-<img src="screenshots/01-fresh-install.png" alt="screenshot of a fresh ice pools app install" title="Fresh ICE Pools app install" width="450" />
+![screenshot of a fresh ice pools app install](screenshots/01-fresh-install.png 'Fresh ICE Pools app install')
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -217,7 +217,7 @@ And voilà! Your key is now saved inside the wallet. Time to look for accounts o
 1. Select `Home` from the left-side menu
 2. Select the blockchain card named `ICE` ([screenshot](screenshots/15-anchor-account-import-select-ice.png))
 3. Select `Scan for Accounts` _This will automatically detect the available accounts using your key pairs on the `ICE` network._ ([screenshot](screenshots/16-anchor-account-import-scan.png))
-4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)**
+4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)
 5. Select `Import Account(s)` at the bottom of the window ([screenshot](screenshots/17-anchor-account-import-button.png))
 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
 7. Select `Authorize`
@@ -232,7 +232,7 @@ To interact with our smart contract from the user interface, we need to log into
 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
 2. Select `Anchor` ([screenshot](screenshots/19-login-anchor.png))
 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_ ([screenshot](screenshots/20-login-anchor-open.png))
-4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)**
+4. Select "theboss" from the dropdown list (_all users have the same rights_)
 5. Select `Unlock Wallet + Sign` in the bottom right ([screenshot](screenshots/21-login-anchor-signing-request.png))
 6. Enter your wallet password
 7. Select `Authorize`
@@ -251,7 +251,7 @@ From the pool dropdown list, click on `Create a new pool!` ([screenshot](screens
 
 Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it? ([screenshot](screenshots/24-create-idea.png))
 
-_*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitations; a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
+_*Note that each pool name needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitation; it must be a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
 
 ### 14. Adding an Idea
 
@@ -271,7 +271,7 @@ Your transaction should now be submitted and the idea score should automatically
 
 ### 16. Exploring Pools, Ideas and Votes on the Blockchain
 
-Whenever a new pool, idea, or vote is submitted, we can see that transaction on the account page of `dfuse.ice` our block explorer, which is a local version of [eosq](eosq.app). Do you remember this console output from running the `boot.sh` script?
+Whenever a new pool, idea, or vote is submitted, we can see that transaction on the account page of `dfuse.ice` our block explorer, which is a local version of [eosq](https://eosq.app/). Do you remember this console output from running the `boot.sh` script?
 
 ```
 Dashboard:        http://localhost:8081
@@ -288,7 +288,7 @@ Try it again; after submitting a new action (new pool, new idea, new vote or vot
 
 That's it for this tutorial. Thanks for following along, and we hope your enjoyed playing with the ICE Pools app. It was a lot of fun creating the app and writing the tutorial. Feel free to augment this app (or even the tutorial) by opening an issue and submitting a pull request to fix the issue you opened. We'd love to see how far you can push this app!
 
-## Understanding How It Works
+## Understanding How the ICE App Works
 
 ### Frontend Authentication
 
@@ -296,7 +296,7 @@ Let's walk through how our frontend application is talking to the blockchain.
 
 Authentication is handled by EOSIO's [Universal Authenticator Library](https://github.com/EOSIO/universal-authenticator-library)
 
-We set up the authenticator in `App.tsx` as a React context. We connec to http://localhost:13026 which is where the RPC endpoint of dfuse is served.
+We set up the authenticator in `App.tsx` as a React context. We connect to http://localhost:13026 which is where the RPC endpoint of dfuse is served.
 
 **App.tsx**
 
