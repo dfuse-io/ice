@@ -196,13 +196,13 @@ eosc get info
 
  The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
 
-#### Scroll down the list of networks and look for the `testnet` labels.
-#### Scroll down further to find our `ICE` blockchain.
-#### Once you find it, select the checkbox next to it.
+#### * Scroll down the list of networks and look for the `testnet` labels.
+#### * Scroll down further to find our `ICE` blockchain.
+#### * Once you find it, select the checkbox next to it.
 
 <img src="screenshots/07-anchor-enable-ice.png" alt="screenshot of the ice testnet with a checked box" title="Tick the box of the ICE Testnet" width="450" />
 
-#### Now, go back up and select `Enable 1 blockchains`.
+#### * Now, go back up and select `Enable 1 blockchains`.
 
 <img src="screenshots/08-anchor-enable-ice-button.png" alt="screenshot of the enable blockchain button" title="Click on the 'Enable 1 Blockchains' button" width="450" />
 
