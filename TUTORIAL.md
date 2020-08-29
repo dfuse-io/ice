@@ -206,7 +206,7 @@ eosc get info
 
 <img src="screenshots/08-anchor-enable-ice-button.png" alt="screenshot of the enable blockchain button" title="Click on the 'Enable 1 Blockchains' button" width="450" />
 
-The ICE network is now enabled within Anchor.
+Yay! The ICE network is now enabled within Anchor!
 
 ### 10. Importing Key Pairs in the Wallet
 
@@ -305,9 +305,17 @@ _To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` 
 
 You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
-From the pool dropdown list, click on `Create a new pool!`, enter a pool name* in the dropdown that became an input, and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
+From the pool dropdown list, click on `Create a new pool!`.
+
+<img src="screenshots/22-create-pool.png" alt="screenshot of the dropdown to create a new pool" title="Select 'Create a new pool!' from the list" width="450" />
+
+In the dropdown that became an input, enter a pool name* and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
+
+<img src="screenshots/23-create-pool-button.png" alt="screenshot of the 'create pool' button" title="Click on the 'Create Pool' button" width="450" />
 
 Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it?
+
+<img src="screenshots/24-create-idea.png" alt="screenshot of the 'new idea' button" title="Try the 'New Idea' button" width="450" />
 
 _*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitations; a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
 
@@ -315,7 +323,7 @@ _*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.
 
 _To add an idea, the app will be calling the `addidea` method on the `dfuse.ice` contract._
 
-Select `New Idea` and enter a title and a description, then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification - you're done! The idea has been added to the pool. Now that we have a pool and a new idea in the pool, why don't we try voting on that idea?
+Click on the `New Idea` button, and enter a title and a description in the modal, and then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification - you're done! The idea has been added to the pool. Now that we have a pool and a new idea in the pool, why don't we try voting on that idea?
 
 ### 15. Casting a Vote
 
@@ -323,9 +331,9 @@ _To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice
 
 To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means.
 
-Once you're happy with your scoring, select the `confirm` button. You will be prompted by Anchor to sign your transaction (you should be getting used to this by now). You'll see the contract information (by ascending alphabetical order) with your votes value, the idea id you're voting on, the pool name that idea is in, and of course, your account name as the voter. Review the transaction data and sign the transaction when you're ready.
+<img src="screenshots/25-vote.png" alt="screenshot of the 'vote' screen" title="Vote on the idea" width="450" />
 
-![screenshot of](image.png 'signing a vote transaction screenshot')
+Once you're happy with your scoring, select the `confirm` button. You will be prompted by Anchor to sign your transaction (you should be getting used to this by now). You'll see the contract information (by ascending alphabetical order) with your votes value, the idea id you're voting on, the pool name that idea is in, and of course, your account name as the voter. Review the transaction data and sign the transaction when you're ready.
 
 Your transaction should now be submitted and the idea score should automatically be updated. How neat is that?
 
@@ -342,7 +350,7 @@ GraphiQL:         http://localhost:8080/graphiql
 
 We're going to use the _dfuse for EOSIO_ Explorer (our local version of eosq) and go to the account page of `dfuse.ice` which is located at http://localhost:8080/account/dfuse.ice. On that page, you can see pretty much all the relevant information about `dfuse.ice`, including its token balance, staked tokens for resources, and more importantly in our case, all the transactions we've made with that account during the tutorial.
 
-![screenshot of](image.png 'transactions screenshot')
+<img src="screenshots/26-exploring.png" alt="screenshot of the oesq app, exploring the 'dfuse.ice' account" title="Explore your most recent transactions on the network" width="450" />
 
 Try it again; after submitting a new action (new pool, new idea, new vote or vote edit), refresh the page to see the `Transaction ID` of that action and the `Block ID` in which that transaction was created. We can [dig even deeper using the explorer](https://www.dfuse.io/en/blog/contextual-search-eosq-magnifies-your-search-for-data-on-eos), but that's not the goal of this tutorial.
 
