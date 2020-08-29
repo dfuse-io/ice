@@ -211,38 +211,38 @@ The ICE network is now enabled within Anchor.
 
 Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
-**1.** Select `Tools` from the left-side menu
+**1. Select `Tools` from the left-side menu**
 
 <img src="screenshots/09-anchor-key-import-tools.png" alt="screenshot of the left-side menu in the Anchor app" title="Click on the 'Tools' button" width="450" />
 
-**2.** Under the `Security` table, select `Manage Keys`
+**2. Under the `Security` table, select `Manage Keys`**
 
 <img src="screenshots/10-anchor-key-import-manage.png" alt="screenshot of the 'tools' available options in the Anchor app" title="Click on the 'Security' button" width="450" />
 
-**3.** Select `Import Key`
+**3. Select `Import Key`**
 
 <img src="screenshots/11-anchor-key-import-button.png" alt="screenshot of the 'import key' button in the Anchor app" title="Click on the 'Import Key' button" width="450" />
 
-**4.** Set a password for you wallet and select `Set Password`
+**4. Set a password for you wallet and select `Set Password`**
 
 <img src="screenshots/12-anchor-key-import-set-password.png" alt="screenshot of the 'set password' button in the Anchor app" title="Click on the 'Set Password' button" width="450" />
 
-**5.** Re-enter the same password to confirm
+**5. Re-enter the same password to confirm**
 
 <img src="screenshots/13-anchor-key-import-set-password-confirm.png" alt="screenshot of the second 'set password' button in the Anchor app" title="Click on the 'Set Password' button once again" width="450" />
 
-**6.** Paste in the development private key (also specified by `dfuseeos`)
+**6. Paste in the development private key (also specified by `dfuseeos`)**
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
 _This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
 
-**7.** Select `Save Keys to Wallet`
+**7. Select `Save Keys to Wallet`**
 
 <img src="screenshots/14-anchor-key-import-save-key.png" alt="screenshot of the 'save keys to wallet' button in the Anchor app" title="Click on the 'Save Keys to Wallet' button" width="450" />
 
-**8.** Enter your wallet password (the one you just created on step 4.)
-**9.** Select `Authorize`
+**8. Enter your wallet password (the one you just created on step 4.)**
+**9. Select `Authorize`**
 
 And voilà! Your key is now saved inside the wallet. Time to look for accounts on your chain and add them to the wallet.
 
