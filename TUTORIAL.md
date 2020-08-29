@@ -166,13 +166,13 @@ The [Anchor Wallet](https://greymass.com/en/anchor/) is an EOSIO Wallet and Auth
 
 This step assumes that this is a brand new Anchor Wallet installation. Once you have the wallet installed, follow these simple steps to add our local blockchain to the wallet interface:
 
-**1. Open the Anchor Wallet app**
-**2. Select `Setup New Wallet` on the welcome screen**
-**3. Select `Custom Blockchain` on the next screen**
+#### 1. Open the Anchor Wallet app**
+#### 2. Select `Setup New Wallet` on the welcome screen**
+#### 3. Select `Custom Blockchain` on the next screen**
 
 <img src="screenshots/04-anchor-custom-blockchain.png" alt="screenshot of the custom blockhain button" title="Click on the 'Custom Blockhain' button" width="450" />
 
-**4. Then, enter the following information:**
+#### 4. Then, enter the following information:**
 
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
@@ -180,9 +180,9 @@ Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
 
-**5. Skip the `Advanced Configuration` section**
-**6. Check the box `This blockchain is a test network (TESTNET).`**
-**7. Select `Save`**
+#### 5. Skip the `Advanced Configuration` section**
+#### 6. Check the box `This blockchain is a test network (TESTNET).`**
+#### 7. Select `Save`**
 
 <img src="screenshots/06-anchor-custom-blockchain-save.png" alt="screenshot of the ticked box and the save button" title="Tick the box and click 'Save'" width="450" />
 
