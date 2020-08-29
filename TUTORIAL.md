@@ -193,9 +193,7 @@ eosc get info
 
 [`eosc`](https://eosc.app/) is a flexible & powerful command line tool to interact with an EOSIO chain. Running `get info` will display the current chain info. What we're looking for in this case is to confirm the `chain_id`.
 
-### 10. Importing Key Pairs in the Wallet
-
-Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet. But first, we need to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos.
+ The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
 
 * Scroll down the list of networks and look for the `testnet` labels.
 * Scroll down further to find our `ICE` blockchain.
@@ -207,7 +205,11 @@ Now that we've added our new chain to the wallet, we'll want to use it to import
 
 ![screenshot of the enable blockchain button](screenshots/08-anchor-enable-ice-button.png 'Click on the "Enable 1 Blockchains" button')
 
-The ICE network is now enabled. Next, follow these next steps to import our key pairs to the wallet:
+The ICE network is now enabled within Anchor.
+
+### 10. Importing Key Pairs in the Wallet
+
+Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
 1. Select `Tools` from the left-side menu
 2. Under the `Security` table, select `Manage Keys`
