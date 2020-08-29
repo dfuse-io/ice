@@ -169,17 +169,22 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 1. Open the Anchor Wallet app
 2. Select `Setup New Wallet` on the welcome screen
 3. Select `Custom Blockchain` on the next screen
+
 ![screenshot of the Custom Blockhain button](screenshots/04-anchor-custom-blockchain.png 'Click on the "Custom Blockhain" button')
+
 4. Then, enter the following information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
+
 ![screenshot of the information entenred](screenshots/05-anchor-custom-blockchain-info.png 'Enter the required information')
+
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
+
 ![screenshot of the ticked box and the save button](screenshots/06-anchor-custom-blockchain-save.png 'Tick the box and click "Save"')
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
@@ -197,8 +202,11 @@ Now that we've added our new chain to the wallet, we'll want to use it to import
 * Scroll down the list of networks and look for the `testnet` labels.
 * Scroll down further to find our `ICE` blockchain.
 * Once you find it, select the checkbox next to it.
+
 ![screenshot of the ICE testnet with a checked box](screenshots/07-anchor-enable-ice.png 'Tick the box of the ICE Testnet')
+
 * Now, go back up and select `Enable 1 blockchains`.
+
 ![screenshot of the enable blockchain button](screenshots/07-anchor-enable-ice.png 'Click on the "Enable 1 Blockchains" button')
 
 The ICE network is now enabled. Next, follow these next steps to import our key pairs to the wallet:
