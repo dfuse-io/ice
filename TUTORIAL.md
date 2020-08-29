@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
- ![screenshot](image.png 'idea screenshot')
+![01-fresh-installa](screenshots/01-fresh-install.png '01-fresh-installb')
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -150,13 +150,13 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
- ![screenshot](image.png 'idea screenshot')
+![02-select-pool](02-select-pool '02-select-pool')
  
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
-![idea screenshot](image.png 'idea screenshot')
+![03-hackathon-ideas](03-hackathon-ideas.png '03-hackathon-ideas')
 
-It's all fun and games to be able to "view" them, but what about being able to create new pools, to add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
+It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
 ### 8. Installing the Anchor Wallet
 
@@ -169,17 +169,20 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 1. Open the Anchor Wallet app
 2. Select `Setup New Wallet` on the welcome screen
 3. Select `Custom Blockchain` on the next screen
+![04-anchor-custom-blockchain](04-anchor-custom-blockchain '04-anchor-custom-blockchain')
 4. Then, enter the following Information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
+![05-anchor-custom-blockchain-info](05-anchor-custom-blockchain-info '05-anchor-custom-blockchain-info')
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
+![06-anchor-custom-blockchain-save](06-anchor-custom-blockchain-save '06-anchor-custom-blockchain-save')
 
-The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a new terminal window.
+The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
 ```
 eosc get info
@@ -189,12 +192,19 @@ eosc get info
 
 ### 10. Importing Key Pairs in the Wallet
 
-Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet. We can do that from the `Which blockchains do you plan on using?` screen, which you should be on after saving your custom blockchain. On that screen, look for the `testnet` labels and scroll down to the `ICE` blockchain. Once you find it, select the checkbox next to it. Now, go back up and select `Enable 1 blockchains`. Once you've selected the ICE blockchain, follow these next steps to import our key to the wallet:
+Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet. But first, we need to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos.
+
+* Scroll down the list of networks and look for the `testnet` labels.
+* Scroll down further to find our `ICE` blockchain.
+* Once you find it, select the checkbox next to it.
+* Now, go back up and select `Enable 1 blockchains`.
+
+The ICE network is now enabled. Next, follow these next steps to import our key pairs to the wallet:
 
 1. Select `Tools` from the left-side menu
 2. Under the `Security` table, select `Manage Keys`
 3. Select `Import Key`
-4. Set a password for you wallet
+4. Set a password for you wallet and select `Set Password`
 5. Re-enter the same password to confirm
 6. Paste in the development private key (also specified by `dfuseeos`)
 ```
@@ -229,18 +239,18 @@ To interact with our smart contract from the user interface, we need to log into
 2. Select `Anchor`
 ![login screenshot](image.png 'login screenshot')
 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
-4. Select one of the 3 user accounts from the dropdown list
+4. Select one of the 3 user accounts from the dropdown list (we'll use "theboss" for this demo)
 5. Select `Unlock Wallet + Sign` in the bottom right
 6. Enter your wallet password
 7. Select `Authorize`
 
-Congratulations! You are now signed in as a valid user.
+Congratulations! You are now signed in as "theboss".
 
 _**NOTE** - If you can't login or if your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them (Incognito sometimes doesn't work as intended) or try in a different browser._
 
 ### 13. Adding a Pool
 
-To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` contract.
+_To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` contract._
 
 You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
@@ -252,13 +262,13 @@ _*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.
 
 ### 14. Adding an Idea
 
-To add an idea, the app will be calling the `addidea` method on the `dfuse.ice` contract.
+_To add an idea, the app will be calling the `addidea` method on the `dfuse.ice` contract._
 
 Select `New Idea` and enter a title and a description, then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification - you're done! The idea has been added to the pool. Now that we have a pool and a new idea in the pool, why don't we try voting on that idea?
 
 ### 15. Casting a Vote
 
-To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice` contract.
+_To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice` contract._
 
 To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means.
 
@@ -285,9 +295,7 @@ We're going to use the _dfuse for EOSIO_ Explorer (our local version of eosq) an
 
 Try it again; after submitting a new action (new pool, new idea, new vote or vote edit), refresh the page to see the `Transaction ID` of that action and the `Block ID` in which that transaction was created. We can [dig even deeper using the explorer](https://www.dfuse.io/en/blog/contextual-search-eosq-magnifies-your-search-for-data-on-eos), but that's not the goal of this tutorial.
 
-![wallet signing screenshot](image.png 'opened transaction pill screenshot')
-
-That's it for this tutorial. I hope your enjoyed playing with the ICE Pools app. It was a lot of fun creating it and writing this tutorial. Feel free to augment this app (or even the tutorial) by opening an issue and submitting a pull request to fix the issue. We'd love to see how far you can push this app!
+That's it for this tutorial. Thanks for following along, and we hope your enjoyed playing with the ICE Pools app. It was a lot of fun creating the app and writing the tutorial. Feel free to augment this app (or even the tutorial) by opening an issue and submitting a pull request to fix the issue you opened. We'd love to see how far you can push this app!
 
 ## Understanding How It Works
 
