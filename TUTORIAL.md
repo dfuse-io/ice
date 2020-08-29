@@ -148,13 +148,9 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 ### 7. Browsing the ICE Pools App
 
-Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
-
-<img src="screenshots/02-select-pool.png" alt="screenshot of the available pools from the dropdown" title="Available pools from the dropdown" width="450" />
+Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool ([screenshot](screenshots/02-select-pool.png)).
  
-You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
-
-<img src="screenshots/03-hackathon-ideas.png" alt="screenshot of the list of ideas inside the hackathon pool" title="List of ideas inside the 'Hackathon' pool" width="450" />
+You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores ([screenshot](screenshots/03-hackathon-ideas.png)).
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
@@ -166,25 +162,18 @@ The [Anchor Wallet](https://greymass.com/en/anchor/) is an EOSIO Wallet and Auth
 
 This step assumes that this is a brand new Anchor Wallet installation. Once you have the wallet installed, follow these simple steps to add our local blockchain to the wallet interface:
 
-#### 1. Open the Anchor Wallet app
-#### 2. Select `Setup New Wallet` on the welcome screen
-#### 3. Select `Custom Blockchain` on the next screen
-
-<img src="screenshots/04-anchor-custom-blockchain.png" alt="screenshot of the custom blockhain button" title="Click on the 'Custom Blockhain' button" width="450" />
-
-#### 4. Then, enter the following information:
-
+1. Open the Anchor Wallet app
+2. Select `Setup New Wallet` on the welcome screen
+3. Select `Custom Blockchain` on the next screen ([screenshot](screenshots/04-anchor-custom-blockchain.png))
+4. Then, enter the following information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
-
-#### 5. Skip the `Advanced Configuration` section
-#### 6. Check the box `This blockchain is a test network (TESTNET).`
-#### 7. Select `Save`
-
-<img src="screenshots/06-anchor-custom-blockchain-save.png" alt="screenshot of the ticked box and the save button" title="Tick the box and click 'Save'" width="450" />
+5. Skip the `Advanced Configuration` section
+6. Check the box `This blockchain is a test network (TESTNET).`
+7. Select `Save` ([screenshot](screenshots/06-anchor-custom-blockchain-save.png))
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
@@ -196,15 +185,10 @@ eosc get info
 
  The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
 
-#### * Scroll down the list of networks and look for the `testnet` labels.
-#### * Scroll down further to find our `ICE` blockchain.
-#### * Once you find it, select the checkbox next to it.
-
-<img src="screenshots/07-anchor-enable-ice.png" alt="screenshot of the ice testnet with a checked box" title="Tick the box of the ICE Testnet" width="450" />
-
-#### * Now, go back up and select `Enable 1 blockchains`.
-
-<img src="screenshots/08-anchor-enable-ice-button.png" alt="screenshot of the enable blockchain button" title="Click on the 'Enable 1 Blockchains' button" width="450" />
+* Scroll down the list of networks and look for the `testnet` labels
+* Scroll down further to find our `ICE` blockchain
+* Once you find it, select the checkbox next to it ([screenshot](screenshots/07-anchor-enable-ice.png))
+* Now, go back up and select `Enable 1 blockchains` ([screenshot](screenshots/08-anchor-enable-ice-button.png))
 
 Yay! The ICE network is now enabled within Anchor!
 
@@ -212,65 +196,32 @@ Yay! The ICE network is now enabled within Anchor!
 
 Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
-#### 1. Select `Tools` from the left-side menu
-
-<img src="screenshots/09-anchor-key-import-tools.png" alt="screenshot of the left-side menu in the Anchor app" title="Click on the 'Tools' button" width="450" />
-
-#### 2. Under the `Security` table, select `Manage Keys`
-
-<img src="screenshots/10-anchor-key-import-manage.png" alt="screenshot of the 'tools' available options in the Anchor app" title="Click on the 'Security' button" width="450" />
-
-#### 3. Select `Import Key`
-
-<img src="screenshots/11-anchor-key-import-button.png" alt="screenshot of the 'import key' button in the Anchor app" title="Click on the 'Import Key' button" width="450" />
-
-#### 4. Set a password for you wallet and select `Set Password`
-
-<img src="screenshots/12-anchor-key-import-set-password.png" alt="screenshot of the 'set password' button in the Anchor app" title="Click on the 'Set Password' button" width="450" />
-
-#### 5. Re-enter the same password to confirm
-
-<img src="screenshots/13-anchor-key-import-set-password-confirm.png" alt="screenshot of the second 'set password' button in the Anchor app" title="Click on the 'Set Password' button once again" width="450" />
-
-#### 6. Paste in the development private key (also specified by `dfuseeos`)
-
+1. Select `Tools` from the left-side menu ([screenshot](screenshots/09-anchor-key-import-tools.png))
+2. Under the `Security` table, select `Manage Keys` ([screenshot](screenshots/10-anchor-key-import-manage.png))
+3. Select `Import Key` ([screenshot](screenshots/11-anchor-key-import-button.png))
+4. Set a password for you wallet and select `Set Password` ([screenshot](screenshots/12-anchor-key-import-set-password.png))
+5. Re-enter the same password to confirm ([screenshot](screenshots/13-anchor-key-import-set-password-confirm.png))
+6. Paste in the development private key (also specified by `dfuseeos`)
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
-
 _This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
-
-#### 7. Select `Save Keys to Wallet`
-
-<img src="screenshots/14-anchor-key-import-save-key.png" alt="screenshot of the 'save keys to wallet' button in the Anchor app" title="Click on the 'Save Keys to Wallet' button" width="450" />
-
-#### 8. Enter your wallet password (the one you just created on step 4.)
-#### 9. Select `Authorize`
+7. Select `Save Keys to Wallet` ([screenshot](screenshots/14-anchor-key-import-save-key.png))
+8. Enter your wallet password (the one you just created on step 4.)
+9. Select `Authorize`
 
 And voilà! Your key is now saved inside the wallet. Time to look for accounts on your chain and add them to the wallet.
 
 ### 11. Importing Accounts in the Wallet
 
-#### 1. Select `Home` from the left-side menu
-#### 2. Select the blockchain card named `ICE`
-
-<img src="screenshots/15-anchor-account-import-select-ice.png" alt="screenshot of the 'ice' card in the Anchor app" title="Click on the 'ICE' card" width="450" />
-
-#### 3. Select `Scan for Accounts`
-_This will automatically detect the available accounts using your key pairs on the `ICE` network._
-
-<img src="screenshots/16-anchor-account-import-scan.png" alt="screenshot of the 'scan for accounts' button in the Anchor app" title="Click on the 'Scan for Accounts' button" width="450" />
-
-#### 4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)**
-#### 5. Select `Import Account(s)` at the bottom of the window
-
-<img src="screenshots/17-anchor-account-import-button.png" alt="screenshot of the 'import account(s)' button in the Anchor app" title="Click on the 'Import Account(s)' button" width="450" />
-
-#### 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
-#### 7. Select `Authorize`
-#### 8. Select `Yes, enable app integrations`
-
-<img src="screenshots/18-anchor-account-import-yes.png" alt="screenshot of the 'yes, enable app integration' button in the Anchor app" title="Click on the 'Yes, enable app integration' button" width="450" />
+1. Select `Home` from the left-side menu
+2. Select the blockchain card named `ICE` ([screenshot](screenshots/15-anchor-account-import-select-ice.png))
+3. Select `Scan for Accounts` _This will automatically detect the available accounts using your key pairs on the `ICE` network._ ([screenshot](screenshots/16-anchor-account-import-scan.png))
+4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)**
+5. Select `Import Account(s)` at the bottom of the window ([screenshot](screenshots/17-anchor-account-import-button.png))
+6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
+7. Select `Authorize`
+8. Select `Yes, enable app integrations` ([screenshot](screenshots/18-anchor-account-import-yes.png))
 
 You should now see the three user accounts in the wallet, with their tokens and resources. Using these accounts, we'll use the wallet to authorize our login in the ICE Pools app.
 
@@ -278,22 +229,13 @@ You should now see the three user accounts in the wallet, with their tokens and 
 
 To interact with our smart contract from the user interface, we need to log into the app with a valid user account. The good news is, it's a really easy process:
 
-#### 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
-#### 2. Select `Anchor`
-
-<img src="screenshots/19-login-anchor.png" alt="screenshot of the selection screen" title="Select 'Anchor' from the selection screen" width="450" />
-
-#### 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
-
-<img src="screenshots/20-login-anchor-open.png" alt="screenshot of the qr code to sign the authorization" title="Click on the 'Open Anchor app' button" width="450" />
-
-#### 4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)**
-#### 5. Select `Unlock Wallet + Sign` in the bottom right
-
-<img src="screenshots/21-login-anchor-signing-request.png" alt="screenshot of the user selection screen in the Anchor app" title="Click on the 'Unlock Wallet + Sign' button" width="450" />
-
-#### 6. Enter your wallet password
-#### 7. Select `Authorize`
+1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
+2. Select `Anchor` ([screenshot](screenshots/19-login-anchor.png))
+3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_ ([screenshot](screenshots/20-login-anchor-open.png))
+4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)**
+5. Select `Unlock Wallet + Sign` in the bottom right ([screenshot](screenshots/21-login-anchor-signing-request.png))
+6. Enter your wallet password
+7. Select `Authorize`
 
 Congratulations! You are now signed in as "theboss".
 
@@ -305,17 +247,9 @@ _To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` 
 
 You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
-From the pool dropdown list, click on `Create a new pool!`.
+From the pool dropdown list, click on `Create a new pool!` ([screenshot](screenshots/22-create-pool.png)). In the dropdown that became an input, enter a pool name* and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window ([screenshot](screenshots/23-create-pool-button.png)).
 
-<img src="screenshots/22-create-pool.png" alt="screenshot of the dropdown to create a new pool" title="Select 'Create a new pool!' from the list" width="450" />
-
-In the dropdown that became an input, enter a pool name* and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window.
-
-<img src="screenshots/23-create-pool-button.png" alt="screenshot of the 'create pool' button" title="Click on the 'Create Pool' button" width="450" />
-
-Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it?
-
-<img src="screenshots/24-create-idea.png" alt="screenshot of the 'new idea' button" title="Try the 'New Idea' button" width="450" />
+Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it? ([screenshot](screenshots/24-create-idea.png))
 
 _*Note that each pool needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitations; a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
 
@@ -329,9 +263,7 @@ Click on the `New Idea` button, and enter a title and a description in the modal
 
 _To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice` contract._
 
-To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means.
-
-<img src="screenshots/25-vote.png" alt="screenshot of the 'vote' screen" title="Vote on the idea" width="450" />
+To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means ([screenshot](screenshots/25-vote.png)).
 
 Once you're happy with your scoring, select the `confirm` button. You will be prompted by Anchor to sign your transaction (you should be getting used to this by now). You'll see the contract information (by ascending alphabetical order) with your votes value, the idea id you're voting on, the pool name that idea is in, and of course, your account name as the voter. Review the transaction data and sign the transaction when you're ready.
 
