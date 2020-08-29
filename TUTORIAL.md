@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
-![screenshot of a fresh ice pools app install](screenshots/01-fresh-install.png 'Fresh ICE Pools app install')
+![screenshot of a fresh ice pools app install](screenshots/01-dfuse-ice-fresh-install.png 'Fresh ICE Pools app install')
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -148,9 +148,9 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 ### 7. Browsing the ICE Pools App
 
-Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool ([screenshot](screenshots/02-select-pool.png)).
+Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool ([screenshot](screenshots/02-dfuse-ice-select-pool.png)).
  
-You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores ([screenshot](screenshots/03-hackathon-ideas.png)).
+You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores ([screenshot](screenshots/03-dfuse-ice-hackathon-ideas.png)).
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
@@ -164,7 +164,7 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 
 1. Open the Anchor Wallet app
 2. Select `Setup New Wallet` on the welcome screen
-3. Select `Custom Blockchain` on the next screen ([screenshot](screenshots/04-anchor-custom-blockchain.png))
+3. Select `Custom Blockchain` on the next screen ([screenshot](screenshots/04-dfuse-ice-anchor-custom-blockchain-add.png))
 4. Then, enter the following information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
@@ -173,7 +173,7 @@ Default node for this Blockchain:   http://localhost:8080
 ```
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
-7. Select `Save` ([screenshot](screenshots/06-anchor-custom-blockchain-save.png))
+7. Select `Save` ([screenshot](screenshots/05-dfuse-ice-anchor-custom-blockchain-save.png))
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
@@ -187,8 +187,8 @@ eosc get info
 
 * Scroll down the list of networks and look for the `testnet` labels
 * Scroll down further to find our `ICE` blockchain
-* Once you find it, select the checkbox next to it ([screenshot](screenshots/07-anchor-enable-ice.png))
-* Now, go back up and select `Enable 1 blockchains` ([screenshot](screenshots/08-anchor-enable-ice-button.png))
+* Once you find it, select the checkbox next to it ([screenshot](screenshots/06-dfuse-ice-anchor-custom-blockchain-enable.png))
+* Now, go back up and select `Enable 1 blockchains` ([screenshot](screenshots/07-dfuse-ice-anchor-custom-blockchain-enable-button.png))
 
 Yay! The ICE network is now enabled within Anchor!
 
@@ -196,17 +196,17 @@ Yay! The ICE network is now enabled within Anchor!
 
 Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
 
-1. Select `Tools` from the left-side menu ([screenshot](screenshots/09-anchor-key-import-tools.png))
-2. Under the `Security` table, select `Manage Keys` ([screenshot](screenshots/10-anchor-key-import-manage.png))
-3. Select `Import Key` ([screenshot](screenshots/11-anchor-key-import-button.png))
-4. Set a password for you wallet and select `Set Password` ([screenshot](screenshots/12-anchor-key-import-set-password.png))
-5. Re-enter the same password to confirm ([screenshot](screenshots/13-anchor-key-import-set-password-confirm.png))
+1. Select `Tools` from the left-side menu ([screenshot](screenshots/08-dfuse-ice-anchor-import-key-tools.png))
+2. Under the `Security` table, select `Manage Keys` ([screenshot](screenshots/09-dfuse-ice-anchor-import-key-manage.png))
+3. Select `Import Key` ([screenshot](screenshots/10-dfuse-ice-anchor-import-key-button.png))
+4. Set a password for you wallet and select `Set Password` ([screenshot](screenshots/11-dfuse-ice-anchor-import-key-password.png))
+5. Re-enter the same password to confirm ([screenshot](screenshots/12-dfuse-ice-anchor-import-key-password-confirm.png))
 6. Paste in the development private key (also specified by `dfuseeos`)
 ```
 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3
 ```
 _This key was used to boot the chain and generate all accounts. You can find this key again and its corresponding public key inside the `contract/bootstrapping` folder._
-7. Select `Save Keys to Wallet` ([screenshot](screenshots/14-anchor-key-import-save-key.png))
+7. Select `Save Keys to Wallet` ([screenshot](screenshots/13-dfuse-ice-anchor-import-key-save.png))
 8. Enter your wallet password (the one you just created on step 4.)
 9. Select `Authorize`
 
@@ -215,13 +215,13 @@ And voilà! Your key is now saved inside the wallet. Time to look for accounts o
 ### 11. Importing Accounts in the Wallet
 
 1. Select `Home` from the left-side menu
-2. Select the blockchain card named `ICE` ([screenshot](screenshots/15-anchor-account-import-select-ice.png))
-3. Select `Scan for Accounts` _This will automatically detect the available accounts using your key pairs on the `ICE` network._ ([screenshot](screenshots/16-anchor-account-import-scan.png))
+2. Select the blockchain card named `ICE` ([screenshot](screenshots/14-dfuse-ice-anchor-import-account-select-ice.png))
+3. Select `Scan for Accounts` _This will automatically detect the available accounts using your key pairs on the `ICE` network._ ([screenshot](screenshots/15-dfuse-ice-anchor-import-account-scan.png))
 4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)
-5. Select `Import Account(s)` at the bottom of the window ([screenshot](screenshots/17-anchor-account-import-button.png))
+5. Select `Import Account(s)` at the bottom of the window ([screenshot](screenshots/16-dfuse-ice-anchor-import-account-button.png))
 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
 7. Select `Authorize`
-8. Select `Yes, enable app integrations` ([screenshot](screenshots/18-anchor-account-import-yes.png))
+8. Select `Yes, enable app integrations` ([screenshot](screenshots/17-dfuse-ice-anchor-import-account-yes.png))
 
 You should now see the three user accounts in the wallet, with their tokens and resources. Using these accounts, we'll use the wallet to authorize our login in the ICE Pools app.
 
@@ -230,10 +230,10 @@ You should now see the three user accounts in the wallet, with their tokens and 
 To interact with our smart contract from the user interface, we need to log into the app with a valid user account. The good news is, it's a really easy process:
 
 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
-2. Select `Anchor` ([screenshot](screenshots/19-login-anchor.png))
-3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_ ([screenshot](screenshots/20-login-anchor-open.png))
+2. Select `Anchor` ([screenshot](screenshots/18-dfuse-ice-login-anchor.png))
+3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_ ([screenshot](screenshots/19-dfuse-ice-login-anchor-open.png))
 4. Select "theboss" from the dropdown list (_all users have the same rights_)
-5. Select `Unlock Wallet + Sign` in the bottom right ([screenshot](screenshots/21-login-anchor-signing-request.png))
+5. Select `Unlock Wallet + Sign` in the bottom right ([screenshot](screenshots/20-dfuse-ice-login-anchor-signing-request.png))
 6. Enter your wallet password
 7. Select `Authorize`
 
@@ -247,9 +247,9 @@ _To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` 
 
 You can now add new pools and ideas, or even edit a past vote that your user made on an idea.
 
-From the pool dropdown list, click on `Create a new pool!` ([screenshot](screenshots/22-create-pool.png)). In the dropdown that became an input, enter a pool name* and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window ([screenshot](screenshots/23-create-pool-button.png)).
+From the pool dropdown list, click on `Create a new pool!` ([screenshot](screenshots/21-dfuse-ice-create-pool.png)). In the dropdown that became an input, enter a pool name* and click `Create Pool`. You have to go through a similar "Signing Request" from Anchor as when you first logged in. The goal here is to confirm the data you're submitting to the chain. Select `Sign Transaction` from that window ([screenshot](screenshots/22-dfuse-ice-create-pool-button.png)).
 
-Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it? ([screenshot](screenshots/24-create-idea.png))
+Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it? ([screenshot](screenshots/23-dfuse-ice-create-idea.png))
 
 _*Note that each pool name needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitation; it must be a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
 
@@ -263,7 +263,7 @@ Click on the `New Idea` button, and enter a title and a description in the modal
 
 _To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice` contract._
 
-To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means ([screenshot](screenshots/25-vote.png)).
+To cast your vote on an idea, click on the idea title to expand the idea, and next to your account name, select the score you want to assign to each one of the three parameters (Impact, Confidence, Ease). Move your cursor over the `?` to get a reminder about what each parameter means ([screenshot](screenshots/24-dfuse-ice-vote.png)).
 
 Once you're happy with your scoring, select the `confirm` button. You will be prompted by Anchor to sign your transaction (you should be getting used to this by now). You'll see the contract information (by ascending alphabetical order) with your votes value, the idea id you're voting on, the pool name that idea is in, and of course, your account name as the voter. Review the transaction data and sign the transaction when you're ready.
 
@@ -282,7 +282,7 @@ GraphiQL:         http://localhost:8080/graphiql
 
 We're going to use the _dfuse for EOSIO_ Explorer (our local version of eosq) and go to the account page of `dfuse.ice` which is located at http://localhost:8080/account/dfuse.ice. On that page, you can see pretty much all the relevant information about `dfuse.ice`, including its token balance, staked tokens for resources, and more importantly in our case, all the transactions we've made with that account during the tutorial.
 
-<img src="screenshots/26-exploring.png" alt="screenshot of the oesq app, exploring the 'dfuse.ice' account" title="Explore your most recent transactions on the network" width="450" />
+![screenshot of the oesq app, exploring the 'dfuse.ice' account](screenshots/25-dfuse-ice-exploring-with-eosq.png 'Explore your most recent transactions on the network')
 
 Try it again; after submitting a new action (new pool, new idea, new vote or vote edit), refresh the page to see the `Transaction ID` of that action and the `Block ID` in which that transaction was created. We can [dig even deeper using the explorer](https://www.dfuse.io/en/blog/contextual-search-eosq-magnifies-your-search-for-data-on-eos), but that's not the goal of this tutorial.
 
