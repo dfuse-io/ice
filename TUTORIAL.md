@@ -179,8 +179,6 @@ Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
 
-![screenshot of the information entenred](screenshots/05-anchor-custom-blockchain-info.png 'Enter the required information')
-
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
@@ -207,7 +205,7 @@ Now that we've added our new chain to the wallet, we'll want to use it to import
 
 * Now, go back up and select `Enable 1 blockchains`.
 
-![screenshot of the enable blockchain button](screenshots/07-anchor-enable-ice.png 'Click on the "Enable 1 Blockchains" button')
+![screenshot of the enable blockchain button](screenshots/08-anchor-enable-ice-button.png 'Click on the "Enable 1 Blockchains" button')
 
 The ICE network is now enabled. Next, follow these next steps to import our key pairs to the wallet:
 
