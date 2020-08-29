@@ -140,7 +140,7 @@ Please bear with the yarn process as it might take some time to serve the app. Y
 
  If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
-![screenshot of a fresh ICE Pools app install](screenshots/01-fresh-install.png 'Fresh install')
+![screenshot of a fresh ICE Pools app install](screenshots/01-fresh-install.png 'Fresh ICE Pools app install')
 
 _**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
 
@@ -150,11 +150,11 @@ _**NOTE** - If you receive a warning asking you if you want the application “n
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool.
 
-![screenshot of the available pools from the dropdown](screenshots/02-select-pool 'Select a pool')
+![screenshot of the available pools from the dropdown](screenshots/02-select-pool.png 'Available pools from the dropdown')
  
 You should see 4 pre-populated ideas in the `hackathon` pool. You can click on any idea title to expand it and see the votes that were casted with their scores.
 
-![screenshot of available ideas from the hackathon pool](screenshots/03-hackathon-ideas.png 'Ideas from the Hackathon pool')
+![screenshot of the list of ideas inside the hackathon pool](screenshots/03-hackathon-ideas.png 'List of ideas inside the Hackathon pool')
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
@@ -169,18 +169,18 @@ This step assumes that this is a brand new Anchor Wallet installation. Once you 
 1. Open the Anchor Wallet app
 2. Select `Setup New Wallet` on the welcome screen
 3. Select `Custom Blockchain` on the next screen
-![04-anchor-custom-blockchain](screenshots/04-anchor-custom-blockchain '04-anchor-custom-blockchain')
-4. Then, enter the following Information:
+![screenshot of the Custom Blockhain button](screenshots/04-anchor-custom-blockchain.png 'Click on the "Custom Blockhain" button')
+4. Then, enter the following information:
 ```
 Chain ID:                           df383d1cc33cbb9665538c604daac13706978566e17e5fd5f897eff68b88e1e4
 Name of Blockchain:                 ICE
 Default node for this Blockchain:   http://localhost:8080
 ```
-![05-anchor-custom-blockchain-info](screenshots/05-anchor-custom-blockchain-info '05-anchor-custom-blockchain-info')
+![screenshot of the information entenred](screenshots/05-anchor-custom-blockchain-info.png 'Enter the required information')
 5. Skip the `Advanced Configuration` section
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save`
-![06-anchor-custom-blockchain-save](screenshots/06-anchor-custom-blockchain-save '06-anchor-custom-blockchain-save')
+![screenshot of the ticked box and the save button](screenshots/06-anchor-custom-blockchain-save.png 'Tick the box and click "Save"')
 
 The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
 
@@ -197,7 +197,9 @@ Now that we've added our new chain to the wallet, we'll want to use it to import
 * Scroll down the list of networks and look for the `testnet` labels.
 * Scroll down further to find our `ICE` blockchain.
 * Once you find it, select the checkbox next to it.
+![screenshot of the ICE testnet with a checked box](screenshots/07-anchor-enable-ice.png 'Tick the box of the ICE Testnet')
 * Now, go back up and select `Enable 1 blockchains`.
+![screenshot of the enable blockchain button](screenshots/07-anchor-enable-ice.png 'Click on the "Enable 1 Blockchains" button')
 
 The ICE network is now enabled. Next, follow these next steps to import our key pairs to the wallet:
 
@@ -237,7 +239,7 @@ To interact with our smart contract from the user interface, we need to log into
 
 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
 2. Select `Anchor`
-![login screenshot](image.png 'login screenshot')
+![screenshot of](image.png 'login screenshot')
 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
 4. Select one of the 3 user accounts from the dropdown list (we'll use "theboss" for this demo)
 5. Select `Unlock Wallet + Sign` in the bottom right
@@ -274,7 +276,7 @@ To cast your vote on an idea, click on the idea title to expand the idea, and ne
 
 Once you're happy with your scoring, select the `confirm` button. You will be prompted by Anchor to sign your transaction (you should be getting used to this by now). You'll see the contract information (by ascending alphabetical order) with your votes value, the idea id you're voting on, the pool name that idea is in, and of course, your account name as the voter. Review the transaction data and sign the transaction when you're ready.
 
-![wallet signing screenshot](image.png 'signing a vote transaction screenshot')
+![screenshot of](image.png 'signing a vote transaction screenshot')
 
 Your transaction should now be submitted and the idea score should automatically be updated. How neat is that?
 
@@ -291,7 +293,7 @@ GraphiQL:         http://localhost:8080/graphiql
 
 We're going to use the _dfuse for EOSIO_ Explorer (our local version of eosq) and go to the account page of `dfuse.ice` which is located at http://localhost:8080/account/dfuse.ice. On that page, you can see pretty much all the relevant information about `dfuse.ice`, including its token balance, staked tokens for resources, and more importantly in our case, all the transactions we've made with that account during the tutorial.
 
-![wallet signing screenshot](image.png 'transactions screenshot')
+![screenshot of](image.png 'transactions screenshot')
 
 Try it again; after submitting a new action (new pool, new idea, new vote or vote edit), refresh the page to see the `Transaction ID` of that action and the `Block ID` in which that transaction was created. We can [dig even deeper using the explorer](https://www.dfuse.io/en/blog/contextual-search-eosq-magnifies-your-search-for-data-on-eos), but that's not the goal of this tutorial.
 
