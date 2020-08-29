@@ -253,15 +253,20 @@ And voilà! Your key is now saved inside the wallet. Time to look for accounts o
 <img src="screenshots/15-anchor-account-import-select-ice.png" alt="screenshot of the 'ice' card in the Anchor app" title="Click on the 'ICE' card" width="450" />
 
 3. Select `Scan for Accounts`
-_This will automatically detect the available accounts for you key on the `ICE` network._
+_This will automatically detect the available accounts using your key pairs on the `ICE` network._
 
 <img src="screenshots/16-anchor-account-import-scan.png" alt="screenshot of the 'scan for accounts' button in the Anchor app" title="Click on the 'Scan for Accounts' button" width="450" />
 
 4. Select the three _active_ user accounts (`mrkauffman@active`, `msdelisle@active`, `theboss@active`)
-5. Select `Import Accounts` at the bottom of the window
+5. Select `Import Account(s)` at the bottom of the window
+
+<img src="screenshots/17-anchor-account-import-button.png" alt="screenshot of the 'import account(s)' button in the Anchor app" title="Click on the 'Import Account(s)' button" width="450" />
+
 6. Enter your wallet password (the one you created on step 4. of `Importing Key Pairs in the Wallet`)
 7. Select `Authorize`
 8. Select `Yes, enable app integrations`
+
+<img src="screenshots/18-anchor-account-import-yes.png" alt="screenshot of the 'yes, enable app integration' button in the Anchor app" title="Click on the 'Yes, enable app integration' button" width="450" />
 
 You should now see the three user accounts in the wallet, with their tokens and resources. Using these accounts, we'll use the wallet to authorize our login in the ICE Pools app.
 
@@ -271,10 +276,18 @@ To interact with our smart contract from the user interface, we need to log into
 
 1. Back in your browser window pointing to `localhost:3000`, click on the `Login` button
 2. Select `Anchor`
-![screenshot of](image.png 'login screenshot')
+
+<img src="screenshots/19-login-anchor.png" alt="screenshot of the selection screen" title="Select 'Anchor' from the selection screen" width="450" />
+
 3. Select `Open Anchor app` - _this should open a "Signing Request" window from Anchor_
-4. Select one of the 3 user accounts from the dropdown list (we'll use "theboss" for this demo)
+
+<img src="screenshots/20-login-anchor-open.png" alt="screenshot of the qr code to sign the authorization" title="Click on the 'Open Anchor app' button" width="450" />
+
+4. Select one of the 3 user accounts from the dropdown list (we'll select "theboss" for this demo)
 5. Select `Unlock Wallet + Sign` in the bottom right
+
+<img src="screenshots/21-login-anchor-signing-request.png" alt="screenshot of the user selection screen in the Anchor app" title="Click on the 'Unlock Wallet + Sign' button" width="450" />
+
 6. Enter your wallet password
 7. Select `Authorize`
 
