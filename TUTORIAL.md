@@ -138,7 +138,7 @@ yarn install && yarn start
 
 Please bear with the yarn process as it might take some time to serve the app. You should automatically get a new tab opened in your browser that's pointing to `localhost:3000`. It will automatically serve the app once you see `Compiled successfully! You can now view web in the browser.` in your terminal window.
 
- If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this (_you can click on an image to enlarge it_):
+ If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
 ![screenshot of a fresh ice pools app install](screenshots/01-fresh-install.png 'Fresh ICE Pools app install')
 
