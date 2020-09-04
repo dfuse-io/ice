@@ -44,7 +44,7 @@ cd ../web
 yarn install && yarn start
 ```
 
-You should now be able to visit [localhost:3000](http://localhost:3000) in your browser to play with the app. For instructions about adding your bootstrapped blockcahin to the Anchor Wallet, as well as to login with Anchor and sign transactions, start at [3.11. Adding Our Custom Blockchain to the Wallet](#311-adding-our-custom-blockchain-to-the-wallet) in the tutorial.
+You should now be able to visit [localhost:3000](http://localhost:3000) in your browser to play with the app. For instructions about adding your bootstrapped blockcahin to the Anchor Wallet, as well as to login with Anchor and sign transactions, start at [3.11. Adding Our Custom Blockchain to the Wallet](TUTORIAL.md#311-adding-our-custom-blockchain-to-the-wallet) in the tutorial.
 
 <!-- ## Overview - Repository Map
 
