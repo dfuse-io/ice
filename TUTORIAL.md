@@ -43,7 +43,7 @@ If you're an experienced developer and you're looking for a faster way to get up
 
 ### 3.1. Requirements
 
-This tutorial assumes that you have basic programming knowledge and that you have some basic tools already installed in your dev environment. If you don't have the below requirements already installed, take a look at the [Requirements](TROUBLESHOOTING.md#1-requirements) section in [TROUBLESHOOTING.md]().
+This tutorial assumes that you have basic programming knowledge and that you have some basic tools already installed in your dev environment. If you don't have the below requirements already installed, take a look at the [Requirements](TROUBLESHOOTING.md#1-requirements) section in TROUBLESHOOTING.md.
 
 * `yarn` v1.15 or higher
 * `Node.js` v14.0.1 or higher
@@ -55,7 +55,7 @@ This tutorial assumes that you have basic programming knowledge and that you hav
 
 We'll be using the `cd` command throughout the tutorial to move around the different folders.
 
-It's always good to know some basic terminal commands, so here are [10 Need to Know Mac Terminal Commands](https://scotch.io/bar-talk/10-need-to-know-mac-terminal-commands), not specifically for Mac users. _**DISCLAIMER** - We're in no way affiliate with scotch.io_
+It's always good to know some basic terminal commands to find our way around, so here are [10 Need to Know Mac Terminal Commands](https://scotch.io/bar-talk/10-need-to-know-mac-terminal-commands), not specifically for Mac users. _**DISCLAIMER** - We're in no way affiliate with scotch.io_
 
 ### 3.3. Cloning the ICE Repo
 
@@ -76,7 +76,7 @@ cd ice/contract
 ./compile.sh
 ```
 
-The `compile.sh` script uses the `EOSIO.CDT` CLI tool (installed in [Requirements](#requirements)) to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder inside the `bootstrapping` folder and stores the two compiled files (`ice.wasm` and `ice.abi`) in it. If you're looking to understand what's inside the smart contract and what it actually accomplishes, take a look at [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract) at the bottom of this tutorial.
+The `compile.sh` script uses the `EOSIO.CDT` CLI tool to compile our `ice.cpp` contract into `ice.wasm` and `ice.abi`. It is a very simple script that creates a `build` folder inside the `bootstrapping` folder and stores the two compiled files (`ice.wasm` and `ice.abi`) in it. If you're looking to understand what's inside the smart contract and what it actually accomplishes, take a look at [Understanding the ICE Smart Contract](#42-understanding-the-ice-smart-contract) at the bottom of this tutorial.
 
 Now that our smart contract is compiled, we're ready to install [_dfuse for EOSIO_](https://github.com/dfuse-io/dfuse-eosio) which will allow us to run an [EOSIO](https://eos.io/) testnet locally.
 
@@ -90,13 +90,13 @@ Once you have downloaded the right file for your OS, extract its content and mov
   
 If you'd rather install _dfuse for EOSIO_ from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide but be advised it's a longer process. If you do decide to install from source, you do not need to create or initialize a chain with _dfuse for EOSIO_ at this time. More about that later.
 
-_*See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#gopath)_
+_*See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#21-find-your-gopath)_
 
 ### 3.6. Bootstrapping Our Local Blockchain
 
 In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund accounts with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
  
-Your terminal window should already be in the `contract` folder because of [step #2](#compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` script that will automate all of the account creation and funding process. `boot.sh` will also initialze _dfuse for EOSIO_ for us, purge it (clean start), and then start it.
+Your terminal window should already be in the `contract` folder because of our actions in step [3.4. Compiling the ICE Smart Contract](#34-compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` script that will automate all of the account creation and funding process. `boot.sh` will also initialze _dfuse for EOSIO_ for us, purge it (fresh start), and then start it.
 
 _**IMPORTANT** - You will be asked if you would like to delete `./dfuse-data`. If you already had a chain running locally with `dfuseeos`, you will permanently lose all its data. If you've never used `dfuseeos` before and this is your first time running `booth.sh`, you can safely answer `y`._
 
@@ -105,7 +105,7 @@ _**IMPORTANT** - You will be asked if you would like to delete `./dfuse-data`. I
 ./boot.sh
 ```
 
-_**For macOS** - If it's the first time you're running `dfuseeos`, you will get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`. You should select `allow` as `dfuseeos` needs to accept connections from your local environment. If you don't get that prompt, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#22-accept-incoming-network-connections).
+_**For macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, select `allow`. If you don't get that prompt, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#22-accept-incoming-network-connections)._
 
 `boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuse.ice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` with tokens for us to use. These accounts are also delegated [CPU](https://developers.eos.io/welcome/latest/overview/core_concepts/#cpu), [NET](https://developers.eos.io/welcome/latest/overview/core_concepts/#network-net), and [RAM](https://developers.eos.io/welcome/latest/overview/core_concepts/#ram). The script also handles deploying the compiled ICE smart contract to the `dfuse.ice` account.
 
@@ -134,7 +134,7 @@ In a **new** (that's important) terminal window, move back to your `ice/contract
 
 `test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial.  Now we'll want to see these pools in action, the ideas, and the votes in an app with an actual user interface. That's in the next step.
 
-_**NOTE** - If you get an error, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#23-error-pushing-transaction).
+_**NOTE** - If you get an error, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#23-error-pushing-transaction)._
 
 <!-- TODO:: @stepd to @phil: maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever) -->
          
@@ -248,7 +248,7 @@ To interact with our smart contract from the user interface, we need to log into
 
 Congratulations! You are now signed in as "theboss".
 
-_**NOTE** - If you can't login, take a look at [TROUBLESHOOTING.md](TROUBLESHOOTING.md)._
+_**NOTE** - If you can't login, take a look at [TROUBLESHOOTING.md](TROUBLESHOOTING.md#32-cant-login-using-the-anchor-wallet)._
 
 ### 3.15. Adding a Pool
 
