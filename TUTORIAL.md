@@ -1,53 +1,63 @@
-# ICE Pools (powered by [dfuse for EOSIO](https://github.com/dfuse-io/dfuse-eosio))
+# ICE Pools (powered by [dfuse for EOSIO](https://github.com/dfuse-io/dfuse-eosio))<!-- omit in toc -->
 
-## Table of Content
+## 1. Tutorial Overview
+In this tutorial, we will bootstrap a blockchain, deploy a smart contract, and run a cool React app called _ICE Pools_ to interact with our local blockchain. This might seem a bit daunting at first, but it will all be running from your laptop, in just a couple steps!
 
-- [Running ICE Pools](#running-ice-pools)
-  - [Requirements](#requirements)
-  - [1. Cloning the ICE repo](#1-cloning-the-ice-repo)
-  - [2. Compiling the ICE Smart Contract](#2-compiling-the-ice-smart-contract)
-  - [3. Installing _dfuse for EOSIO_](#3-installing-dfuse-for-eosio)
-  - [4. Bootstrapping our Local Blockchain](#4-bootstrapping-our-local-blockchain)
-  - [5. Testing our Smart Contract](#5-testing-our-smart-contract)
-  - [6. Starting the ICE Pools App](#6-starting-the-ice-pools-app)
-  - [7. Browsing the ICE Pools app](#7-browsing-the-ice-pools-app)
-  - [8. Installing the Anchor Wallet](#8-installing-the-anchor-wallet)
-  - [9. Adding our Custom Blockchain to the Wallet](#9-adding-our-custom-blockchain-to-the-wallet)
-  - [10. Importing Key Pairs in the Wallet](#10-importing-key-pairs-in-the-wallet)
-  - [11. Importing Accounts in the Wallet](#11-importing-accounts-in-the-wallet)
-  - [12. Logging in the ICE Pools app](#12-logging-in-the-ice-pools-app)
-  - [13. Adding a Pool](#13-adding-a-pool)
-  - [14. Adding an Idea](#14-adding-an-idea)
-  - [15. Casting a Vote](#15-casting-a-vote)
-  - [16. Exploring Pools, Ideas and Votes on the Blockchain](#16-exploring-pools-ideas-and-votes-on-the-blockchain)
-- [Understanding How The ICE App Works](#understanding-how-the-ice-app-works)
-  - [Frontend Authentication](#frontend-authentication)
-  - [Understanding the ICE Smart Contract](#understanding-the-ice-smart-contract)
-  - [Streaming Transaction Data with dfuse](#streaming-transaction-data-with-dfuse)
-  - [Reading Contract State Tables with dfuse](#reading-contract-state-tables-with-dfuse)
-  - [Calling Smart Contract Actions with UAL and Wallets](#calling-smart-contract-actions-with-ual-and-wallets)
+_**NOTE** - The **Windows OS** is not currently supported by `dfuse for EOSIO`, which is a requirement for ICE Pools._
 
-## Running ICE Pools
+## 2. Table of Content
+
+- [1. Tutorial Overview](#1-tutorial-overview)
+- [2. Table of Content](#2-table-of-content)
+- [3. Running ICE Pools](#3-running-ice-pools)
+  - [3.1. Requirements](#31-requirements)
+  - [3.2. Basic Terminal Commands](#32-basic-terminal-commands)
+  - [3.3. Cloning the ICE Repo](#33-cloning-the-ice-repo)
+  - [3.4. Compiling the ICE Smart Contract](#34-compiling-the-ice-smart-contract)
+  - [3.5. Installing _dfuse for EOSIO_](#35-installing-dfuse-for-eosio)
+  - [3.6. Bootstrapping Our Local Blockchain](#36-bootstrapping-our-local-blockchain)
+  - [3.7. Testing Our Smart Contract](#37-testing-our-smart-contract)
+  - [3.8. Starting the ICE Pools App](#38-starting-the-ice-pools-app)
+  - [3.9. Browsing the ICE Pools App](#39-browsing-the-ice-pools-app)
+  - [3.10. Installing the Anchor Wallet](#310-installing-the-anchor-wallet)
+  - [3.11. Adding Our Custom Blockchain to the Wallet](#311-adding-our-custom-blockchain-to-the-wallet)
+  - [3.12. Importing Key Pairs in the Wallet](#312-importing-key-pairs-in-the-wallet)
+  - [3.13. Importing Accounts in the Wallet](#313-importing-accounts-in-the-wallet)
+  - [3.14. Logging in the ICE Pools App](#314-logging-in-the-ice-pools-app)
+  - [3.15. Adding a Pool](#315-adding-a-pool)
+  - [3.16. Adding an Idea](#316-adding-an-idea)
+  - [3.17. Casting a Vote](#317-casting-a-vote)
+  - [3.18. Exploring Pools, Ideas and Votes on the Blockchain](#318-exploring-pools-ideas-and-votes-on-the-blockchain)
+- [4. Understanding How the ICE App Works](#4-understanding-how-the-ice-app-works)
+  - [4.1. Frontend Authentication](#41-frontend-authentication)
+  - [4.2. Understanding the ICE Smart Contract](#42-understanding-the-ice-smart-contract)
+  - [4.3. Streaming Transaction Data With dfuse](#43-streaming-transaction-data-with-dfuse)
+  - [4.4. Reading Contract State Tables With dfuse](#44-reading-contract-state-tables-with-dfuse)
+  - [4.5. Calling Smart Contract Actions With UAL and Wallets](#45-calling-smart-contract-actions-with-ual-and-wallets)
+
+## 3. Running ICE Pools
 
 This tutorial is a step by step guide on how to get ICE Pools up and running in your browser where we take our time to go over each step and explain what some of the code does. We're also going to show you how to interact with the app once it's up and running.
 
 If you're an experienced developer and you're looking for a faster way to get up and running with ICE Pools, take a look at the [Running ICE Pools](https://github.com/dfuse-io/ice/blob/master/README.md#running-ice-pools) section in the [README](https://github.com/dfuse-io/ice/blob/master/README.md).
 
-### Requirements
+### 3.1. Requirements
 
-This tutorial assumes that you have basic programming knowledge and that you have these tools already installed in your dev environment (or follow the `installation` links to install them).
+This tutorial assumes that you have basic programming knowledge and that you have some basic tools already installed in your dev environment. If you don't have the below requirements already installed, take a look at the [Requirements](TROUBLESHOOTING.md#1-requirements) section in [TROUBLESHOOTING.md]().
 
-* `EOSIO.CDT` v1.7.0 or higher ([installation](https://github.com/EOSIO/eosio.cdt#binary-releases))
-* `Git` ([installation](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
-* `Go` v1.14 or higher ([installation](https://golang.org/doc/install#install))
-* `NodeJS` v14.0.1 or higher ([installation](https://nodejs.org/en/download/package-manager/))
-* `yarn` v1.15 or higher ([installation](https://classic.yarnpkg.com/en/docs/install))
-* (_For macOS_) Command Line Tools for Xcode ([installation](https://developer.apple.com/downloads/))
+* `yarn` v1.15 or higher
+* `Node.js` v14.0.1 or higher
+* `EOSIO.CDT` v1.7.0 or higher
+* `eosc` v1.4.0 or higher
+* (_For macOS_) Command Line Tools for Xcode
 
-_**NOTE** - The Windows OS is not currently supported by `dfuse for EOSIO`, which is required by ICE Pools._
+### 3.2. Basic Terminal Commands
 
+We'll be using the `cd` command throughout the tutorial to move around the different folders.
 
-### 1. Cloning the ICE Repo
+It's always good to know some basic terminal commands, so here are [10 Need to Know Mac Terminal Commands](https://scotch.io/bar-talk/10-need-to-know-mac-terminal-commands), not specifically for Mac users. _**DISCLAIMER** - We're in no way affiliate with scotch.io_
+
+### 3.3. Cloning the ICE Repo
 
 The first step we need to take is obviously to clone this repo! Open a terminal window and `git clone` the repo:
 
@@ -56,7 +66,7 @@ The first step we need to take is obviously to clone this repo! Open a terminal 
 git clone https://github.com/dfuse-io/ice
 ```
 
-### 2. Compiling the ICE Smart Contract
+### 3.4. Compiling the ICE Smart Contract
 
 Once we have the repo cloned to our dev environment, the first thing we want to do is to compile our smart contract in order to deploy it to our local testnet. We've provided a couple bash scripts to make this demo easier. You can find them all int the `/contract` folder. To compile our smart contract, we simply need to move inside the `contract` folder and run the `compile.sh` file:
 
@@ -70,7 +80,7 @@ The `compile.sh` script uses the `EOSIO.CDT` CLI tool (installed in [Requirement
 
 Now that our smart contract is compiled, we're ready to install [_dfuse for EOSIO_](https://github.com/dfuse-io/dfuse-eosio) which will allow us to run an [EOSIO](https://eos.io/) testnet locally.
 
-### 3. Installing _dfuse for EOSIO_
+### 3.5. Installing _dfuse for EOSIO_
 
 [dfuse](https://www.dfuse.io) is a massively scalable open-source platform for searching and processing blockchain data. dfuse for EOSIO includes all [dfuse services](https://dfuse.io/technology) for EOSIO as a single statically linked binary: `dfuseeos`. You can easily run `dfuseeos` locally or from a container.
 
@@ -80,20 +90,22 @@ Once you have downloaded the right file for your OS, extract its content and mov
   
 If you'd rather install _dfuse for EOSIO_ from source, take a look at the `dfuse-eosio` [install from source](https://github.com/dfuse-io/dfuse-eosio#from-source) guide but be advised it's a longer process. If you do decide to install from source, you do not need to create or initialize a chain with _dfuse for EOSIO_ at this time. More about that later.
 
-_*Your `$GOPATH` is where Go is installed on your system. By default, on macOS, your `$GOPATH` is `/Users/$USER/go` where `$USER` is your username. If you installed `Go` through [`Homebrew`](https://brew.sh/), your folder structure will be different._
+_*See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#gopath)_
 
-### 4. Bootstrapping Our Local Blockchain
+### 3.6. Bootstrapping Our Local Blockchain
 
 In order to run an EOSIO testnet, we must first bootstrap our local blockchain with system accounts. We also need to create a few accounts, delegate bandwidth, and fund accounts with tokens for our development needs. This is an important step to enable accounts to push feeless transactions.
  
 Your terminal window should already be in the `contract` folder because of [step #2](#compiling-the-ice-smart-contract), so all we need to do is run the `boot.sh` script that will automate all of the account creation and funding process. `boot.sh` will also initialze _dfuse for EOSIO_ for us, purge it (clean start), and then start it.
+
+_**IMPORTANT** - You will be asked if you would like to delete `./dfuse-data`. If you already had a chain running locally with `dfuseeos`, you will permanently lose all its data. If you've never used `dfuseeos` before and this is your first time running `booth.sh`, you can safely answer `y`._
 
 ```
 # run boot.sh
 ./boot.sh
 ```
 
-_**For macOS** - If you get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`, you should select `allow` as `dfuseeos` needs to accept connections from your local environment._
+_**For macOS** - If it's the first time you're running `dfuseeos`, you will get a prompt similar to `Do you want the application “dfuseeos” to accept incoming network connections?`. You should select `allow` as `dfuseeos` needs to accept connections from your local environment. If you don't get that prompt, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#22-accept-incoming-network-connections).
 
 `boot.sh` reads from the config file at `contract/bootstrapping/bootseq.yaml` to execute operations on our testnet. In the `bootseq.yaml` file, we define the operations to perform on our chain. In this case, we create the system accounts for EOSIO contracts and deploy them. We also create 4 accounts: one account named `dfuse.ice` which is where we will deploy our smart contract, and three accounts named `msdelisle`, `mrkauffman`, and `theboss` with tokens for us to use. These accounts are also delegated [CPU](https://developers.eos.io/welcome/latest/overview/core_concepts/#cpu), [NET](https://developers.eos.io/welcome/latest/overview/core_concepts/#network-net), and [RAM](https://developers.eos.io/welcome/latest/overview/core_concepts/#ram). The script also handles deploying the compiled ICE smart contract to the `dfuse.ice` account.
 
@@ -110,11 +122,11 @@ Congrats! You now have a fully bootstrapped EOSIO chain running locally with a `
 
 **Please note that you need to leave this process running in the terminal throughout this tutorial**
 
-### 5. Testing Our Smart Contract
+### 3.7. Testing Our Smart Contract
 
 Let's test our smart contract by creating some pools to contain ideas, add ideas to pools and cast random user votes on these new ideas.
 
-In a **new** (that's important) terminal window, run `test.sh` from the `contract` folder:
+In a **new** (that's important) terminal window, move back to your `ice/contract` folder using the `cd` command and run `test.sh` as such:
 
 ```
 ./test.sh
@@ -122,31 +134,34 @@ In a **new** (that's important) terminal window, run `test.sh` from the `contrac
 
 `test.sh` created 2 pools using the `dfuse.ice` account. We have the `new.feature` pool and the `hackathon` pool. Inside each pool, we've had users add ideas for new features they believe should be next on the roadmap, and hackathon ideas that they'd like to work on. Once those were added, we've had users (remember `msdelisle`, `mrkauffman`, and `theboss`?) vote random values on different ideas for the purpose of this tutorial.  Now we'll want to see these pools in action, the ideas, and the votes in an app with an actual user interface. That's in the next step.
 
-_**NOTE** - If you get an error similar to `ERROR: pushing transaction: http://localhost:8080/v1/chain/push_transaction: status code=502`, that means that the chain was not yet ready to receive your transactions. Try to run the script again after a couple seconds._
+_**NOTE** - If you get an error, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#23-error-pushing-transaction).
 
 <!-- TODO:: @stepd to @phil: maybe in the ice tutorial, adding the step that I told you (ex: search for action:setcode or action:createaccount etc. in eosq webpage) so the user gets used to looking at the explorer, opening the contract page, looking at all this with a tab open on your contract page (with latest transactions), you would have seen right away what was wrong (404 account not found or whatever) -->
          
-### 6. Starting the ICE Pools App
+### 3.8. Starting the ICE Pools App
 
 We're going to move out of the `contract` folder and go to the `web` folder. This is where the React frontend application lives. We have built a simple UI to interact with the smart contract and display data from it. We'll then install the necessary dependencies for the application, compile it, and serve it from your terminal with `yarn`.
 
 ```
 # move to the web folder, install dependencies & start the app
 cd ../web
-yarn install && yarn start
+yarn install
+yarn start
 ```
+
+_**NOTE** - If you get an error running `yarn install`, take a look at [TROUBLESHOOTING.md](TROUBLESHOOTING.md#17-env-node-no-such-file-or-directory)._
 
 Please bear with the yarn process as it might take some time to serve the app. You should automatically get a new tab opened in your browser that's pointing to `localhost:3000`. It will automatically serve the app once you see `Compiled successfully! You can now view web in the browser.` in your terminal window.
 
- If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
+If you didn't get a new tab, open a new one manually and go to [localhost:3000](http://localhost:3000/) to see the app in action. It should look similar to this:
  
 ![screenshot of a fresh ice pools app install](screenshots/01-dfuse-ice-fresh-install.png 'Fresh ICE Pools app install')
 
-_**NOTE** - If you receive a warning asking you if you want the application “node” to accept incoming network connections, answer `yes`._
+_**NOTE** - If you receive a prompt asking if you want the application “node” to accept incoming network connections, answer `yes`._
 
 **Please also note that you need to leave this process running in the terminal throughout this tutorial.**
 
-### 7. Browsing the ICE Pools App
+### 3.9. Browsing the ICE Pools App
 
 Because you're not logged in yet, we can only see the pools and the ideas that have been casted so far. The app shows all the available pools in a dropdown list at the top. Click on `Select a pool` and select the `hackathon` pool ([screenshot](screenshots/02-dfuse-ice-select-pool.png)).
  
@@ -154,11 +169,11 @@ You should see 4 pre-populated ideas in the `hackathon` pool. You can click on a
 
 It's all fun and games to be able to "view" them, but what about being able to create new pools, add new ideas and possibly edit previous votes as a valid user. To do so, we need to be logged in to have the right permissions. The authorization process will be done through the usage of a wallet called Anchor.
 
-### 8. Installing the Anchor Wallet
+### 3.10. Installing the Anchor Wallet
 
 The [Anchor Wallet](https://greymass.com/en/anchor/) is an EOSIO Wallet and Authenticator released by the [Greymass](https://greymass.com/en) team. Installing the Anchor Wallet will allow us to validate our identity as a valid user. You can grab the latest stable version of the Anchor Wallet for your OS from https://greymass.com/en/anchor/ and install it. Once that is done, it's time to setup the wallet with our local bootstrapped blockchain.
 
-### 9. Adding Our Custom Blockchain to the Wallet
+### 3.11. Adding Our Custom Blockchain to the Wallet
 
 This step assumes that this is a brand new Anchor Wallet installation. Once you have the wallet installed, follow these simple steps to add our local blockchain to the wallet interface:
 
@@ -175,15 +190,9 @@ Default node for this Blockchain:   http://localhost:8080
 6. Check the box `This blockchain is a test network (TESTNET).`
 7. Select `Save` ([screenshot](screenshots/05-dfuse-ice-anchor-custom-blockchain-save.png))
 
-The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos`. You can verify that it is indeed correct by running `eosc get info` in a **new** terminal window.
+The network name we used (`ICE`) can be changed later. The blockchain host and the port are specified by `dfuseeos` and displayed at launched. The `Chain ID` is derived from the genesis state, and is also specified by `dfuseeos` ([how to verify your Chain ID](TROUBLESHOOTING.md#33-verifying-the-chain-id)).
 
-```
-eosc get info
-```
-
-[`eosc`](https://eosc.app/) is a flexible & powerful command line tool to interact with an EOSIO chain. Running `get info` will display the current chain info. What we're looking for in this case is to confirm the `chain_id`.
-
- The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
+The last step we need to do is to "enable" our blockchain inside the Anchor app. You should be back to the `Which blockchains do you plan on using?` screen after saving your network infos:
 
 * Scroll down the list of networks and look for the `testnet` labels
 * Scroll down further to find our `ICE` blockchain
@@ -192,9 +201,9 @@ eosc get info
 
 Yay! The ICE network is now enabled within Anchor!
 
-### 10. Importing Key Pairs in the Wallet
+### 3.12. Importing Key Pairs in the Wallet
 
-Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet.Next, follow these next steps to import our key pairs to the wallet:
+Now that we've added our new chain to the wallet, we'll want to use it to import keys and accounts inside the wallet. Next, follow these next steps to import our key pairs to the wallet:
 
 1. Select `Tools` from the left-side menu ([screenshot](screenshots/08-dfuse-ice-anchor-import-key-tools.png))
 2. Under the `Security` table, select `Manage Keys` ([screenshot](screenshots/09-dfuse-ice-anchor-import-key-manage.png))
@@ -212,7 +221,7 @@ _This key was used to boot the chain and generate all accounts. You can find thi
 
 And voilà! Your key is now saved inside the wallet. Time to look for accounts on your chain and add them to the wallet.
 
-### 11. Importing Accounts in the Wallet
+### 3.13. Importing Accounts in the Wallet
 
 1. Select `Home` from the left-side menu
 2. Select the blockchain card named `ICE` ([screenshot](screenshots/14-dfuse-ice-anchor-import-account-select-ice.png))
@@ -225,7 +234,7 @@ And voilà! Your key is now saved inside the wallet. Time to look for accounts o
 
 You should now see the three user accounts in the wallet, with their tokens and resources. Using these accounts, we'll use the wallet to authorize our login in the ICE Pools app.
 
-### 12. Logging in the ICE Pools App
+### 3.14. Logging in the ICE Pools App
 
 To interact with our smart contract from the user interface, we need to log into the app with a valid user account. The good news is, it's a really easy process:
 
@@ -239,9 +248,9 @@ To interact with our smart contract from the user interface, we need to log into
 
 Congratulations! You are now signed in as "theboss".
 
-_**NOTE** - If you can't login or if your console is throwing an error similar to `WebSocket connection to 'wss://cb.anchor.link/064236d4-9bcc-4a93-89ff-c65acabda3e5' failed: Unknown reason` when you're trying to login through Anchor, one of your browser extensions is most likely blocking the connection. Try to disable them (Incognito sometimes doesn't work as intended) or try in a different browser._
+_**NOTE** - If you can't login, take a look at [TROUBLESHOOTING.md](TROUBLESHOOTING.md)._
 
-### 13. Adding a Pool
+### 3.15. Adding a Pool
 
 _To add a pool, the app will be calling the `addpool` method on the `dfuse.ice` contract._
 
@@ -251,15 +260,15 @@ From the pool dropdown list, click on `Create a new pool!` ([screenshot](screens
 
 Once you are presented with the `Transaction Submitted` window, you can safely close that window and go back to your app in the browser. With the pool now created, there's a new button next to the select dropdown called `New Idea`. Why don't we try it? ([screenshot](screenshots/23-dfuse-ice-create-idea.png))
 
-_*Note that each pool name needs to follow the [EOSIO `Accounts`](https://developers.eos.io/welcome/latest/protocol/accounts_and_permissions/#2-accounts) limitation; it must be a human readable name between 1 and 12 characters in length. The characters can include [a-z], [1-5], and optional dots (.) except for the last character._
+_*See [pool name restrictions](TROUBLESHOOTING.md#4-pool-name-restrictions)_
 
-### 14. Adding an Idea
+### 3.16. Adding an Idea
 
 _To add an idea, the app will be calling the `addidea` method on the `dfuse.ice` contract._
 
 Click on the `New Idea` button, and enter a title and a description in the modal, and then click `OK`. You should get another "Signing Request" from Anchor to validate the data being submitted. Just like before, select `Sign Transaction` from that window. You can close the window once you get the `Transaction Submitted` notification - you're done! The idea has been added to the pool. Now that we have a pool and a new idea in the pool, why don't we try voting on that idea?
 
-### 15. Casting a Vote
+### 3.17. Casting a Vote
 
 _To cast a vote, the app will be calling the `castvote` method on the `dfuse.ice` contract._
 
@@ -269,7 +278,7 @@ Once you're happy with your scoring, select the `confirm` button. You will be pr
 
 Your transaction should now be submitted and the idea score should automatically be updated. How neat is that?
 
-### 16. Exploring Pools, Ideas and Votes on the Blockchain
+### 3.18. Exploring Pools, Ideas and Votes on the Blockchain
 
 Whenever a new pool, idea, or vote is submitted, we can see that transaction on the account page of `dfuse.ice` our block explorer, which is a local version of [eosq](https://eosq.app/). Do you remember this console output from running the `boot.sh` script?
 
@@ -288,9 +297,9 @@ Try it again; after submitting a new action (new pool, new idea, new vote or vot
 
 That's it for this tutorial. Thanks for following along, and we hope your enjoyed playing with the ICE Pools app. It was a lot of fun creating the app and writing the tutorial. Feel free to augment this app (or even the tutorial) by opening an issue and submitting a pull request to fix the issue you opened. We'd love to see how far you can push this app!
 
-## Understanding How the ICE App Works
+## 4. Understanding How the ICE App Works
 
-### Frontend Authentication
+### 4.1. Frontend Authentication
 
 Let's walk through how our frontend application is talking to the blockchain.
 
@@ -408,13 +417,13 @@ if (activeUser === true) {
 }
 ```
 
-### Understanding the ICE Smart Contract
+### 4.2. Understanding the ICE Smart Contract
 
 The ICE smart contract needs to accomplish the following:
 
-- **_Ability to create a pool with name_** (each pool holds a set of ideas)
-- **_Ability to add one idea at a time to a pool. Each idea has a title and description_**
-- **_Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact (of the idea), confidence (on the impact and cost), and ease (of implementation, where 1 is very expensive and 10 is a no brainer)._**
+- Ability to create a pool with name (each pool holds a set of ideas).
+- Ability to add one idea at a time to a pool. Each idea has a title and description.
+- Ability to cast vote on a specific idea. Each vote contains number scores for three criteria: impact (of the idea), confidence (on the impact and cost), and ease (of implementation, where 1 is very expensive and 10 is a no brainer).
 
 We have provided the ICE smart contract in the cloned repo. The contract contains 4 tables for pools, ideas, votes, and stats. It also has three actions to add pool, add idea, and cast vote. The full code can be viewed in `contract/src`. Here are the tables and actions that we will be accessing externally:
 
@@ -490,7 +499,7 @@ struct [[eosio::table]] stat_row {
 typedef eosio::multi_index<"stat"_n, stat_row> stats_index;
 ```
 
-### Streaming Transaction Data With dfuse
+### 4.3. Streaming Transaction Data With dfuse
 
 dfuse allows the app to read `StateTables` and listen to a stream of the latest transactions. We listen to this stream and filter for the three actions we are interested in (addpool, addidea, castvote).
 
@@ -621,7 +630,7 @@ You can learn more about our cursors here:
 
 With the help of dfuse stream, we are constantly listening for new transactions that call the three actions of our smart contract. When any of them is called, the frontend application will automatically update. This provides a seemless user experience that is unique to the dfuse APIs.
 
-### Reading Contract State Tables With dfuse
+### 4.4. Reading Contract State Tables With dfuse
 
 State Tables are the persistent storage in smart contracts on an EOSIO blockchain. In our ICE smart contract, we created 4 tables, Pools, Ideas, Votes, and Stats. Our frontend application will be reading the first three tables with the help of dfuse.
 
@@ -709,7 +718,7 @@ export const fetchVotes = async (
 };
 ```
 
-### Calling Smart Contract Actions With UAL and Wallets
+### 4.5. Calling Smart Contract Actions With UAL and Wallets
 
 To add pools, ideas, and cast votes, we need to call the actions on the smart contract. After a user signs in with their wallet, they can use the `activeUser` from the `UAL` library to sign and broadcast transactions. Each file of `pool, idea, vote` contains the funciton to add a pool, idea, or vote.
 
